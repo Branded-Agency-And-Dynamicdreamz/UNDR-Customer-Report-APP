@@ -79,6 +79,8 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
       <ElementalBreakdownSection />
       {/* 4. Other Trace Elements */}
       <OtherTraceElementsSection />
+      {/* 11. Precious Metals Breakdown */}
+      {shouldShowPreciousBreakdown && <PreciousMetalsBreakdownSection />}
       {/* 5. Heavy Metal Breakdown */}
       <HeavyMetalBreakdownSection />
       {/* 6. Multi Level Chart */}
@@ -114,8 +116,7 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
           lockedPreviewImageUrl={`${appUrl}/images/oil-contaminants-locked-preview.png`}
         />
       )}
-      {/* 11. Precious Metals Breakdown */}
-      {shouldShowPreciousBreakdown && <PreciousMetalsBreakdownSection />}
+      
       {/* 12. Precious Metal Present */}
       {shouldShowPreciousBreakdown && (
         <PreciousMetalPresentSection
