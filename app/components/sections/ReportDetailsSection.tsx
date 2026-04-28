@@ -31,6 +31,12 @@ type ReportDetailsSectionProps = {
   };
   preciousMetals: MetalCardItem[];
   rareEarthElements: MetalCardItem[];
+  lockHeavyMetals?: boolean;
+  lockOilIndicator?: boolean;
+  lockRareEarthElements?: boolean;
+  lockedHeavyMetalsImageUrl?: string;
+  lockedOilIndicatorImageUrl?: string;
+  lockedRareEarthElementsImageUrl?: string;
 };
 
 const ReportDetailsSection = ({
@@ -38,6 +44,12 @@ const ReportDetailsSection = ({
   oilIndicator,
   preciousMetals,
   rareEarthElements,
+  lockHeavyMetals = false,
+  lockOilIndicator = false,
+  lockRareEarthElements = false,
+  lockedHeavyMetalsImageUrl,
+  lockedOilIndicatorImageUrl,
+  lockedRareEarthElementsImageUrl,
 }: ReportDetailsSectionProps) => {
   
   return (
@@ -65,6 +77,9 @@ const ReportDetailsSection = ({
             <div className="top_info_row">
               <div className="heavy_metals_block">
                 <h2 className="report_main_heading">Heavy Metals</h2>
+                {lockHeavyMetals && lockedHeavyMetalsImageUrl ? (
+                  <img src={lockedHeavyMetalsImageUrl} alt="" className="quicklook_locked_preview heavy" aria-hidden="true" />
+                ) : (
                 <div className="metal_list_item_wrapper">
                 {heavyMetals.map((item) => (
                   <div className="metal_list_item" key={item.name}>
@@ -73,12 +88,19 @@ const ReportDetailsSection = ({
                   </div>
                 ))}
                 </div>
+                )}
               </div>
               <div className="vertical_divider"></div>
               <div className="oil_indicator_block">
                 <h2 className="report_main_heading">Oil Indicator</h2>
-                <div className={`oil_btn ${oilIndicator.crudeOilClassName}`}>{oilIndicator.crudeOil}</div>
-                <div className={`oil_btn ${oilIndicator.petroleumClassName}`}>{oilIndicator.petroleum}</div>
+                {lockOilIndicator && lockedOilIndicatorImageUrl ? (
+                  <img src={lockedOilIndicatorImageUrl} alt="" className="quicklook_locked_preview oil" aria-hidden="true" />
+                ) : (
+                  <div className="oil_indicator_buttons">
+                    <div className={`oil_btn ${oilIndicator.crudeOilClassName}`}>{oilIndicator.crudeOil}</div>
+                    <div className={`oil_btn ${oilIndicator.petroleumClassName}`}>{oilIndicator.petroleum}</div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -101,6 +123,9 @@ const ReportDetailsSection = ({
 
             <div className="info_block no_border">
               <h2 className="report_main_heading">Rare Earth Elements</h2>
+              {lockRareEarthElements && lockedRareEarthElementsImageUrl ? (
+                <img src={lockedRareEarthElementsImageUrl} alt="" className="quicklook_locked_preview rare" aria-hidden="true" />
+              ) : (
               <div className="circles_flex">
                 {rareEarthElements.map((item) => (
                   <div
@@ -114,6 +139,7 @@ const ReportDetailsSection = ({
                   </div>
                 ))}
               </div>
+              )}
             </div>
           </div>
         </div>

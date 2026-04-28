@@ -1,8 +1,8 @@
 import type { ActionFunctionArgs, HeadersFunction, LoaderFunctionArgs } from "react-router";
-import { useActionData, useLoaderData, useNavigation } from "react-router";
-import { useEffect, useState } from "react";
+import { useActionData, useFetcher, useLoaderData, useNavigation } from "react-router";
+import { useEffect, useMemo, useState } from "react";
 import { authenticate } from "../shopify.server";
-import { REPORT_PACKAGES, type ReportPackage, isReportPackage } from "../lib/report-packages";
+import { isReportPackage } from "../lib/report-packages";
 import {
   getRegistrationById,
   updateRegistrationReportPackageById,
@@ -241,8 +241,24 @@ function buildPetroleumPpmValues(rows: Array<{ element: string; ppmValue: number
 export default function RegistrationDetail() {
   const { registration, shopDomain } = useLoaderData<LoaderData>();
   const actionData = useActionData<ActionData>();
+  const manualPetroleumFetcher = useFetcher<ActionData>();
+  const packageConfigFetcher = useFetcher<ActionData>();
   const nav = useNavigation();
   const isUploading = nav.state === "submitting";
+  const isSavingPetroleum = manualPetroleumFetcher.state !== "idle";
+  const isSavingPackage = packageConfigFetcher.state !== "idle";
+  const packageConfigData =
+    packageConfigFetcher.data && packageConfigFetcher.data.intent === "package_config"
+      ? packageConfigFetcher.data
+      : actionData && actionData.intent === "package_config"
+        ? actionData
+        : undefined;
+  const manualPetroleumData =
+    manualPetroleumFetcher.data && manualPetroleumFetcher.data.intent === "manual_config"
+      ? manualPetroleumFetcher.data
+      : actionData && actionData.intent === "manual_config"
+        ? actionData
+        : undefined;
   const currentReportPackage = (() => {
     const rawValue = String(
       (registration as unknown as { reportPackage?: string }).reportPackage || "premium",
@@ -251,17 +267,23 @@ export default function RegistrationDetail() {
       .toLowerCase();
     return isReportPackage(rawValue) ? rawValue : "premium";
   })();
+  const [selectedReportPackage, setSelectedReportPackage] = useState(currentReportPackage);
 
   const report = registration.report;
-  const rows = report?.rows ?? [];
+  const rows = useMemo(() => report?.rows ?? [], [report?.rows]);
   const [petroleumPpmValues, setPetroleumPpmValues] = useState<Record<string, string>>(() =>
     buildPetroleumPpmValues(rows),
   );
   const [editingPetroleum, setEditingPetroleum] = useState<string | null>(null);
+  const [savingPetroleum, setSavingPetroleum] = useState<string | null>(null);
 
   useEffect(() => {
     setPetroleumPpmValues(buildPetroleumPpmValues(rows));
   }, [rows]);
+
+  useEffect(() => {
+    setSelectedReportPackage(currentReportPackage);
+  }, [currentReportPackage]);
 
   useEffect(() => {
     if (actionData && actionData.intent === "manual_config" && "success" in actionData) {
@@ -269,9 +291,40 @@ export default function RegistrationDetail() {
     }
   }, [actionData]);
 
+  useEffect(() => {
+    if (manualPetroleumFetcher.state !== "idle") return;
+
+    setSavingPetroleum(null);
+    if (
+      manualPetroleumFetcher.data &&
+      manualPetroleumFetcher.data.intent === "manual_config" &&
+      "success" in manualPetroleumFetcher.data
+    ) {
+      setEditingPetroleum(null);
+    }
+  }, [manualPetroleumFetcher.state, manualPetroleumFetcher.data]);
+
   const onPetroleumPpmChange = (type: string, nextValue: string) => {
     setPetroleumPpmValues((prev) => ({ ...prev, [type]: nextValue }));
   };
+
+  const savePetroleumValue = (type: string, ppmValue: string, rawDisplay: string) => {
+    const formData = new FormData();
+    formData.set("intent", "manual_config");
+    formData.set("petroleumType", type);
+    formData.set("petroleumRawValue", rawDisplay);
+    formData.set("petroleumPpm", ppmValue);
+    setSavingPetroleum(type);
+    manualPetroleumFetcher.submit(formData, { method: "post" });
+  };
+
+  const saveReportPackage = () => {
+    const formData = new FormData();
+    formData.set("intent", "package_config");
+    formData.set("reportPackage", selectedReportPackage);
+    packageConfigFetcher.submit(formData, { method: "post" });
+  };
+
   const appUrl = (typeof process !== "undefined" ? process.env.SHOPIFY_APP_URL : "") || "";
   const normalizedShopDomain = String(shopDomain || "")
     .replace(/^https?:\/\//, "")
@@ -325,7 +378,7 @@ export default function RegistrationDetail() {
       </s-section>
 
       <s-section heading="Report package setup">
-        {actionData && actionData.intent === "package_config" && "error" in actionData && (
+        {packageConfigData && "error" in packageConfigData && (
           <div
             style={{
               marginBottom: "16px",
@@ -336,10 +389,10 @@ export default function RegistrationDetail() {
               fontSize: "14px",
             }}
           >
-            {actionData.error}
+            {packageConfigData.error}
           </div>
         )}
-        {actionData && actionData.intent === "package_config" && "success" in actionData && (
+        {packageConfigData && "success" in packageConfigData && (
           <div
             style={{
               marginBottom: "16px",
@@ -351,18 +404,23 @@ export default function RegistrationDetail() {
               fontWeight: 600,
             }}
           >
-            ✓ {actionData.message}
+            ✓ {packageConfigData.message}
           </div>
         )}
 
-        <form method="post" style={{ display: "grid", gap: "10px", maxWidth: "400px" }}>
-          <input type="hidden" name="intent" value="package_config" />
+        <div style={{ display: "grid", gap: "10px", maxWidth: "400px" }}>
           <label style={{ display: "grid", gap: "6px" }}>
             <span style={{ fontSize: "13px", fontWeight: 600 }}>Select package for this registration</span>
             <select
               name="reportPackage"
-              defaultValue={currentReportPackage}
-              disabled={isUploading}
+              value={selectedReportPackage}
+              onChange={(event) => {
+                const nextValue = event.currentTarget.value;
+                if (isReportPackage(nextValue)) {
+                  setSelectedReportPackage(nextValue);
+                }
+              }}
+              disabled={isUploading || isSavingPackage}
               style={{ minHeight: "36px", borderRadius: "8px", border: "1px solid #d1d5db", padding: "0 10px" }}
             >
               <option value="treasure_base">Treasure Base</option>
@@ -374,24 +432,25 @@ export default function RegistrationDetail() {
           </label>
           <div>
             <button
-              type="submit"
-              disabled={isUploading}
+              type="button"
+              onClick={saveReportPackage}
+              disabled={isUploading || isSavingPackage}
               style={{
                 minHeight: "38px",
                 padding: "0 16px",
                 border: 0,
                 borderRadius: "999px",
-                background: isUploading ? "#9ca3af" : "#1f2937",
+                background: isUploading || isSavingPackage ? "#9ca3af" : "#1f2937",
                 color: "#fff",
                 fontSize: "13px",
                 fontWeight: 600,
-                cursor: isUploading ? "default" : "pointer",
+                cursor: isUploading || isSavingPackage ? "default" : "pointer",
               }}
             >
-              {isUploading ? "Saving..." : "Save package"}
+              {isSavingPackage ? "Saving..." : "Save package"}
             </button>
           </div>
-        </form>
+        </div>
       </s-section>
 
       {/* ── Report link ── */}
@@ -530,7 +589,7 @@ Ni,6.7106,mass%`}
       </s-section>
 
       <s-section heading="Manual petroleum controls">
-        {actionData && actionData.intent === "manual_config" && "error" in actionData && (
+        {manualPetroleumData && "error" in manualPetroleumData && (
           <div
             style={{
               marginBottom: "16px",
@@ -541,10 +600,10 @@ Ni,6.7106,mass%`}
               fontSize: "14px",
             }}
           >
-            {actionData.error}
+            {manualPetroleumData.error}
           </div>
         )}
-        {actionData && actionData.intent === "manual_config" && "success" in actionData && (
+        {manualPetroleumData && "success" in manualPetroleumData && (
           <div
             style={{
               marginBottom: "16px",
@@ -556,7 +615,7 @@ Ni,6.7106,mass%`}
               fontWeight: 600,
             }}
           >
-            ✓ {actionData.message}
+            ✓ {manualPetroleumData.message}
           </div>
         )}
 
@@ -591,9 +650,8 @@ Ni,6.7106,mass%`}
             const isEditing = editingPetroleum === item;
 
             return (
-              <form
+              <div
                 key={item}
-                method="post"
                 style={{
                   display: "grid",
                   gridTemplateColumns: "1.8fr 1fr 1fr auto",
@@ -603,10 +661,6 @@ Ni,6.7106,mass%`}
                   borderBottom: "1px solid #f3f4f6",
                 }}
               >
-                <input type="hidden" name="intent" value="manual_config" />
-                <input type="hidden" name="petroleumType" value={item} />
-                <input type="hidden" name="petroleumRawValue" value={rawDisplay} />
-
                 <span style={{ fontSize: "13px", fontWeight: 600, color: "#111827" }}>{item}</span>
 
                 <input
@@ -616,7 +670,7 @@ Ni,6.7106,mass%`}
                   name="petroleumPpm"
                   value={ppmValue}
                   onChange={(e) => onPetroleumPpmChange(item, e.currentTarget.value)}
-                  disabled={!isEditing || isUploading}
+                  disabled={!isEditing || isUploading || isSavingPetroleum}
                   style={{
                     height: "34px",
                     borderRadius: "8px",
@@ -658,26 +712,27 @@ Ni,6.7106,mass%`}
                   ) : (
                     <>
                       <button
-                        type="submit"
-                        disabled={isUploading}
+                        type="button"
+                        onClick={() => savePetroleumValue(item, ppmValue, rawDisplay)}
+                        disabled={isUploading || isSavingPetroleum}
                         style={{
                           minHeight: "32px",
                           padding: "0 12px",
                           border: 0,
                           borderRadius: "999px",
-                          background: isUploading ? "#9ca3af" : "#0f766e",
+                          background: isUploading || isSavingPetroleum ? "#9ca3af" : "#0f766e",
                           color: "#fff",
                           fontSize: "12px",
                           fontWeight: 600,
-                          cursor: isUploading ? "default" : "pointer",
+                          cursor: isUploading || isSavingPetroleum ? "default" : "pointer",
                         }}
                       >
-                        Save
+                        {savingPetroleum === item ? "Saving..." : "Save"}
                       </button>
                       <button
                         type="button"
                         onClick={() => setEditingPetroleum(null)}
-                        disabled={isUploading}
+                        disabled={isUploading || isSavingPetroleum}
                         style={{
                           minHeight: "32px",
                           padding: "0 12px",
@@ -687,7 +742,7 @@ Ni,6.7106,mass%`}
                           color: "#111827",
                           fontSize: "12px",
                           fontWeight: 600,
-                          cursor: isUploading ? "default" : "pointer",
+                          cursor: isUploading || isSavingPetroleum ? "default" : "pointer",
                         }}
                       >
                         Cancel
@@ -695,7 +750,7 @@ Ni,6.7106,mass%`}
                     </>
                   )}
                 </div>
-              </form>
+              </div>
             );
           })}
         </div>

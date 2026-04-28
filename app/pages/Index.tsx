@@ -22,15 +22,33 @@ import type { ProxyReportData } from '../lib/proxy-report-data';
 
 type IndexProps = {
   report: ProxyReportData;
+  appUrl?: string;
 };
 
-const Index = ({ report }: IndexProps) => {
+const Index = ({ report, appUrl = '' }: IndexProps) => {
   const reportPackage = report.reportPackage || 'premium';
-  const canSeePrecious = reportPackage === 'treasure_base' || reportPackage === 'treasure_plus' || reportPackage === 'premium';
-  const canSeeRareEarth = reportPackage === 'treasure_plus' || reportPackage === 'premium';
-  const canSeeOil = reportPackage === 'treasure_plus' || reportPackage === 'premium';
-  const canSeePetroleum = reportPackage === 'hs_plus' || reportPackage === 'premium';
-  const canSeeHeavy = reportPackage === 'hs_base' || reportPackage === 'hs_plus' || reportPackage === 'premium';
+  const isTreasureBase = reportPackage === 'treasure_base';
+  const canDisplayPreciousBreakdown =
+    reportPackage === 'treasure_base' ||
+    reportPackage === 'treasure_plus' ||
+    reportPackage === 'premium';
+  const canUnlockPreciousBreakdown = reportPackage === 'hs_base' || reportPackage === 'hs_plus';
+  const shouldShowPreciousBreakdown = canDisplayPreciousBreakdown || canUnlockPreciousBreakdown;
+  const canDisplayRareEarthBreakdown = reportPackage === 'treasure_plus' || reportPackage === 'premium';
+  const canUnlockRareEarthBreakdown =
+    reportPackage === 'treasure_base' ||
+    reportPackage === 'hs_base' ||
+    reportPackage === 'hs_plus';
+  const shouldShowRareEarthBreakdown = canDisplayRareEarthBreakdown || canUnlockRareEarthBreakdown;
+  const canHideOilBreakdown = reportPackage === 'treasure_base' || reportPackage === 'hs_base';
+  const canDisplayOilBreakdown = reportPackage === 'treasure_plus' || reportPackage === 'premium';
+  const canUnlockOilBreakdown = reportPackage === 'hs_plus';
+  const shouldShowOilBreakdown = !canHideOilBreakdown && (canDisplayOilBreakdown || canUnlockOilBreakdown);
+  const canHidePetroleumBreakdown = reportPackage === 'treasure_base' || reportPackage === 'hs_base';
+  const canDisplayPetroleumBreakdown = reportPackage === 'hs_plus' || reportPackage === 'premium';
+  const canUnlockPetroleumBreakdown = reportPackage === 'treasure_plus';
+  const shouldShowPetroleumBreakdown =
+    !canHidePetroleumBreakdown && (canDisplayPetroleumBreakdown || canUnlockPetroleumBreakdown);
   const foundElementsForList = report.foundElements.map((item) => ({
     ...item,
     valueStyle: item.valueStyle || { backgroundColor: '#d1d5db', color: '#4b5563' },
@@ -40,73 +58,79 @@ const Index = ({ report }: IndexProps) => {
     valueStyle: item.valueStyle || { backgroundColor: '#e5e7eb', color: '#6b7280' },
   }));
 
-  const packageAwareOilIndicator = canSeeOil
-    ? report.reportDetails.oilIndicator
-    : {
-        crudeOil: 'Crude oil: Locked',
-        petroleum: 'Petroleum: Locked',
-        crudeOilClassName: 'btn_gray',
-        petroleumClassName: 'btn_gray',
-      };
-
   return (
     <div>
       {/* 1. Main Banner */}
       <MainBannerSection name={report.banner.name} subtitle={report.banner.subtitle} />
       {/* 2. Report Details */}
       <ReportDetailsSection
-        heavyMetals={canSeeHeavy ? report.reportDetails.heavyMetals : []}
-        oilIndicator={packageAwareOilIndicator}
-        preciousMetals={canSeePrecious ? report.reportDetails.preciousMetals : []}
-        rareEarthElements={canSeeRareEarth ? report.reportDetails.rareEarthElements : []}
+        heavyMetals={report.reportDetails.heavyMetals}
+        oilIndicator={report.reportDetails.oilIndicator}
+        preciousMetals={report.reportDetails.preciousMetals}
+        rareEarthElements={report.reportDetails.rareEarthElements}
+        lockHeavyMetals={isTreasureBase}
+        lockOilIndicator={isTreasureBase}
+        lockRareEarthElements={isTreasureBase}
+        lockedHeavyMetalsImageUrl={`${appUrl}/images/quicklook-heavy-locked-preview.png`}
+        lockedOilIndicatorImageUrl={`${appUrl}/images/quicklook-oil-locked-preview.png`}
+        lockedRareEarthElementsImageUrl={`${appUrl}/images/quicklook-rare-earth-locked-preview.png`}
       />
       {/* 3. Elemental Breakdown */}
       <ElementalBreakdownSection />
       {/* 4. Other Trace Elements */}
       <OtherTraceElementsSection />
       {/* 5. Heavy Metal Breakdown */}
-      {canSeeHeavy && <HeavyMetalBreakdownSection />}
+      <HeavyMetalBreakdownSection />
       {/* 6. Multi Level Chart */}
-      {canSeeHeavy && (
-        <MultiLevelChartSection
-          group1Max={report.multiLevelCharts.group1Max}
-          group1Rows={report.multiLevelCharts.group1Rows}
-          group1ScaleLabels={report.multiLevelCharts.group1ScaleLabels}
-          group2Max={report.multiLevelCharts.group2Max}
-          group2Rows={report.multiLevelCharts.group2Rows}
-          group2ScaleLabels={report.multiLevelCharts.group2ScaleLabels}
+      <MultiLevelChartSection
+        group1Max={report.multiLevelCharts.group1Max}
+        group1Rows={report.multiLevelCharts.group1Rows}
+        group1ScaleLabels={report.multiLevelCharts.group1ScaleLabels}
+        group2Max={report.multiLevelCharts.group2Max}
+        group2Rows={report.multiLevelCharts.group2Rows}
+        group2ScaleLabels={report.multiLevelCharts.group2ScaleLabels}
+      />
+      {shouldShowPetroleumBreakdown && (
+        <>
+          {/* 7. Petroleum Contaminants */}
+          <PetroleumContaminantsSection />
+          {/* 8. Petroleum Trace Found */}
+          <TraceFoundSection
+            title={report.petroleumTraceFound.title}
+            subtitle={report.petroleumTraceFound.subtitle}
+            max={report.petroleumTraceFound.max}
+            rows={report.petroleumTraceFound.rows}
+            scaleLabels={report.petroleumTraceFound.scaleLabels}
+            locked={canUnlockPetroleumBreakdown}
+            lockedPreviewImageUrl={`${appUrl}/images/oil-breakdown-locked-preview.png`}
+          />
+        </>
+      )}
+      {shouldShowOilBreakdown && (
+        <OilContaminantsSection
+          status={report.oilContaminants.status}
+          value={report.oilContaminants.value}
+          locked={canUnlockOilBreakdown}
+          lockedPreviewImageUrl={`${appUrl}/images/oil-contaminants-locked-preview.png`}
         />
       )}
-      {/* 7. Oil Contaminants */}
-      {canSeeOil && <OilContaminantsSection status={report.oilContaminants.status} value={report.oilContaminants.value} />}
-      {/* 8. Petroleum Contaminants */}
-      {canSeePetroleum && <PetroleumContaminantsSection />}
-      {/* 9. Trace Found */}
-      {canSeePetroleum && (
-        <TraceFoundSection
-          title={report.petroleumTraceFound.title}
-          subtitle={report.petroleumTraceFound.subtitle}
-          max={report.petroleumTraceFound.max}
-          rows={report.petroleumTraceFound.rows}
-          scaleLabels={report.petroleumTraceFound.scaleLabels}
-        />
-      )}
-      {/* 10. Trace Found */}
-      {/* {canSeePetroleum && (
-        <TraceFoundSection
-          title={report.traceFound.title}
-          subtitle={report.traceFound.subtitle}
-          max={report.traceFound.max}
-          rows={report.traceFound.rows}
-          scaleLabels={report.traceFound.scaleLabels}
-        />
-      )} */}
       {/* 11. Precious Metals Breakdown */}
-      {canSeePrecious && <PreciousMetalsBreakdownSection />}
+      {shouldShowPreciousBreakdown && <PreciousMetalsBreakdownSection />}
       {/* 12. Precious Metal Present */}
-      {canSeePrecious && <PreciousMetalPresentSection items={report.preciousMetalPresent.items} />}
+      {shouldShowPreciousBreakdown && (
+        <PreciousMetalPresentSection
+          items={report.preciousMetalPresent.items}
+          locked={canUnlockPreciousBreakdown}
+          lockedPreviewImageUrl={`${appUrl}/images/precious-metals-present-locked-preview.png`}
+        />
+      )}
       {/* 13. Earth Elements Breakdown */}
-      {canSeeRareEarth && <EarthElementsBreakdownSection />}
+      {shouldShowRareEarthBreakdown && (
+        <EarthElementsBreakdownSection
+          locked={canUnlockRareEarthBreakdown}
+          lockedPreviewImageUrl={`${appUrl}/images/rare-earth-elements-locked-preview.png`}
+        />
+      )}
       {/* 14. Unique Soil */}
       <UniqueSoilSection />
       {/* 15. Soil Feature */}
@@ -116,13 +140,13 @@ const Index = ({ report }: IndexProps) => {
       {/* 17. Not Found Elements List */}
       <NotFoundElementsListSection elements={notFoundElementsForList} />
       {/* 18. Precious Metals Breakdown Heading */}
-      {canSeePrecious && <PreciousMetalsBreakdownHeading />}
+      <PreciousMetalsBreakdownHeading />
       {/* 19. Precious Metals */}
-      {canSeePrecious && <PreciousMetalsSection />}
+      <PreciousMetalsSection />
       {/* 20. Precious Metals Breakdown Heading Alt */}
-      {canSeePrecious && <PreciousMetalsBreakdownHeadingAlt />}
+      <PreciousMetalsBreakdownHeadingAlt />
       {/* 21. Precious Metals Not Present */}
-      {canSeePrecious && <PreciousMetalsNotPresent />}
+      <PreciousMetalsNotPresent />
     </div>
   );
 };
