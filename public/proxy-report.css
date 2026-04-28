@@ -337,6 +337,29 @@ p {
     font-size: 13px;
 }
 
+.report_details_section .quicklook_locked_preview {
+    display: block;
+    width: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    user-select: none;
+}
+
+.report_details_section .quicklook_locked_preview.heavy {
+    max-width: 310px;
+    height: auto;
+}
+
+.report_details_section .quicklook_locked_preview.oil {
+    max-width: 310px;
+    height: auto;
+}
+
+.report_details_section .quicklook_locked_preview.rare {
+    max-width: 340px;
+    height: auto;
+}
+
 .report_details_section .gold_bg,
 .report_details_section .bg_ruthenium {
     background: #f1b434;
@@ -1035,6 +1058,11 @@ p {
     padding: 0 !important;
 }
 
+.multi_level_chart_section .oil_breakdown_locked_preview {
+    display: block;
+    width: 100%;
+}
+
 @media (max-width: 1199px) {
 
     .multi_level_chart_section {
@@ -1170,6 +1198,11 @@ p {
     border-radius: 0 0 0 20px;
     padding: 30px;
     min-width: 450px;
+}
+
+.oil_contaminants_section .oil_contaminants_locked_preview {
+    display: block;
+    width: 100%;
 }
 
 .oil_contaminants_section .oil_label {
@@ -1485,6 +1518,11 @@ p {
     padding: 0 !important;
 }
 
+.precious_metal_present_section .precious_metal_locked_preview {
+    display: block;
+    width: 100%;
+}
+
 @media (max-width: 1199px) {
 
     .precious_metal_present_section {
@@ -1676,6 +1714,13 @@ p {
     display: block;
     width: 100%;
     height: auto;
+}
+
+.earth_element_breakdown_section .earth_element_locked_preview {
+    display: block;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 @media (max-width: 1199px) {

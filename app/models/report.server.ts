@@ -66,6 +66,113 @@ function getElementClassName(input: string): string {
   return key;
 }
 
+const ELEMENT_STANDARD_DEVIATION_PPM_BY_SYMBOL: Record<string, number> = {
+  o: 37500,
+  f: 100,
+  na: 2000,
+  mg: 2250,
+  al: 22500,
+  si: 37500,
+  p: 250,
+  s: 225,
+  cl: 40,
+  k: 7500,
+  ca: 12250,
+  sc: 5,
+  ti: 2250,
+  v: 35,
+  cr: 36.25,
+  mn: 625,
+  fe: 16250,
+  co: 9.75,
+  ni: 24.5,
+  cu: 24.5,
+  zn: 67.5,
+  ga: 6.25,
+  ge: 0.475,
+  as: 4.75,
+  se: 0.475,
+  br: 1.25,
+  rb: 17.5,
+  sr: 75,
+  y: 8.75,
+  zr: 50,
+  nb: 7,
+  mo: 0.5,
+  tc: 0.01,
+  ru: 0.01,
+  rh: 0.01,
+  pd: 0.01,
+  ag: 0.2475,
+  cd: 0.2475,
+  in: 0.1225,
+  sn: 1.125,
+  sb: 0.4875,
+  te: 0.2475,
+  i: 1.125,
+  cs: 3.5,
+  ba: 237.5,
+  la: 11.25,
+  ce: 22.5,
+  pr: 2.75,
+  nd: 11.25,
+  pm: 0.01,
+  sm: 2.25,
+  eu: 0.7,
+  gd: 2.25,
+  tb: 0.475,
+  dy: 1.335,
+  ho: 0.475,
+  er: 1.125,
+  tm: 0.2,
+  yb: 0.85,
+  lu: 0.2375,
+  hf: 1.125,
+  ta: 1.125,
+  w: 1.225,
+  re: 0.01,
+  os: 0.01,
+  ir: 0.01,
+  pt: 0.01,
+  au: 0.002375,
+  hg: 0.0475,
+  tl: 0.05,
+  pb: 6.25,
+  bi: 0.2475,
+  po: 0.01,
+  at: 0.01,
+  ra: 0.01,
+  ac: 0.01,
+  pa: 0.01,
+  th: 3,
+  u: 1.125,
+};
+
+const ELEMENT_STANDARD_DEVIATION_PPM_BY_NAME: Record<string, number> = {
+  thorium: 0.01,
+  protactinium: 3,
+};
+
+function getElementStandardDeviationPpm(input: string) {
+  const key = input.trim().toLowerCase();
+  if (ELEMENT_STANDARD_DEVIATION_PPM_BY_NAME[key] !== undefined) {
+    return ELEMENT_STANDARD_DEVIATION_PPM_BY_NAME[key];
+  }
+
+  const symbol = ELEMENT_STANDARD_DEVIATION_PPM_BY_SYMBOL[key] !== undefined
+    ? key
+    : ELEMENT_SYMBOL_FROM_NAME[key];
+
+  if (!symbol) return null;
+  const standardDeviation = ELEMENT_STANDARD_DEVIATION_PPM_BY_SYMBOL[symbol.toLowerCase()];
+  return Number.isFinite(standardDeviation) ? standardDeviation : null;
+}
+
+function formatElementMargin(input: string) {
+  const standardDeviation = getElementStandardDeviationPpm(input);
+  return standardDeviation == null ? "± 0 ppm" : `± ${standardDeviation} ppm`;
+}
+
 function normalizeRows(
   rows: string[][],
   preferredHeaders: string[] = [],
@@ -417,6 +524,22 @@ function getHeavyMetalDisplayOrder(input: string) {
   return HEAVY_METAL_DISPLAY_ORDER_INDEX.get(normalizedName) ?? Number.MAX_SAFE_INTEGER;
 }
 
+function buildScaleLabels(max: number, step: number) {
+  const labels: string[] = [];
+  for (let value = 0; value <= max; value += step) {
+    labels.push(String(value));
+  }
+  if (labels[labels.length - 1] !== String(max)) {
+    labels.push(String(max));
+  }
+  return labels;
+}
+
+function getPetroleumChartMax(ppmValue: number) {
+  if (ppmValue <= 1000) return 1100;
+  return Math.ceil(ppmValue / 100) * 100;
+}
+
 function createEmptyProxyReportData(customerName: string, kitNumber: string): ProxyReportData {
   return {
     banner: {
@@ -454,8 +577,8 @@ function createEmptyProxyReportData(customerName: string, kitNumber: string): Pr
       scaleLabels: ["0", "100", "200", "300", "400", "500", "600", "700", "800", "900", "1000", "1100"],
     },
     petroleumTraceFound: {
-      title: "Traces found in your land sample",
-      subtitle: "Find more about the potential treasures in your soil below",
+      title: "Petroleum contaminants found in your land sample",
+      subtitle: "Selected petroleum contaminant shown against ppm safety thresholds.",
       max: 1100,
       rows: [],
       scaleLabels: ["0", "100", "200", "300", "400", "500", "600", "700", "800", "900", "1000", "1100"],
@@ -529,7 +652,7 @@ base.foundElements = found.slice(0, 60)
       name: r.element,
       // ppm: r.ppmValue.toFixed(2),
       ppm: Math.floor(r.ppmValue).toString().slice(0, 2) +"ppm",
-      margin: "0",
+      margin: formatElementMargin(r.element),
       valueStyle: {
         backgroundColor: colors.bg,
         color: colors.text,
@@ -575,15 +698,23 @@ base.foundElements = found.slice(0, 60)
   }
 );
 
-  // --- Element Breakdown (top 8 by ppmValue)
+  // --- Element Breakdown (all found elements by ppmValue)
   const sorted = [...found].sort((a, b) => b.ppmValue - a.ppmValue);
-  const top8 = sorted.slice(0, 8);
-  const next8 = sorted.slice(8, 16);
-  const totalPpm = top8.reduce((s, r) => s + r.ppmValue, 0);
+  // const elementBreakdownRows = sorted;
+  const elementBreakdownRows = sorted.slice(0, 15);
+
+  // const top8 = sorted.slice(0, 8);
+  // const next8 = sorted.slice(8, 16);
+  const top8 = elementBreakdownRows.slice(0, 8); // (optional, jo use hoy to)
+  const next8 = sorted.slice(15, 23); // <-- IMPORTANT CHANGE
+  // const totalPpm = elementBreakdownRows.reduce((s, r) => s + r.ppmValue, 0);
+  const totalPpm = elementBreakdownRows.reduce((s, r) => s + r.ppmValue, 0);
   const otherTraceTotalPpm = next8.reduce((s, r) => s + r.ppmValue, 0);
 
-  if (top8.length > 0) {
-    const breakdownItems = top8.map(
+  // const otherTraceTotalPpm = next8.reduce((s, r) => s + r.ppmValue, 0);
+
+  if (elementBreakdownRows.length > 0) {
+    const breakdownItems = elementBreakdownRows.map(
       (r): BreakdownBarItem => ({
         name: r.element,
         percentage: totalPpm > 0 ? Math.round((r.ppmValue / totalPpm) * 100) : 0,
@@ -794,19 +925,22 @@ base.foundElements = found.slice(0, 60)
   const petroleumRows = rows.filter(
     (r) => String(r.category || "").trim().toLowerCase() === "petroleum_contaminant",
   );
-  const topPetroleum10 = [...petroleumRows]
-    .filter((r) => r.ppmValue > 0)
-    .sort((a, b) => b.ppmValue - a.ppmValue)
-    .slice(0, 10);
+  const petroleumRow = petroleumRows.find((r) => Number.isFinite(r.ppmValue) && r.ppmValue >= 0);
 
-  if (topPetroleum10.length > 0) {
-    base.petroleumTraceFound.rows = topPetroleum10.map((r) => ({
-      label: r.element,
-      userVal: Math.min(r.ppmValue, base.petroleumTraceFound.max),
-      safeVal: base.petroleumTraceFound.max * 0.3,
-      marginalVal: base.petroleumTraceFound.max * 0.6,
-      displayVal: r.ppmValue.toFixed(2),
-    }));
+  if (petroleumRow) {
+    const petroleumPpm = Number.isFinite(petroleumRow.ppmValue) ? petroleumRow.ppmValue : 0;
+    const petroleumMax = getPetroleumChartMax(petroleumPpm);
+    base.petroleumTraceFound.max = petroleumMax;
+    base.petroleumTraceFound.scaleLabels = buildScaleLabels(petroleumMax, petroleumMax <= 1100 ? 100 : 200);
+    base.petroleumTraceFound.rows = [
+      {
+        label: petroleumRow.element,
+        userVal: Math.min(petroleumPpm, petroleumMax),
+        safeVal: 75,
+        marginalVal: 1000,
+        displayVal: `${petroleumPpm.toFixed(2)}ppm`,
+      },
+    ];
   }
 
   return base;
@@ -1059,29 +1193,12 @@ export async function upsertManualPetroleumRowByRegistrationId(input: {
   });
   if (!report) return null;
 
-  const normalizedElement = input.element.trim().toLowerCase();
-  const existingRows = await prisma.reportRow.findMany({
+  await prisma.reportRow.deleteMany({
     where: {
       reportId: report.id,
       category: "petroleum_contaminant",
     },
-    orderBy: { id: "asc" },
   });
-  const existing = existingRows.find(
-    (row) => row.element.trim().toLowerCase() === normalizedElement,
-  );
-
-  if (existing) {
-    return prisma.reportRow.update({
-      where: { id: existing.id },
-      data: {
-        element: input.element.trim(),
-        rawValue: input.rawValue,
-        ppmValue: input.ppmValue,
-        unit: "mass%",
-      },
-    });
-  }
 
   return prisma.reportRow.create({
     data: {
@@ -1089,7 +1206,7 @@ export async function upsertManualPetroleumRowByRegistrationId(input: {
       element: input.element.trim(),
       rawValue: input.rawValue,
       ppmValue: input.ppmValue,
-      unit: "mass%",
+      unit: "ppm",
       category: "petroleum_contaminant",
     },
   });

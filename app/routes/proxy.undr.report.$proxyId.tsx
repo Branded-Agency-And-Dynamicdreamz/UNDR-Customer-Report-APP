@@ -224,7 +224,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     
   }
 
-  const pageHtml = renderToStaticMarkup(<IndexPage report={report} />);
+  const pageHtml = renderToStaticMarkup(<IndexPage report={report} appUrl={appUrl} />);
   const reportJson = JSON.stringify(report).replaceAll("<", "\\u003c");
 
   const template = `

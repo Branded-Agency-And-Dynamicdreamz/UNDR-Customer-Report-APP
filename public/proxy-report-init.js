@@ -185,6 +185,11 @@
           aboveData: reportChartData.aboveData || []
         }
       : buildLayeredChartFallback();
+    var chartMax = Math.max.apply(
+      null,
+      [100].concat(chartInput.belowData || [], chartInput.refData || [], chartInput.aboveData || []).map(normalizeNumber)
+    );
+    chartMax = Math.ceil((chartMax * 1.1) / 10) * 10;
 
     reportChart = new window.Chart(ctx, {
       type: "polarArea",
@@ -203,7 +208,7 @@
         scales: {
           r: {
             min: 0,
-            max: 100,
+            max: chartMax,
             ticks: { display: false },
             grid: { color: "#e0e0e0" },
             pointLabels: { display: true, centerPointLabels: true, font: { size: 11, weight: "bold" }, color: "#666666" }
