@@ -1032,10 +1032,10 @@ p {
 }
 
 .multi_level_chart_section .label_col {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 20px;
     color: #93979a;
-    width: 110px;
+    width: 140px;
     letter-spacing: 0;
 }
 
@@ -1080,7 +1080,7 @@ p {
 }
 
 .multi_level_chart_section .value_col {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 18px;
     color: #93979a;
     width: 70px;
@@ -1094,7 +1094,7 @@ p {
 }
 
 .multi_level_chart_section .scale_placeholder_left {
-    width: 110px;
+    width: 140px;
 }
 
 .multi_level_chart_section .scale_placeholder_right {
