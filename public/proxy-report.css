@@ -241,6 +241,7 @@ p {
 
 .report_details_section .legend_item {
     font-family: 'Obviously', Arial, sans-serif;
+    font-weight: 500;
     display: flex;
     align-items: center;
     letter-spacing: 0;
@@ -278,6 +279,7 @@ p {
     font-size: 14px;
     line-height: 20px;
     color: #000;
+    letter-spacing: 0;
 }
 
 .report_details_section .top_info_row {
@@ -318,12 +320,18 @@ p {
 
 .report_details_section .val_box {
     font-family: 'Obviously', Arial, sans-serif;
+    font-weight: 400;
     width: 110px;
     padding: 4px;
     text-align: center;
     color: #fff;
     border-radius: 5px 0 0 0;
     margin-right: 10px;
+    letter-spacing: 0;
+}
+
+.report_details_section .metal_txt {
+    font-weight: 500;
     letter-spacing: 0;
 }
 
@@ -352,6 +360,7 @@ p {
 }
 
 .report_details_section .oil_btn {
+    font-family: 'Obviously', Arial, sans-serif;
     padding: 10px 15px;
     color: #fff;
     font-weight: bold;
@@ -664,25 +673,28 @@ p {
 .elemental_breakdown_section .report_subtitle {
     font-weight: 400;
     font-size: 36px;
+    line-height: 46px;
     color: #E29578;
     margin: 15px 0px 90px 0px;
-    max-width: 52%;
+    max-width: 70%;
 }
 
 .elemental_breakdown_section .report_description {
+    font-weight: 400;
     font-size: 24px;
     line-height: 34px;
     color: #555555;
     margin-bottom: 100px;
-    max-width: 56%;
+    max-width: 72%;
 }
 
 .elemental_breakdown_section .footer_text {
+    font-weight: 300;
     font-size: 20px;
     line-height: 30px;
     color: #A0A0A0;
     margin-bottom: 10px;
-    max-width: 40%;
+    max-width: 45%;
 }
 
 .elemental_breakdown_section .detailed_summary_btn {
@@ -720,6 +732,7 @@ p {
     display: flex;
     align-items: center;
     padding-left: 20px;
+    letter-spacing: 0;
 }
 
 .other_trace_elements_section {
@@ -924,7 +937,7 @@ p {
     font-size: 24px;
     line-height: 34px;
     color: #e5b567;
-    max-width: 60%;
+    max-width: 80%;
     margin-left: auto;
 }
 
@@ -1023,6 +1036,7 @@ p {
     font-size: 20px;
     color: #93979a;
     width: 110px;
+    letter-spacing: 0;
 }
 
 .multi_level_chart_section .bar_col {
@@ -1071,6 +1085,7 @@ p {
     color: #93979a;
     width: 70px;
     text-align: right;
+    letter-spacing: 0;
 }
 
 .multi_level_chart_section .scale_container {
@@ -1109,6 +1124,7 @@ p {
     color: #93979a;
     width: 20px;
     text-align: center;
+    letter-spacing: 0;
 }
 
 .multi_level_chart_section .spacer_div {
@@ -1130,6 +1146,7 @@ p {
     font-weight: 500;
     font-size: 15px;
     color: #93979a;
+    letter-spacing: 0;
 }
 
 .multi_level_chart_section .legend_item .color_box {
@@ -1284,7 +1301,7 @@ p {
 /* Oil Contaminants Section CSS */
 
 .oil_contaminants_section .oil_main_heading {
-    font-weight: 900;
+    font-weight: 700;
     font-size: 64px;
     line-height: 1.2;
     color: #a52a2a;
@@ -1792,7 +1809,7 @@ p {
 }
 
 .earth_element_breakdown_section .main_title {
-    font-weight: 900;
+    font-weight: 700;
     font-size: 48px;
     color: #8B2323;
     margin-bottom: 10px;
@@ -1880,7 +1897,7 @@ p {
 }
 
 .unique_soil_section .soil_main_heading {
-    font-weight: 800;
+    font-weight: 700;
     font-size: 72px;
     line-height: 80px;
     color: #ffffff;
@@ -2076,7 +2093,7 @@ p {
 /* Found Elements List Section CSS */
 
 .found_elements_list_section .section_main_title {
-    font-weight: 900;
+    font-weight: 700;
     font-size: 48px;
     color: #8B2323;
     margin-bottom: 25px;
@@ -2157,6 +2174,7 @@ p {
     color: #ffffff;
     border-radius: 5px 0 0 0;
     margin-right: 15px;
+    letter-spacing: 0;
 }
 
 .found_elements_list_section .element_name_text {
@@ -2460,6 +2478,7 @@ p {
 .not_found_elements_list_section .element_label {
     font-weight: 600;
     font-size: 20px;
+    letter-spacing: 0;
 }
 
 .not_found_elements_list_section .gold_bg {
@@ -2618,7 +2637,7 @@ p {
 }
 
 .precious_metals_section .main_title {
-    font-weight: 800;
+    font-weight: 700;
     font-size: 64px;
     line-height: 70px;
     color: #8b231e;
@@ -2644,11 +2663,13 @@ p {
     font-size: 16px;
     color: #666666;
     text-align: center;
+    letter-spacing: 0;
 }
 
 .precious_metals_section .bar_label span {
     display: block;
     font-weight: 400;
+    letter-spacing: 0;
 }
 
 .precious_metals_section .shape_gold,
