@@ -128,6 +128,13 @@
       return 0;
     }
 
+    function toElementChartVisualValue(value) {
+      var n = normalizeNumber(value);
+      if (n <= 0) return 0;
+
+      return Math.log10(n + 1);
+    }
+
     var elementNamesBySymbol = {
       o: "Oxygen",
       f: "Fluorine",
@@ -215,54 +222,6 @@
       return elementNamesBySymbol[key] || String(label || "").trim();
     }
 
-    function buildLayeredChartFallback() {
-      var source = (reportData.elementBreakdown && Array.isArray(reportData.elementBreakdown.items))
-        ? reportData.elementBreakdown.items
-        : [];
-      var top = source.slice(0, 8);
-
-      if (top.length === 0) {
-        return {
-          labels: [],
-          belowData: [],
-          refData: [],
-          aboveData: []
-        };
-      }
-
-      var labels = [];
-      var belowData = [];
-      var refData = [];
-      var aboveData = [];
-
-      top.forEach(function (item) {
-        var name = String(item && item.name ? item.name : "").trim();
-        var value = normalizeNumber(item && item.percentage);
-        labels.push(name);
-
-        if (value <= 10) {
-          belowData.push(value);
-          refData.push(0);
-          aboveData.push(0);
-        } else if (value <= 25) {
-          belowData.push(0);
-          refData.push(value);
-          aboveData.push(0);
-        } else {
-          belowData.push(0);
-          refData.push(0);
-          aboveData.push(value);
-        }
-      });
-
-      return {
-        labels: labels,
-        belowData: belowData,
-        refData: refData,
-        aboveData: aboveData
-      };
-    }
-
     var reportChartData = (reportData.reportDetails && reportData.reportDetails.reportChart) || null;
     var chartInput = hasLayeredChartData(reportChartData)
       ? {
@@ -272,30 +231,13 @@
           aboveData: reportChartData.aboveData || [],
           calculations: reportChartData.calculations || []
         }
-      : buildLayeredChartFallback();
-
-    var maxAboveValue = Math.max.apply(
-      null,
-      [0].concat(chartInput.aboveData || []).map(normalizeNumber)
-    );
-    var aboveVisualMax = 170;
-    var aboveVisualMin = 108;
-    var aboveScaleStart = 100;
-
-    if (maxAboveValue > aboveScaleStart) {
-      chartInput = {
-        labels: chartInput.labels || [],
-        belowData: chartInput.belowData || [],
-        refData: chartInput.refData || [],
-        calculations: chartInput.calculations || [],
-        aboveData: (chartInput.aboveData || []).map(function (value) {
-          var aboveValue = normalizeNumber(value);
-          if (aboveValue <= aboveScaleStart) return aboveValue;
-
-          return aboveVisualMin + ((aboveValue - aboveScaleStart) / (maxAboveValue - aboveScaleStart)) * (aboveVisualMax - aboveVisualMin);
-        })
-      };
-    }
+      : {
+          labels: [],
+          belowData: [],
+          refData: [],
+          aboveData: [],
+          calculations: []
+        };
 
     console.log("[Element Breakdown Chart Render Summary]", {
       elementCount: (chartInput.labels || []).length,
@@ -314,13 +256,13 @@
       var range = calculation.range || (belowValue > 0 ? "Below Range" : aboveValue > 0 ? "Above Range" : "Reference Range");
       var adjustedPpmCalculation = reportedResult + " * 10000 = " + adjustedPpm;
       var belowRangeCalculation = adjustedPpm < averagePpm && averagePpm > 0
-        ? "(" + adjustedPpm + " / " + averagePpm + ") * 100 = " + belowValue
+        ? adjustedPpm + " because adjustedPpm is below averagePpm"
         : "0 because adjustedPpm is not below averagePpm";
       var referenceRangeCalculation = averagePpm > 0
-        ? "100 because averagePpm is the reference benchmark"
+        ? averagePpm + " because averagePpm is the reference benchmark"
         : "0 because averagePpm is 0";
       var aboveRangeCalculation = adjustedPpm > averagePpm && averagePpm > 0
-        ? "raw percent = (" + adjustedPpm + " / " + averagePpm + ") * 100; scaled aboveRange = " + aboveValue
+        ? adjustedPpm + " because adjustedPpm is above averagePpm"
         : "0 because adjustedPpm is not above averagePpm";
 
       return {
@@ -343,45 +285,96 @@
     console.log("[Element Breakdown Chart Values]");
     console.table(chartDebugRows);
 
+    var chartRows = (chartInput.labels || []).map(function (label, index) {
+      var below = normalizeNumber((chartInput.belowData || [])[index]);
+      var reference = normalizeNumber((chartInput.refData || [])[index]);
+      var above = normalizeNumber((chartInput.aboveData || [])[index]);
+      var calculation = (chartInput.calculations || [])[index] || {};
+      var adjustedPpm = normalizeNumber(calculation.adjustedPpm);
+      var measuredPpm = Math.max(adjustedPpm, below, above);
+
+      return {
+        index: index,
+        label: label,
+        below: below,
+        reference: reference,
+        above: above,
+        measuredPpm: measuredPpm,
+        visualWeight: Math.max(toElementChartVisualValue(measuredPpm), toElementChartVisualValue(reference) * 0.35)
+      };
+    }).filter(function (row) {
+      return row.measuredPpm > 0;
+    });
+
+    var visualValues = [];
+    chartRows.forEach(function (row) {
+      [row.below, row.reference, row.above].forEach(function (value) {
+        var visualValue = toElementChartVisualValue(value);
+        if (visualValue > 0) visualValues.push(visualValue);
+      });
+    });
+    visualValues.sort(function (a, b) { return a - b; });
+
+    var minVisualValue = visualValues.length ? visualValues[0] : 0;
+    var capIndex = visualValues.length ? Math.floor((visualValues.length - 1) * 0.88) : 0;
+    var cappedMaxVisualValue = visualValues.length ? visualValues[capIndex] : 0;
+
+    function toReadableElementChartVisualValue(value) {
+      var visualValue = toElementChartVisualValue(value);
+      if (visualValue <= 0) return 0;
+      if (cappedMaxVisualValue <= minVisualValue) return 60;
+
+      var cappedValue = Math.min(visualValue, cappedMaxVisualValue);
+      return 20 + ((cappedValue - minVisualValue) / (cappedMaxVisualValue - minVisualValue)) * 80;
+    }
+
+    var chartVisualInput = {
+      labels: chartRows.map(function (row) { return row.label; }),
+      belowData: chartRows.map(function (row) { return toReadableElementChartVisualValue(row.below); }),
+      refData: chartRows.map(function (row) { return toReadableElementChartVisualValue(row.reference); }),
+      aboveData: chartRows.map(function (row) { return toReadableElementChartVisualValue(row.above); })
+    };
+
     var chartMax = Math.max.apply(
       null,
-      [100].concat(chartInput.belowData || [], chartInput.refData || [], chartInput.aboveData || []).map(normalizeNumber)
+      [0].concat(chartVisualInput.belowData || [], chartVisualInput.refData || [], chartVisualInput.aboveData || []).map(normalizeNumber)
     );
-    chartMax = Math.max(120, Math.min(180, Math.ceil((chartMax * 1.1) / 10) * 10));
+    chartMax = chartMax > 0 ? Math.ceil((chartMax * 1.1) / 10) * 10 : 100;
     console.log("[Element Breakdown Chart Config]", {
       chartMax: chartMax,
-      maxAboveValue: maxAboveValue,
-      aboveRangeVisualScale: maxAboveValue > aboveScaleStart
-        ? aboveScaleStart + " to " + maxAboveValue + " mapped into " + aboveVisualMin + " to " + aboveVisualMax
-        : "not applied",
+      visualScale: "log10(ppm + 1), high values capped at the 88th percentile, then normalized into 20-100; raw ppm values remain in reportChart and debug rows",
+      visibleElementCount: chartRows.length,
+      totalElementCount: (chartInput.labels || []).length,
       datasetOrder: {
-        aboveRange: 3,
-        referenceRange: 2,
-        belowRange: 1
+        referenceRange: 3,
+        belowRange: 2,
+        aboveRange: 1
       }
     });
 
     reportChart = new window.Chart(ctx, {
       type: "polarArea",
       data: {
-        labels: chartInput.labels,
+        labels: chartVisualInput.labels,
         datasets: [
-          { label: "Above Range", data: chartInput.aboveData, backgroundColor: "#525961", borderWidth: 1, borderColor: "#ffffff", order: 3 },
-          { label: "Reference Range", data: chartInput.refData, backgroundColor: "#a6acb5", borderWidth: 1, borderColor: "#ffffff", order: 2 },
-          { label: "Below Range", data: chartInput.belowData, backgroundColor: "#d9dee4", borderWidth: 1, borderColor: "#ffffff", order: 1 }
+          { label: "Reference Range", data: chartVisualInput.refData, backgroundColor: "#a6acb5", borderWidth: 1, borderColor: "#ffffff", borderRadius: 6, order: 3 },
+          { label: "Below Range", data: chartVisualInput.belowData, backgroundColor: "rgba(47, 143, 70, 0.92)", borderWidth: 1, borderColor: "#ffffff", borderRadius: 6, order: 2 },
+          { label: "Above Range", data: chartVisualInput.aboveData, backgroundColor: "rgba(179, 38, 30, 0.92)", borderWidth: 1, borderColor: "#ffffff", borderRadius: 6, order: 1 }
         ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         events: [],
+        layout: { padding: 24 },
         scales: {
           r: {
             min: 0,
             max: chartMax,
             ticks: { display: false },
-            grid: { color: "#e0e0e0" },
-            pointLabels: { display: true, centerPointLabels: true, font: { size: 11, weight: "bold" }, color: "#666666" }
+            angleLines: { color: "rgba(17, 24, 39, 0.08)" },
+            grid: { color: "rgba(17, 24, 39, 0.12)" },
+            pointLabels: { display: true, centerPointLabels: true, padding: 8, font: { size: 10, weight: "600" }, color: "#4b5563" }
           }
         },
         plugins: { legend: { display: false }, tooltip: { enabled: false } }

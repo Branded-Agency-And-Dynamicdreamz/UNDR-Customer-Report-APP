@@ -178,9 +178,9 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
       {/* 19. Precious Metals */}
       <PreciousMetalsSection items={report.preciousMetalPresent.items} />
       {/* 20. Precious Metals Breakdown Heading Alt */}
-      <PreciousMetalsBreakdownHeadingAlt />
+      {/* <PreciousMetalsBreakdownHeadingAlt /> */}
       {/* 21. Precious Metals Not Present */}
-      <PreciousMetalsNotPresent />
+      {/* <PreciousMetalsNotPresent /> */}
     </div>
   );
 };

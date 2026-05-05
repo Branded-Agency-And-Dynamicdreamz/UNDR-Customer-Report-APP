@@ -43,7 +43,7 @@ export function mapFoundElements(rows: unknown): FoundElementItem[] {
       return {
         symbol: symbol || key,
         name: formatElementName(name || key).replace(/\s*\([^)]+\)\s*$/, ""),
-        ppm: formatPpm(raw.ppm)+"ppm",
+        ppm: formatPpm(raw.ppm)+" ppm",
         margin: toStr(raw.margin, "0"),
         bgClass: toStr(raw.bgClass, "bg-green-50"),
         colorClass: toStr(raw.colorClass, "text-green-700"),

@@ -219,7 +219,7 @@ p {
 }
 
 .report_details_section .chart_wrapper {
-    height: 450px;
+    height: 470px;
     width: 100%;
 }
 
@@ -233,6 +233,7 @@ p {
     font-weight: 600;
     border-bottom: 1px solid #d9dee4;
     padding-bottom: 15px;
+    color: #3f454d;
 }
 
 .report_details_section .legend_item {
@@ -246,7 +247,8 @@ p {
 .report_details_section .box_below {
     width: 25px;
     height: 10px;
-    background: #d9dee4;
+    background: #2f8f46;
+    border-radius: 999px;
     margin-right: 5px;
 }
 
@@ -254,13 +256,15 @@ p {
     width: 25px;
     height: 10px;
     background: #a6acb5;
+    border-radius: 999px;
     margin-right: 5px;
 }
 
 .report_details_section .box_above {
     width: 25px;
     height: 10px;
-    background: #525961;
+    background: #b3261e;
+    border-radius: 999px;
     margin-right: 5px;
 }
 
