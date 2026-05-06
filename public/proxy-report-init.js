@@ -239,12 +239,6 @@
           calculations: []
         };
 
-    console.log("[Element Breakdown Chart Render Summary]", {
-      elementCount: (chartInput.labels || []).length,
-      belowCount: (chartInput.belowData || []).filter(function (value) { return normalizeNumber(value) > 0; }).length,
-      referenceCount: (chartInput.refData || []).filter(function (value) { return normalizeNumber(value) > 0; }).length,
-      aboveCount: (chartInput.aboveData || []).filter(function (value) { return normalizeNumber(value) > 0; }).length
-    });
     var chartDebugRows = (chartInput.labels || []).map(function (label, index) {
       var belowValue = normalizeNumber((chartInput.belowData || [])[index]);
       var referenceValue = normalizeNumber((chartInput.refData || [])[index]);
@@ -282,8 +276,6 @@
         aboveRange: aboveValue
       };
     });
-    console.log("[Element Breakdown Chart Values]");
-    console.table(chartDebugRows);
 
     var chartRows = (chartInput.labels || []).map(function (label, index) {
       var below = normalizeNumber((chartInput.belowData || [])[index]);
@@ -340,17 +332,6 @@
       [0].concat(chartVisualInput.belowData || [], chartVisualInput.refData || [], chartVisualInput.aboveData || []).map(normalizeNumber)
     );
     chartMax = chartMax > 0 ? Math.ceil((chartMax * 1.1) / 10) * 10 : 100;
-    console.log("[Element Breakdown Chart Config]", {
-      chartMax: chartMax,
-      visualScale: "log10(ppm + 1), high values capped at the 88th percentile, then normalized into 20-100; raw ppm values remain in reportChart and debug rows",
-      visibleElementCount: chartRows.length,
-      totalElementCount: (chartInput.labels || []).length,
-      datasetOrder: {
-        referenceRange: 3,
-        belowRange: 2,
-        aboveRange: 1
-      }
-    });
 
     reportChart = new window.Chart(ctx, {
       type: "polarArea",

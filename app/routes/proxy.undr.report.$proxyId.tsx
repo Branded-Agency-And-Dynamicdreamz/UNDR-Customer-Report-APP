@@ -152,12 +152,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   let report: ProxyReportData | null = null;
 
-  console.log("[Unique Soil] proxy loader", {
-    proxyId,
-    reportStatus: registration?.report?.status,
-    rowCount: registration?.report?.rows?.length ?? 0,
-  });
-
   if (registration?.report?.status === "uploaded") {
     
     if (registration.report.rows && registration.report.rows.length > 0) {
@@ -168,7 +162,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       );
       report.reportPackage = selectedReportPackage;
 
-      console.log("Loader input - registration found:", report);  
     }
 
 

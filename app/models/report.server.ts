@@ -650,6 +650,11 @@ function categoryIncludes(category: string, ...keywords: string[]) {
   return keywords.some((k) => category.includes(k));
 }
 
+function isPetroleumLikeRow(row: Pick<ParsedReportRow, "category" | "element">) {
+  const category = String(row.category || "").trim().toLowerCase();
+  return categoryIncludes(category, "petroleum_contaminant");
+}
+
 const HEAVY_METAL_ELEMENTS = new Set([
   "arsenic",
   "as",
@@ -829,20 +834,12 @@ export function buildReportDataFromRows(
 ): ProxyReportData {
   const base = createEmptyProxyReportData(customerName, kitNumber);
 
-  console.log("[Unique Soil] buildReportDataFromRows", {
-    rowCount: rows.length,
-    customerName,
-    kitNumber,
-  });
-
   if (rows.length === 0) return base;
 
   const resultColumnValues = Object.entries(UNIQUE_SOIL_RESULT_BY_SYMBOL).map(([element, result]) => ({
     element: formatElementSymbol(element),
     result,
   }));
-
-  console.log("[Unique Soil] result column", resultColumnValues);
 
   // Separate rows by known categories
   const heavyMetalRows = rows.filter((r) => {
@@ -934,7 +931,7 @@ base.foundElements = found.slice(0, 60)
   // const top8 = sorted.slice(0, 8);
   // const next8 = sorted.slice(8, 16);
   const top8 = elementBreakdownRows.slice(0, 8); // (optional, jo use hoy to)
-  const next8 = sorted.slice(15, 23); // <-- IMPORTANT CHANGE
+  const next8 = sorted.filter((r) => !isPetroleumLikeRow(r)).slice(15, 23); // <-- IMPORTANT CHANGE
   // const totalPpm = elementBreakdownRows.reduce((s, r) => s + r.ppmValue, 0);
   const totalPpm = elementBreakdownRows.reduce((s, r) => s + r.ppmValue, 0);
   const otherTraceTotalPpm = next8.reduce((s, r) => s + r.ppmValue, 0);
@@ -1008,16 +1005,6 @@ base.foundElements = found.slice(0, 60)
     value: item.standardDeviationDistance,
     output: item.resultPpm / item.averagePpm,
   }));
-
-  console.log(
-    "[Unique Soil] calculations",
-    uniqueSoilCalculationsLog,
-  );
-
-  console.log(
-    "[Unique Soil] top 3",
-    uniqueSoilTop3Log,
-  );
 
   base.soilFeatureCalculations = uniqueSoilCalculationsLog;
 
