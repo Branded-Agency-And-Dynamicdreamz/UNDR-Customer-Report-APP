@@ -1198,7 +1198,7 @@ base.foundElements = found.slice(0, 60)
   // --- Oil / Petroleum contaminants
   if (oilRows.length > 0) {
     const firstOil = oilRows[0];
-    base.oilContaminants.value = firstOil.ppmValue.toFixed(2);
+    base.oilContaminants.value = `${firstOil.ppmValue.toFixed(2)}ppm`;
     base.oilContaminants.status =
       firstOil.ppmValue > 50 ? "Detected" : "Not Detected";
   }

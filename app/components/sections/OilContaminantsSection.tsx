@@ -11,6 +11,9 @@ const OilContaminantsSection = ({
   locked = false,
   lockedPreviewImageUrl,
 }: OilContaminantsSectionProps) => {
+  const displayStatus = status || "Not Detected";
+  const displayValue = value || "0ppm";
+
   return (
     <section className="oil_contaminants_section">
       <div className="container">
@@ -27,8 +30,8 @@ const OilContaminantsSection = ({
             <div className="oil_card_content">
               <span className="oil_label">Crude oil:</span>
               <div className="oil_value_row">
-                <span className="oil_found_text">{status}</span>
-                <span className="oil_ppm_value">{value}</span>
+                <span className="oil_found_text">{displayStatus}</span>
+                <span className="oil_ppm_value">{displayValue}</span>
               </div>
             </div>
           </div>
