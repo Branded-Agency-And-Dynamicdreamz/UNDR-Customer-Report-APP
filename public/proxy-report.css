@@ -73,6 +73,72 @@ p {
     letter-spacing: 0;
 }
 
+.pdf_download_footer {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 9999;
+}
+
+.pdf_download_button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 96px;
+    height: 46px;
+    padding: 0 18px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+    background: #9e2a1f;
+    color: #ffffff;
+    box-shadow: 0 12px 30px rgba(17, 24, 39, 0.24);
+    font-family: 'Obviously', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.pdf_download_button:hover {
+    background: #7f2119;
+}
+
+.pdf_download_button:disabled {
+    cursor: default;
+    opacity: 0.72;
+}
+
+.pdf_download_icon {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex: 0 0 auto;
+}
+
+@media (max-width: 767px) {
+    .pdf_download_footer {
+        right: 16px;
+        bottom: 16px;
+    }
+
+    .pdf_download_button {
+        min-width: 86px;
+        height: 42px;
+        padding: 0 14px;
+    }
+}
+
+@media print {
+    .pdf_download_footer {
+        display: none;
+    }
+}
+
 .container {
     width: 100%;
     margin: 0 auto;
@@ -1300,6 +1366,10 @@ p {
 
 /* Oil Contaminants Section CSS */
 
+.oil_contaminants_section {
+    padding: 70px 0 90px;
+}
+
 .oil_contaminants_section .oil_main_heading {
     font-weight: 700;
     font-size: 64px;
@@ -1309,11 +1379,14 @@ p {
 }
 
 .oil_contaminants_section .oil_info_card {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     background-color: #727b6f;
     border-radius: 0 0 0 20px;
     padding: 30px;
     min-width: 450px;
+    min-height: 130px;
+    color: #ffffff;
 }
 
 .oil_contaminants_section .oil_contaminants_locked_preview {
@@ -1338,6 +1411,7 @@ p {
 
 .oil_contaminants_section .oil_found_text,
 .oil_contaminants_section .oil_ppm_value {
+    display: inline-block;
     font-weight: 700;
     font-size: 44px;
     line-height: 54px;
@@ -1345,6 +1419,10 @@ p {
 }
 
 @media (max-width: 1199px) {
+    .oil_contaminants_section {
+        padding: 60px 0 80px;
+    }
+
     .oil_contaminants_section .oil_main_heading {
         font-size: 54px;
         margin-bottom: 25px;
@@ -1370,6 +1448,10 @@ p {
 }
 
 @media (max-width: 991px) {
+    .oil_contaminants_section {
+        padding: 50px 0 70px;
+    }
+
     .oil_contaminants_section .oil_main_heading {
         font-size: 48px;
         margin-bottom: 20px;
@@ -1395,6 +1477,10 @@ p {
 }
 
 @media (max-width: 767px) {
+    .oil_contaminants_section {
+        padding: 40px 0 60px;
+    }
+
     .oil_contaminants_section .oil_main_heading {
         font-size: 34px;
         margin-bottom: 15px;
@@ -1403,6 +1489,7 @@ p {
     .oil_contaminants_section .oil_info_card {
         min-width: 100%;
         padding: 15px;
+        min-height: 100px;
     }
 
     .oil_contaminants_section .oil_label {

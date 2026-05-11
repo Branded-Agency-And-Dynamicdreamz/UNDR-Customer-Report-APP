@@ -361,6 +361,192 @@
 
   function initAll() {
     if (!reportData) return;
+    document.querySelectorAll("[data-pdf-download]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        var reportElement = document.querySelector("[data-proxy-id]");
+        var jsPDF = window.jspdf && window.jspdf.jsPDF;
+        if (!reportElement || !window.html2canvas || !jsPDF) {
+          window.print();
+          return;
+        }
+
+        var originalText = button.textContent;
+        button.disabled = true;
+        button.classList.add("is_loading");
+        button.querySelector("span").textContent = "Saving...";
+
+        var customerName = String((reportData.banner && reportData.banner.name) || "report")
+          .trim()
+          .replace(/[^a-z0-9]+/gi, "-")
+          .replace(/^-+|-+$/g, "")
+          .toLowerCase();
+
+        var reportRoot = reportElement.children[0] || reportElement;
+        var sections = Array.from(reportRoot.children).filter(function (element) {
+          return !(element.classList && element.classList.contains("pdf_download_footer"));
+        });
+
+        var canvasOptions = {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          letterRendering: true,
+          backgroundColor: "#ffffff",
+          windowWidth: Math.max(reportElement.scrollWidth, document.documentElement.scrollWidth),
+          onclone: function (clonedDocument) {
+            clonedDocument.querySelectorAll(".oil_label, .oil_found_text, .oil_ppm_value").forEach(function (element) {
+              element.style.color = "#ffffff";
+              element.style.opacity = "1";
+              element.style.visibility = "visible";
+              element.style.fontFamily = "Arial, sans-serif";
+              element.style.textShadow = "0 0 0 #ffffff";
+            });
+            clonedDocument.querySelectorAll(".oil_found_text, .oil_ppm_value").forEach(function (element) {
+              element.style.display = "inline-block";
+              element.style.fontWeight = "700";
+            });
+          },
+        };
+
+        function drawOilTextOnCanvas(canvas, section) {
+          if (!section.classList || !section.classList.contains("oil_contaminants_section")) return [];
+
+          var context = canvas.getContext("2d");
+          var sectionRect = section.getBoundingClientRect();
+          var scaleX = canvas.width / sectionRect.width;
+          var scaleY = canvas.height / sectionRect.height;
+          var overlays = [];
+
+          function drawElementText(selector, weight) {
+            var element = section.querySelector(selector);
+            if (!element) return;
+
+            var rect = element.getBoundingClientRect();
+            var styles = window.getComputedStyle(element);
+            var fontSize = parseFloat(styles.fontSize || "16");
+            var lineHeight = parseFloat(styles.lineHeight || String(fontSize * 1.2));
+            var x = (rect.left - sectionRect.left) * scaleX;
+            var y = (rect.top - sectionRect.top) * scaleY;
+            var fontSizeOnCanvas = fontSize * scaleY;
+            var textY = y + Math.max(0, ((lineHeight - fontSize) / 2) * scaleY);
+            var text = element.textContent || "";
+
+            context.save();
+            context.fillStyle = "#ffffff";
+            context.textBaseline = "top";
+            context.font = (weight || styles.fontWeight || "400") + " " + fontSizeOnCanvas + "px Arial, sans-serif";
+            context.fillText(text, x, textY);
+            context.restore();
+            overlays.push({
+              text: text,
+              x: x,
+              y: textY,
+              fontSize: fontSizeOnCanvas,
+              weight: weight || styles.fontWeight || "400",
+            });
+          }
+
+          drawElementText(".oil_label", "400");
+          drawElementText(".oil_found_text", "700");
+          drawElementText(".oil_ppm_value", "700");
+          return overlays;
+        }
+
+        function drawOilTextOnPdf(pdf, oilTexts, pagePadding, pageY, imageWidth, imageHeight, canvas) {
+          if (!oilTexts || oilTexts.length === 0) return;
+
+          var scaleX = imageWidth / canvas.width;
+          var scaleY = imageHeight / canvas.height;
+
+          pdf.setTextColor(255, 255, 255);
+          oilTexts.forEach(function (item) {
+            pdf.setFont("helvetica", String(item.weight) === "700" ? "bold" : "normal");
+            pdf.setFontSize(item.fontSize * scaleY);
+            pdf.text(item.text, pagePadding + (item.x * scaleX), pageY + (item.y * scaleY) + (item.fontSize * scaleY));
+          });
+          pdf.setFont("helvetica", "normal");
+          pdf.setTextColor(0, 0, 0);
+        }
+
+        sections.reduce(function (chain, section) {
+          return chain.then(function (items) {
+            return window.html2canvas(section, canvasOptions).then(function (canvas) {
+              if (canvas.width > 0 && canvas.height > 0) {
+                items.push({
+                  canvas: canvas,
+                  oilTexts: drawOilTextOnCanvas(canvas, section),
+                  canSplit:
+                    section.classList.contains("found_elements_list_section") ||
+                    section.classList.contains("not_found_elements_list_section"),
+                });
+              }
+              return items;
+            });
+          });
+        }, Promise.resolve([]))
+          .then(function (items) {
+            var pdf = new jsPDF({ unit: "pt", format: "a4", orientation: "portrait" });
+            var pageWidth = pdf.internal.pageSize.getWidth();
+            var pageHeight = pdf.internal.pageSize.getHeight();
+            var pagePadding = 0;
+            var availableWidth = pageWidth - (pagePadding * 2);
+            var cursorY = 0;
+
+            items.forEach(function (item, index) {
+              var canvas = item.canvas;
+              var imageData = canvas.toDataURL("image/jpeg", 0.98);
+              var imageHeight = (canvas.height * availableWidth) / canvas.width;
+              var remainingPageHeight = pageHeight - cursorY;
+
+              if (
+                index > 0 &&
+                cursorY > 0 &&
+                cursorY + imageHeight > pageHeight &&
+                (!item.canSplit || remainingPageHeight < pageHeight * 0.25)
+              ) {
+                pdf.addPage();
+                cursorY = 0;
+                remainingPageHeight = pageHeight;
+              }
+
+              if (cursorY + imageHeight <= pageHeight) {
+                pdf.addImage(imageData, "JPEG", pagePadding, cursorY, availableWidth, imageHeight);
+                drawOilTextOnPdf(pdf, item.oilTexts, pagePadding, cursorY, availableWidth, imageHeight, canvas);
+                cursorY += imageHeight;
+                return;
+              }
+
+              var remainingHeight = imageHeight;
+              var y = cursorY;
+              var firstPageSpace = pageHeight - cursorY;
+              pdf.addImage(imageData, "JPEG", pagePadding, y, availableWidth, imageHeight);
+              drawOilTextOnPdf(pdf, item.oilTexts, pagePadding, y, availableWidth, imageHeight, canvas);
+              remainingHeight -= firstPageSpace;
+
+              while (remainingHeight > 0) {
+                y = remainingHeight - imageHeight;
+                pdf.addPage();
+                pdf.addImage(imageData, "JPEG", pagePadding, y, availableWidth, imageHeight);
+                remainingHeight -= pageHeight;
+              }
+
+              var usedOnLastPage = imageHeight - firstPageSpace;
+              cursorY = usedOnLastPage > 0 ? usedOnLastPage % pageHeight : imageHeight;
+              if (cursorY === 0) cursorY = pageHeight;
+            });
+
+            pdf.save((customerName || "report") + "-undr-report.pdf");
+          })
+          .catch(function () {
+            window.print();
+          })
+          .finally(function () {
+            button.disabled = false;
+            button.classList.remove("is_loading");
+            button.querySelector("span").textContent = originalText.trim() || "PDF";
+          });
+      });
+    });
     initElementBreakdowns();
     initPreciousMetals();
     initReportDetails();
