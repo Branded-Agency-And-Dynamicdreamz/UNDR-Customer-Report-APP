@@ -518,6 +518,56 @@ p {
     user-select: none;
 }
 
+.report_unlock_preview {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 18px;
+}
+
+.report_unlock_cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.report_unlock_button,
+.report_unlock_secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 20px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: normal;
+    text-align: center;
+}
+
+.report_unlock_button {
+    background: #111827;
+    color: #ffffff;
+    border: 1px solid #111827;
+}
+
+.report_unlock_secondary {
+    background: #ffffff;
+    color: #111827;
+    border: 1px solid rgba(17, 24, 39, 0.22);
+}
+
+.report_unlock_button:hover,
+.report_unlock_secondary:hover {
+    transform: translateY(-1px);
+}
+
 .report_details_section .gold_bg,
 .report_details_section .bg_ruthenium {
     background: #f1b434;

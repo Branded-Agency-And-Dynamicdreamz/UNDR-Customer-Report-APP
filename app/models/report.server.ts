@@ -132,6 +132,16 @@ function parseCsvRow(line: string): string[] {
 function normalizeHeader(value: string): string {
   return value.toLowerCase().trim().replace(/[^a-z0-9_]/g, "_");
 }
+
+function isIgnoredReportElement(value: string) {
+  const key = value.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
+  return key === "co2";
+}
+
+function isPetroleumContaminantCategory(value: string) {
+  return value.trim().toLowerCase() === "petroleum_contaminant";
+}
+
 function getElementClassName(input: string): string {
   const key = input.trim().toLowerCase();
 
@@ -833,8 +843,13 @@ export function buildReportDataFromRows(
   kitNumber: string,
 ): ProxyReportData {
   const base = createEmptyProxyReportData(customerName, kitNumber);
+  const reportRows = rows.filter(
+    (row) =>
+      !isIgnoredReportElement(row.element) &&
+      !isPetroleumContaminantCategory(String(row.category || "")),
+  );
 
-  if (rows.length === 0) return base;
+  if (reportRows.length === 0) return base;
 
   const resultColumnValues = Object.entries(UNIQUE_SOIL_RESULT_BY_SYMBOL).map(([element, result]) => ({
     element: formatElementSymbol(element),
@@ -842,23 +857,23 @@ export function buildReportDataFromRows(
   }));
 
   // Separate rows by known categories
-  const heavyMetalRows = rows.filter((r) => {
+  const heavyMetalRows = reportRows.filter((r) => {
     const elementKey = String(r.element || "").trim().toLowerCase();
     return (
       categoryIncludes(r.category, "heavy", "metal", "toxic") &&
       HEAVY_METAL_ELEMENTS.has(elementKey)
     );
   });
-  const preciousRows = rows.filter((r) =>
+  const preciousRows = reportRows.filter((r) =>
     categoryIncludes(r.category, "precious", "gold", "silver", "platinum"),
   );
-  const earthRows = rows.filter((r) =>
+  const earthRows = reportRows.filter((r) =>
     categoryIncludes(r.category, "earth", "rare", "ree"),
   );
-  const oilRows = rows.filter((r) =>
+  const oilRows = reportRows.filter((r) =>
     categoryIncludes(r.category, "oil", "petroleum", "hydrocarbon"),
   );
-  const allElements = rows;
+  const allElements = reportRows;
 
   // --- Found / Not Found
   const found = allElements.filter((r) => r.ppmValue > 0);
@@ -923,29 +938,37 @@ base.foundElements = found.slice(0, 60)
   }
 );
 
-  // --- Element Breakdown (all found elements by ppmValue)
+  // --- Element Breakdown (top elements plus one aggregate trace bucket)
   const sorted = [...found].sort((a, b) => b.ppmValue - a.ppmValue);
-  // const elementBreakdownRows = sorted;
   const elementBreakdownRows = sorted.slice(0, 15);
+  const remainingTraceRows = sorted.filter((r) => !isPetroleumLikeRow(r)).slice(15, 30);
 
   // const top8 = sorted.slice(0, 8);
-  // const next8 = sorted.slice(8, 16);
   const top8 = elementBreakdownRows.slice(0, 8); // (optional, jo use hoy to)
-  const next8 = sorted.filter((r) => !isPetroleumLikeRow(r)).slice(15, 23); // <-- IMPORTANT CHANGE
-  // const totalPpm = elementBreakdownRows.reduce((s, r) => s + r.ppmValue, 0);
-  const totalPpm = elementBreakdownRows.reduce((s, r) => s + r.ppmValue, 0);
-  const otherTraceTotalPpm = next8.reduce((s, r) => s + r.ppmValue, 0);
+  const nextTraceRows = remainingTraceRows.slice(0, 15);
+  const otherTraceTotalPpm = remainingTraceRows.reduce((s, r) => s + r.ppmValue, 0);
+  const totalPpm =
+    elementBreakdownRows.reduce((s, r) => s + r.ppmValue, 0) + otherTraceTotalPpm;
 
   // const otherTraceTotalPpm = next8.reduce((s, r) => s + r.ppmValue, 0);
 
   if (elementBreakdownRows.length > 0) {
     const breakdownItems = elementBreakdownRows.map(
       (r): BreakdownBarItem => ({
-        name: r.element,
+        name: formatElementName(r.element),
         percentage: totalPpm > 0 ? Math.round((r.ppmValue / totalPpm) * 100) : 0,
         color: (ELEMENT_COLOR_MAP[r.element.trim().toLowerCase()] ?? ELEMENT_COLOR_MAP.default).bg,
       }),
     );
+
+    if (otherTraceTotalPpm > 0) {
+      breakdownItems.push({
+        name: "Other Trace Elements",
+        percentage: totalPpm > 0 ? Math.round((otherTraceTotalPpm / totalPpm) * 100) : 0,
+        color: ELEMENT_COLOR_MAP.default.bg,
+        fixedLast: true,
+      });
+    }
 
     base.elementBreakdown.items = breakdownItems;
   }
@@ -1048,10 +1071,10 @@ base.foundElements = found.slice(0, 60)
     },
   );
 
-  if (next8.length > 0) {
-    base.otherTraceElements.items = next8.map(
+  if (nextTraceRows.length > 0) {
+    base.otherTraceElements.items = nextTraceRows.map(
       (r): BreakdownBarItem => ({
-        name: r.element,
+        name: formatElementName(r.element),
         percentage:
           otherTraceTotalPpm > 0
             ? Math.round((r.ppmValue / otherTraceTotalPpm) * 100)
@@ -1216,7 +1239,9 @@ base.foundElements = found.slice(0, 60)
   }
 
   const petroleumRows = rows.filter(
-    (r) => String(r.category || "").trim().toLowerCase() === "petroleum_contaminant",
+    (r) =>
+      !isIgnoredReportElement(r.element) &&
+      isPetroleumContaminantCategory(String(r.category || "")),
   );
   const petroleumRow = petroleumRows.find((r) => Number.isFinite(r.ppmValue) && r.ppmValue >= 0);
 
@@ -1589,11 +1614,11 @@ const ELEMENT_SYMBOL_FROM_NAME: Record<string, string> = Object.fromEntries(
 function formatElementName(input: string): string {
   const key = input.trim().toLowerCase();
   if (ELEMENT_NAME_MAP[key]) {
-    return `${ELEMENT_NAME_MAP[key]} (${key.toUpperCase()})`;
+    return `${ELEMENT_NAME_MAP[key]} (${formatElementSymbol(key)})`;
   }
   if (ELEMENT_SYMBOL_FROM_NAME[key]) {
     const symbol = ELEMENT_SYMBOL_FROM_NAME[key];
-    return `${ELEMENT_NAME_MAP[symbol]} (${symbol.toUpperCase()})`;
+    return `${ELEMENT_NAME_MAP[symbol]} (${formatElementSymbol(symbol)})`;
   }
   return input;
 }

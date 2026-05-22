@@ -1,6 +1,15 @@
 import prisma from "../db.server";
 import { REPORT_PACKAGES, type ReportPackage, isReportPackage } from "../lib/report-packages";
 
+function isMissingUnlockTableError(error: unknown) {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    (error as { code?: string }).code === "P2021"
+  );
+}
+
 function normalizeNumericShopifyId(value?: string | null) {
   if (!value) return null;
   const match = value.match(/(\d+)$/);
@@ -94,10 +103,24 @@ export async function saveRegistration(input: RegistrationInput) {
 }
 
 export async function getRegistrationByKitNumber(kitRegistrationNumber: string) {
-  return prisma.registration.findFirst({
-    where: { kitRegistrationNumber },
-    include: { report: { include: { rows: true } } },
-  });
+  try {
+    return await prisma.registration.findFirst({
+      where: { kitRegistrationNumber },
+      include: {
+        report: { include: { rows: true } },
+        unlocks: true,
+      },
+    });
+  } catch (error) {
+    if (!isMissingUnlockTableError(error)) {
+      throw error;
+    }
+
+    return prisma.registration.findFirst({
+      where: { kitRegistrationNumber },
+      include: { report: { include: { rows: true } } },
+    });
+  }
 }
 
 export async function getRegistrationByKitRegistrationNumber(

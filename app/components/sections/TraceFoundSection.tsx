@@ -1,3 +1,5 @@
+import UnlockReportCta from './UnlockReportCta';
+
 interface ChartRowData {
   label: string;
   userVal: number;
@@ -14,6 +16,9 @@ type TraceFoundSectionProps = {
   scaleLabels: string[];
   locked?: boolean;
   lockedPreviewImageUrl?: string;
+  unlockHref?: string;
+  unlockLabel?: string;
+  premiumUnlockHref?: string;
 };
 
 const ChartRow = ({ row, maxVal }: { row: ChartRowData; maxVal: number }) => {
@@ -49,6 +54,9 @@ const TraceFoundSection = ({
   scaleLabels,
   locked = false,
   lockedPreviewImageUrl,
+  unlockHref,
+  unlockLabel = "Unlock report section",
+  premiumUnlockHref,
 }: TraceFoundSectionProps) => {
 
 
@@ -56,12 +64,15 @@ const TraceFoundSection = ({
     <section className="multi_level_chart_section">
       <div className="container">
         {locked && lockedPreviewImageUrl ? (
-          <img
-            src={lockedPreviewImageUrl}
-            alt=""
-            className="oil_breakdown_locked_preview"
-            aria-hidden="true"
-          />
+          <div className="report_unlock_preview">
+            <img
+              src={lockedPreviewImageUrl}
+              alt=""
+              className="oil_breakdown_locked_preview"
+              aria-hidden="true"
+            />
+            <UnlockReportCta href={unlockHref} label={unlockLabel} premiumHref={premiumUnlockHref} />
+          </div>
         ) : (
           <>
             <div className="traces_wrapper">

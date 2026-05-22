@@ -12,6 +12,7 @@ import { mapNotFoundElements } from "../utils/mapNotFoundElements";
 import { mapEarthElementsBreakdown } from "../utils/mapEarthElementsBreakdown";
 import IndexPage from "../pages/Index";
 import { authenticate } from "../shopify.server";
+import { isUnlockModule } from "../lib/report-packages";
 
 const REPORT_PACKAGES = ["treasure_base", "treasure_plus", "hs_base", "hs_plus", "premium"] as const;
 
@@ -67,6 +68,8 @@ function createEmptyReport(
 ): ProxyReportData {
   return {
     reportPackage,
+    unlockedModules: [],
+    kitRegistrationNumber: proxyId,
     banner: {
       name: customerName,
       subtitle: `Kit Registration: ${proxyId}`,
@@ -174,6 +177,26 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   }
 
   report.reportPackage = selectedReportPackage;
+  report.kitRegistrationNumber = proxyId;
+  const registrationUnlocks =
+    "unlocks" in registration && Array.isArray(registration.unlocks)
+      ? registration.unlocks
+      : [];
+  report.unlockedModules = registrationUnlocks
+    .filter((unlock) => {
+      const unlockPackage = String(
+        (unlock as { reportPackage?: string }).reportPackage || "",
+      ).trim().toLowerCase();
+      const unlockReportId = String(
+        (unlock as { reportId?: string | null }).reportId || "",
+      ).trim();
+      const currentReportId = registration.report?.id || "";
+      const packageMatches = !unlockPackage || unlockPackage === selectedReportPackage;
+      const reportMatches = !unlockReportId || !currentReportId || unlockReportId === currentReportId;
+      return packageMatches && reportMatches;
+    })
+    .map((unlock) => String(unlock.module || "").trim().toLowerCase())
+    .filter(isUnlockModule);
 
   // Ensure heavyMetals are always normalized for both page HTML and injected JSON.
   if (report?.reportDetails?.heavyMetals) {

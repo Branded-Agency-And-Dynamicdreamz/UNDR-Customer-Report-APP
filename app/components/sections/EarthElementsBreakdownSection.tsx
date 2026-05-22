@@ -1,11 +1,19 @@
+import UnlockReportCta from './UnlockReportCta';
+
 type EarthElementsBreakdownSectionProps = {
   locked?: boolean;
   lockedPreviewImageUrl: string;
+  unlockHref?: string;
+  unlockLabel?: string;
+  premiumUnlockHref?: string;
 };
 
 const EarthElementsBreakdownSection = ({
   locked = false,
   lockedPreviewImageUrl,
+  unlockHref,
+  unlockLabel = "Unlock report section",
+  premiumUnlockHref,
 }: EarthElementsBreakdownSectionProps) => {
   return (
     <section className={`earth_element_breakdown_section${locked ? ' locked' : ''}`}>
@@ -15,12 +23,15 @@ const EarthElementsBreakdownSection = ({
           <p className="sub_title">Traces found in your land sample</p>
         </div>
         {locked ? (
-          <img
-            src={lockedPreviewImageUrl}
-            alt=""
-            className="earth_element_locked_preview"
-            aria-hidden="true"
-          />
+          <div className="report_unlock_preview">
+            <img
+              src={lockedPreviewImageUrl}
+              alt=""
+              className="earth_element_locked_preview"
+              aria-hidden="true"
+            />
+            <UnlockReportCta href={unlockHref} label={unlockLabel} premiumHref={premiumUnlockHref} />
+          </div>
         ) : (
           <div id="chart_wrapper" className="chart_wrapper"></div>
         )}

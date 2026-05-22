@@ -47,6 +47,7 @@ model Registration {
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
   report                Report?
+  unlocks               ReportUnlock[]
 }
 
 model Report {
@@ -58,6 +59,7 @@ model Report {
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   rows           ReportRow[]
+  unlocks        ReportUnlock[]
 }
 
 model ReportRow {
@@ -69,4 +71,25 @@ model ReportRow {
   ppmValue Float
   unit     String @default("ppm")
   category String @default("")
+}
+
+model ReportUnlock {
+  id             String       @id @default(cuid())
+  registrationId String
+  registration   Registration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+  reportId       String?
+  report         Report?      @relation(fields: [reportId], references: [id], onDelete: SetNull)
+  module         String
+  reportPackage  String       @default("")
+  amountCents    Int?
+  currency       String       @default("USD")
+  status         String       @default("paid")
+  source         String       @default("shopify_order")
+  shopifyOrderId String?
+  rawPayload      Json?
+  createdAt      DateTime     @default(now())
+
+  @@unique([registrationId, module, reportPackage])
+  @@index([reportId])
+  @@index([shopifyOrderId])
 }

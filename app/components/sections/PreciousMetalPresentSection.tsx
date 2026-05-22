@@ -1,27 +1,37 @@
 import DiveArrow from './DiveArrow';
+import UnlockReportCta from './UnlockReportCta';
 import type { PreciousMetalGraphItem } from '../../lib/proxy-report-data';
 
 type PreciousMetalPresentSectionProps = {
   items: PreciousMetalGraphItem[];
   locked?: boolean;
   lockedPreviewImageUrl: string;
+  unlockHref?: string;
+  unlockLabel?: string;
+  premiumUnlockHref?: string;
 };
 
 const PreciousMetalPresentSection = ({
   items,
   locked = false,
   lockedPreviewImageUrl,
+  unlockHref,
+  unlockLabel = "Unlock report section",
+  premiumUnlockHref,
 }: PreciousMetalPresentSectionProps) => {
   return (
     <section className={`precious_metal_present_section${locked ? ' locked' : ''}`} data-item-count={items.length}>
       <div className="container">
         {locked ? (
-          <img
-            src={lockedPreviewImageUrl}
-            alt=""
-            className="precious_metal_locked_preview"
-            aria-hidden="true"
-          />
+          <div className="report_unlock_preview">
+            <img
+              src={lockedPreviewImageUrl}
+              alt=""
+              className="precious_metal_locked_preview"
+              aria-hidden="true"
+            />
+            <UnlockReportCta href={unlockHref} label={unlockLabel} premiumHref={premiumUnlockHref} />
+          </div>
         ) : (
           <>
             <div className="header_content">

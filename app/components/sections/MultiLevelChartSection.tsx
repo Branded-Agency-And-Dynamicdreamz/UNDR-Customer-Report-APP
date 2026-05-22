@@ -1,4 +1,5 @@
 import DiveArrow from './DiveArrow';
+import UnlockReportCta from './UnlockReportCta';
 
 interface ChartRowData {
   label: string;
@@ -23,6 +24,9 @@ type MultiLevelChartSectionProps = {
   group2ScaleLabels: string[];
   locked?: boolean;
   lockedPreviewImageUrl?: string;
+  unlockHref?: string;
+  unlockLabel?: string;
+  premiumUnlockHref?: string;
 };
 
 const ChartRow = ({ row, maxVal }: { row: ChartRowData; maxVal: number }) => {
@@ -78,17 +82,23 @@ const MultiLevelChartSection = ({
   group2ScaleLabels,
   locked = false,
   lockedPreviewImageUrl,
+  unlockHref,
+  unlockLabel = "Unlock report section",
+  premiumUnlockHref,
 }: MultiLevelChartSectionProps) => {
   return (
     <section className="multi_level_chart_section">
       <div className="container">
         {locked && lockedPreviewImageUrl ? (
-          <img
-            src={lockedPreviewImageUrl}
-            alt=""
-            className="heavy_metals_breakdown_locked_preview"
-            aria-hidden="true"
-          />
+          <div className="report_unlock_preview">
+            <img
+              src={lockedPreviewImageUrl}
+              alt=""
+              className="heavy_metals_breakdown_locked_preview"
+              aria-hidden="true"
+            />
+            <UnlockReportCta href={unlockHref} label={unlockLabel} premiumHref={premiumUnlockHref} />
+          </div>
         ) : (
           <>
             <ChartGroup maxVal={group1Max} rows={group1Rows} scaleLabels={group1ScaleLabels} />

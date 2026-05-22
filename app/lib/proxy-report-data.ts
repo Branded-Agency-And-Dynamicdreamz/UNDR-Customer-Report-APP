@@ -2,6 +2,7 @@ export type BreakdownBarItem = {
   name: string;
   percentage: number;
   color: string;
+  fixedLast?: boolean;
 };
 
 export type MetalCardItem = {
@@ -19,8 +20,6 @@ export type HeavyMetalItem = {
   value: string;
   valueClassName: string;
   textClassName: string;
-
-  // ✅ add this
   valueStyle?: {
     backgroundColor: string;
     color: string;
@@ -87,8 +86,18 @@ export type ReportPackage =
   | "hs_plus"
   | "premium";
 
+export type UnlockModule =
+  | "precious_metals"
+  | "rare_earth"
+  | "crude_oil"
+  | "petroleum"
+  | "heavy_metals"
+  | "premium";
+
 export type ProxyReportData = {
   reportPackage?: ReportPackage;
+  unlockedModules?: UnlockModule[];
+  kitRegistrationNumber?: string;
   banner: {
     name: string;
     subtitle: string;

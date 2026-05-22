@@ -20,7 +20,11 @@
     if (!chartBox || !leftContent) return;
 
     chartBox.innerHTML = "";
-    var sortedData = items.slice().sort(function (a, b) { return b.percentage - a.percentage; });
+    var sortedData = items.slice().sort(function (a, b) {
+      if (a.fixedLast && !b.fixedLast) return 1;
+      if (!a.fixedLast && b.fixedLast) return -1;
+      return b.percentage - a.percentage;
+    });
     var minHeight = 42;
 
     sortedData.forEach(function (item) {

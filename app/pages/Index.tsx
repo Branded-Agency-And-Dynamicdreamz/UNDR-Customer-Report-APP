@@ -19,6 +19,7 @@ import PreciousMetalsSection from '../components/sections/PreciousMetalsSection'
 import PreciousMetalsBreakdownHeadingAlt from '../components/sections/PreciousMetalsBreakdownHeadingAlt';
 import PreciousMetalsNotPresent from '../components/sections/PreciousMetalsNotPresent';
 import type { ProxyReportData } from '../lib/proxy-report-data';
+import { formatUnlockPrice, hasReportUnlock, type UnlockModule } from '../lib/report-packages';
 
 type IndexProps = {
   report: ProxyReportData;
@@ -27,37 +28,52 @@ type IndexProps = {
 
 const Index = ({ report, appUrl = '' }: IndexProps) => {
   const reportPackage = report.reportPackage || 'premium';
+  const unlockedModules = report.unlockedModules || [];
+  const kitRegistrationNumber = report.kitRegistrationNumber || report.banner.subtitle.replace(/^Kit Registration:\s*/i, '');
+  const unlockHref = (module: UnlockModule) =>
+    `/apps/undr/unlock/start?kit=${encodeURIComponent(kitRegistrationNumber)}&module=${encodeURIComponent(module)}&package=${encodeURIComponent(reportPackage)}`;
+  const unlockLabel = (module: UnlockModule, title: string) => `Unlock ${title} for ${formatUnlockPrice(module)}`;
+  const premiumUnlockHref = hasReportUnlock(unlockedModules, 'premium') ? undefined : unlockHref('premium');
   const isPremium = reportPackage === 'premium';
+  const hasPreciousUnlock = hasReportUnlock(unlockedModules, 'precious_metals');
+  const hasRareEarthUnlock = hasReportUnlock(unlockedModules, 'rare_earth');
+  const hasCrudeOilUnlock = hasReportUnlock(unlockedModules, 'crude_oil');
+  const hasPetroleumUnlock = hasReportUnlock(unlockedModules, 'petroleum');
+  const hasHeavyMetalsUnlock = hasReportUnlock(unlockedModules, 'heavy_metals');
   const quickLookDisplayPreciousMetals =
     reportPackage === 'treasure_base' ||
     reportPackage === 'treasure_plus' ||
-    reportPackage === 'premium';
-  const quickLookDisplayRareEarthElements = reportPackage === 'treasure_plus' || reportPackage === 'premium';
-  const quickLookDisplayOil = reportPackage === 'treasure_plus' || reportPackage === 'premium';
+    reportPackage === 'premium' ||
+    hasPreciousUnlock;
+  const quickLookDisplayRareEarthElements = reportPackage === 'treasure_plus' || reportPackage === 'premium' || hasRareEarthUnlock;
+  const quickLookDisplayOil = reportPackage === 'treasure_plus' || reportPackage === 'premium' || hasCrudeOilUnlock;
   const quickLookDisplayHeavyMetals =
     reportPackage === 'hs_base' ||
     reportPackage === 'hs_plus' ||
-    reportPackage === 'premium';
-  const canUnlockHeavyMetalsBreakdown = reportPackage === 'treasure_base' || reportPackage === 'treasure_plus';
+    reportPackage === 'premium' ||
+    hasHeavyMetalsUnlock;
+  const canUnlockHeavyMetalsBreakdown = !hasHeavyMetalsUnlock && (reportPackage === 'treasure_base' || reportPackage === 'treasure_plus');
   const canDisplayPreciousBreakdown =
     reportPackage === 'treasure_base' ||
     reportPackage === 'treasure_plus' ||
-    reportPackage === 'premium';
-  const canUnlockPreciousBreakdown = reportPackage === 'hs_base' || reportPackage === 'hs_plus';
+    reportPackage === 'premium' ||
+    hasPreciousUnlock;
+  const canUnlockPreciousBreakdown = !hasPreciousUnlock && (reportPackage === 'hs_base' || reportPackage === 'hs_plus');
   const shouldShowPreciousBreakdown = canDisplayPreciousBreakdown || canUnlockPreciousBreakdown;
-  const canDisplayRareEarthBreakdown = reportPackage === 'treasure_plus' || reportPackage === 'premium';
+  const canDisplayRareEarthBreakdown = reportPackage === 'treasure_plus' || reportPackage === 'premium' || hasRareEarthUnlock;
   const canUnlockRareEarthBreakdown =
-    reportPackage === 'treasure_base' ||
-    reportPackage === 'hs_base' ||
-    reportPackage === 'hs_plus';
+    !hasRareEarthUnlock &&
+    (reportPackage === 'treasure_base' ||
+      reportPackage === 'hs_base' ||
+      reportPackage === 'hs_plus');
   const shouldShowRareEarthBreakdown = canDisplayRareEarthBreakdown || canUnlockRareEarthBreakdown;
   const canHideOilBreakdown = reportPackage === 'treasure_base' || reportPackage === 'hs_base';
-  const canDisplayOilBreakdown = reportPackage === 'treasure_plus' || reportPackage === 'premium';
-  const canUnlockOilBreakdown = reportPackage === 'hs_plus' || canHideOilBreakdown;
+  const canDisplayOilBreakdown = reportPackage === 'treasure_plus' || reportPackage === 'premium' || hasCrudeOilUnlock;
+  const canUnlockOilBreakdown = !hasCrudeOilUnlock && (reportPackage === 'hs_plus' || canHideOilBreakdown);
   const shouldShowOilBreakdown = canDisplayOilBreakdown || canUnlockOilBreakdown;
   const canHidePetroleumBreakdown = reportPackage === 'treasure_base' || reportPackage === 'hs_base';
-  const canDisplayPetroleumBreakdown = reportPackage === 'hs_plus' || reportPackage === 'premium';
-  const canUnlockPetroleumBreakdown = reportPackage === 'treasure_plus' || canHidePetroleumBreakdown;
+  const canDisplayPetroleumBreakdown = reportPackage === 'hs_plus' || reportPackage === 'premium' || hasPetroleumUnlock;
+  const canUnlockPetroleumBreakdown = !hasPetroleumUnlock && (reportPackage === 'treasure_plus' || canHidePetroleumBreakdown);
   const shouldShowPetroleumBreakdown =
     canDisplayPetroleumBreakdown || canUnlockPetroleumBreakdown;
   const foundElementsForList = report.foundElements.map((item) => ({
@@ -100,6 +116,9 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
           items={report.preciousMetalPresent.items}
           locked={canUnlockPreciousBreakdown}
           lockedPreviewImageUrl={`${appUrl}/images/precious-metals-present-locked-preview.png`}
+          unlockHref={unlockHref('precious_metals')}
+          unlockLabel={unlockLabel('precious_metals', 'Precious Metals')}
+          premiumUnlockHref={premiumUnlockHref}
         />
       )}
 
@@ -108,6 +127,9 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
         <EarthElementsBreakdownSection
           locked={canUnlockRareEarthBreakdown}
           lockedPreviewImageUrl={`${appUrl}/images/rare-earth-elements-locked-preview.png`}
+          unlockHref={unlockHref('rare_earth')}
+          unlockLabel={unlockLabel('rare_earth', 'REEs')}
+          premiumUnlockHref={premiumUnlockHref}
         />
       )}
       {shouldShowPetroleumBreakdown && (
@@ -123,6 +145,9 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
             scaleLabels={report.petroleumTraceFound.scaleLabels}
             locked={canUnlockPetroleumBreakdown}
             lockedPreviewImageUrl={`${appUrl}/images/oil-breakdown-locked-preview.png`}
+            unlockHref={unlockHref('petroleum')}
+            unlockLabel={unlockLabel('petroleum', 'Petroleum Contaminants')}
+            premiumUnlockHref={premiumUnlockHref}
           />
         </>
       )}
@@ -133,6 +158,9 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
           value={report.oilContaminants.value}
           locked={canUnlockOilBreakdown}
           lockedPreviewImageUrl={`${appUrl}/images/oil-contaminants-locked-preview.png`}
+          unlockHref={unlockHref('crude_oil')}
+          unlockLabel={unlockLabel('crude_oil', 'Crude Oil')}
+          premiumUnlockHref={premiumUnlockHref}
         />
       )}
 
@@ -148,6 +176,9 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
         group2ScaleLabels={report.multiLevelCharts.group2ScaleLabels}
         locked={canUnlockHeavyMetalsBreakdown}
         lockedPreviewImageUrl={`${appUrl}/images/heavy-metals-breakdown-locked-preview.svg`}
+        unlockHref={unlockHref('heavy_metals')}
+        unlockLabel={unlockLabel('heavy_metals', 'Heavy Metals')}
+        premiumUnlockHref={premiumUnlockHref}
       />
 
       {/* 14. Unique Soil */}
