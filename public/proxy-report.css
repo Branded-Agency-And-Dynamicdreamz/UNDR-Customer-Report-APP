@@ -376,7 +376,6 @@ p {
 }
 
 .report_details_section .metal_list_item {
-    font-family: 'Obviously', Arial, sans-serif;
     display: flex;
     align-items: center;
     margin-bottom: 12px;
@@ -1167,6 +1166,7 @@ p {
     .heavy_metal_breakdown_section {
         margin-top: 40px;
     }
+
     .heavy_metal_breakdown_section .heavy_metal_inner_wrapper {
         flex-direction: column;
         align-items: flex-start;
@@ -1813,13 +1813,11 @@ p {
     background:
         linear-gradient(118deg, transparent 49.6%, rgba(255, 255, 255, 0.16) 50%, transparent 50.4%),
         linear-gradient(145deg, transparent 49.6%, rgba(255, 255, 255, 0.13) 50%, transparent 50.4%),
-        conic-gradient(
-            from 0deg,
+        conic-gradient(from 0deg,
             #f6b315 0deg 90deg,
             #a32720 90deg 214deg,
             #9f241f 214deg 270deg,
-            #85878a 270deg 360deg
-        );
+            #85878a 270deg 360deg);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -2522,7 +2520,8 @@ p {
 
 /* Found Elements List Section CSS */
 
-.found_elements_list_section .section_main_title {
+.found_elements_list_section .section_main_title,
+.additional_resources_intro h3 {
     font-weight: 700;
     font-size: 48px;
     color: #8B2323;
@@ -2536,6 +2535,7 @@ p {
     color: #E67E66;
     margin-bottom: 25px;
 }
+
 
 
 
@@ -2927,7 +2927,8 @@ p {
 
 @media (max-width: 1199px) {
 
-    .found_elements_list_section .section_main_title {
+    .found_elements_list_section .section_main_title,
+    .additional_resources_intro h3 {
         font-size: 40px;
         margin-bottom: 20px;
     }
@@ -2948,7 +2949,8 @@ p {
 
 @media (max-width: 991px) {
 
-    .found_elements_list_section .section_main_title {
+    .found_elements_list_section .section_main_title,
+    .additional_resources_intro h3 {
         font-size: 32px;
         margin-bottom: 15px;
     }
@@ -2972,7 +2974,8 @@ p {
 
 @media (max-width: 767px) {
 
-    .found_elements_list_section .section_main_title {
+    .found_elements_list_section .section_main_title,
+    .additional_resources_intro h3 {
         font-size: 28px;
         line-height: 34px;
     }
@@ -2982,7 +2985,8 @@ p {
         line-height: 26px;
     }
 
-    .found_elements_list_section .section_main_title br {
+    .found_elements_list_section .section_main_title br,
+    .additional_resources_intro h3 br {
         display: none;
     }
 
@@ -3402,26 +3406,10 @@ p {
 
 .additional_resources_heading_section {
     background-color: #86bebd;
-    border-bottom-right-radius: 78px;
-    padding: 34px 0 32px;
 }
 
-.additional_resources_heading_section .container,
-.additional_resources_section .container {
-    max-width: 980px;
-}
-
-.additional_resources_header {
-    display: flex;
-    align-items: flex-start;
-}
-
-.additional_resources_title {
-    color: #ffffff;
-    font-family: 'Obviously', Arial, sans-serif;
-    font-size: 40px;
-    font-weight: 800;
-    line-height: 0.88;
+.heavy_metal_breakdown_section.additional_resources_heading_section .heavy_metal_content_left {
+    margin-bottom: 0 !important;
 }
 
 .additional_resources_section {
@@ -3429,43 +3417,25 @@ p {
     padding: 54px 0 72px;
 }
 
-.additional_resources_body {
-    max-width: 760px;
-}
-
-.additional_resources_intro {
-    max-width: 700px;
-}
-
 .additional_resources_intro.contaminants {
     margin-top: 72px;
 }
 
-.additional_resources_intro h3 {
-    color: #b13b31;
-    font-size: 36px;
-    font-weight: 800;
-    line-height: 1.02;
-    margin-bottom: 22px;
-    max-width: 650px;
-}
-
 .additional_resources_intro p {
-    color: #656565;
-    font-size: 17px;
     font-weight: 400;
-    line-height: 1.38;
+    font-size: 24px;
+    line-height: 34px;
+    color: #555555;
     margin-bottom: 26px;
 }
 
 .additional_resources_list {
     margin-top: 40px;
-    max-width: 680px;
 }
 
 .additional_resource_item {
     border-top: 1px solid #9a9a9a;
-    padding: 26px 0 27px 88px;
+    padding: 30px 0 30px 80px;
 }
 
 .additional_resource_item:last-child {
@@ -3473,122 +3443,121 @@ p {
 }
 
 .additional_resource_item h4 {
-    color: #9e2a1f;
-    font-size: 15px;
     font-weight: 800;
-    line-height: 1.25;
+    font-size: 22px;
+    line-height: 32px;
+    color: #8B2323;
     margin-bottom: 7px;
 }
 
-.additional_resource_item p {
-    color: #686868;
-    font-size: 14px;
+.additional_resource_item p,
+.additional_resources_disclaimer p {
     font-weight: 400;
-    line-height: 1.42;
-    max-width: 530px;
+    font-size: 20px;
+    line-height: 30px;
+    color: #555555;
 }
 
 .additional_resources_disclaimer {
     margin-top: 70px;
-    max-width: 760px;
 }
 
 .additional_resources_disclaimer h3 {
-    color: #9e2a1f;
-    font-size: 26px;
     font-weight: 800;
-    line-height: 1.15;
+    font-size: 22px;
+    line-height: 32px;
+    color: #8B2323;
     margin-bottom: 14px;
 }
 
-.additional_resources_disclaimer p {
-    color: #656565;
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 1.45;
-}
+@media (max-width: 1199px) {
 
-@media (max-width: 991px) {
-    .additional_resources_heading_section {
-        border-bottom-right-radius: 64px;
-        padding: 30px 0 28px;
-    }
-
-    .additional_resources_title {
-        font-size: 34px;
-    }
-
-    .additional_resources_section {
-        padding: 46px 0 64px;
-    }
-
-    .additional_resources_intro h3 {
-        font-size: 30px;
+    .additional_resources_intro p {
+        font-size: 20px;
+        line-height: 28px;
+        margin-bottom: 20px;
     }
 
     .additional_resource_item {
-        padding-left: 58px;
-    }
-}
-
-@media (max-width: 767px) {
-    .additional_resources_heading_section {
-        border-bottom-right-radius: 52px;
-        padding: 22px 0 21px;
+        padding: 25px 0 25px 60px;
     }
 
-    .additional_resources_heading_section .container,
-    .additional_resources_section .container {
-        padding-left: 18px;
-        padding-right: 18px;
+    .additional_resource_item h4,
+    .additional_resources_disclaimer h3 {
+        font-size: 18px;
+        line-height: 26px;
     }
 
-    .additional_resources_title {
-        font-size: 22px;
-        line-height: 0.94;
-    }
-
-    .additional_resources_section {
-        padding: 34px 0 54px;
-    }
-
-    .additional_resources_body,
-    .additional_resources_intro,
-    .additional_resources_list,
-    .additional_resources_disclaimer {
-        max-width: none;
-    }
-
-    .additional_resources_intro h3 {
-        font-size: 22px;
-        line-height: 1.04;
-        margin-bottom: 14px;
-    }
-
-    .additional_resources_intro p {
-        font-size: 11px;
-        line-height: 1.42;
-        margin-bottom: 20px;
+    .additional_resource_item p,
+    .additional_resources_disclaimer p {
+        font-size: 18px;
+        line-height: 26px;
     }
 
     .additional_resources_list {
         margin-top: 30px;
     }
 
+    .additional_resources_disclaimer {
+        margin-top: 60px;
+    }
+
+}
+
+@media (max-width: 991px) {
+
+    .additional_resources_intro p {
+        font-size: 18px;
+        line-height: 26px;
+        margin-bottom: 15px;
+    }
+
+    .additional_resources_list {
+        margin-top: 20px;
+    }
+
+    .additional_resources_section {
+        padding: 46px 0 64px;
+    }
+
     .additional_resource_item {
-        padding: 19px 0 20px 36px;
+        padding: 20px 0 20px 40px;
+    }
+
+    .additional_resources_disclaimer {
+        margin-top: 50px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .additional_resources_intro p {
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 10px;
+    }
+
+    .additional_resources_section {
+        padding: 34px 0 54px;
+    }
+
+    .additional_resources_list {
+        margin-top: 10px;
+    }
+
+    .additional_resource_item {
+        padding: 15px 0 15px 30px;
     }
 
     .additional_resource_item h4 {
-        font-size: 10px;
-        line-height: 1.32;
-        margin-bottom: 6px;
+        font-size: 16px;
+        line-height: 24px;
     }
 
-    .additional_resource_item p {
-        font-size: 9px;
-        line-height: 1.48;
-        max-width: none;
+    .additional_resource_item p,
+    .additional_resources_disclaimer p {
+        font-size: 16px;
+        line-height: 24px;
     }
 
     .additional_resources_intro.contaminants {
@@ -3596,14 +3565,7 @@ p {
     }
 
     .additional_resources_disclaimer {
-        margin-top: 48px;
+        margin-top: 40px;
     }
 
-    .additional_resources_disclaimer h3 {
-        font-size: 18px;
-    }
-
-    .additional_resources_disclaimer p {
-        font-size: 9px;
-    }
 }

@@ -47,11 +47,11 @@ const contaminantResources = [
 const AdditionalResourcesSection = () => {
   return (
     <>
-      <section className="additional_resources_heading_section">
+      <section className="heavy_metal_breakdown_section additional_resources_heading_section">
         <div className="container">
-          <div className="additional_resources_header">
-            <div className="additional_resources_header_left">
-              <h2 className="additional_resources_title">Additional<br />Resources</h2>
+          <div className="heavy_metal_inner_wrapper additional_resources_header">
+            <div className="heavy_metal_content_left additional_resources_header_left">
+              <h2 className="heavy_metal_title additional_resources_title">Additional<br />Resources</h2>
             </div>
           </div>
         </div>
