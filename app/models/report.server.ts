@@ -778,7 +778,7 @@ function createEmptyProxyReportData(customerName: string, kitNumber: string): Pr
     reportDetails: {
       heavyMetals: [],
       oilIndicator: {
-        crudeOil: "Crude oil: None",
+        crudeOil: "Crude oil: 0 ppm",
         petroleum: "Petroleum Contaminants: None Detected",
         crudeOilClassName: "btn_gray",
         petroleumClassName: "btn_gray",
@@ -1237,9 +1237,13 @@ base.foundElements = found.slice(0, 60)
   // --- Oil / Petroleum contaminants
   if (oilRows.length > 0) {
     const firstOil = oilRows[0];
-    base.oilContaminants.value = `${firstOil.ppmValue.toFixed(2)}ppm`;
+    const crudeOilPpm = Number.isFinite(firstOil.ppmValue) ? firstOil.ppmValue : 0;
+    const crudeOilDisplay = Number.isInteger(crudeOilPpm) ? String(crudeOilPpm) : crudeOilPpm.toFixed(2);
+    base.reportDetails.oilIndicator.crudeOil = `Crude oil: ${crudeOilDisplay} ppm`;
+    base.reportDetails.oilIndicator.crudeOilClassName = crudeOilPpm > 50 ? "btn_red_curved" : "btn_gray";
+    base.oilContaminants.value = `${crudeOilDisplay}ppm`;
     base.oilContaminants.status =
-      firstOil.ppmValue > 50 ? "Detected" : "Not Detected";
+      crudeOilPpm > 50 ? "Detected" : "Not Detected";
   }
 
   // --- Trace Found chart – use top 10 elements
@@ -1708,6 +1712,30 @@ export async function upsertManualPetroleumRowByRegistrationId(input: {
       ppmValue: input.ppmValue,
       unit: "ppm",
       category: "petroleum_contaminant",
+    },
+  });
+}
+
+export async function updateReportRowValuesByRegistrationId(input: {
+  registrationId: string;
+  rowId: string;
+  rawValue: number;
+  ppmValue: number;
+}) {
+  const report = await prisma.report.findUnique({
+    where: { registrationId: input.registrationId },
+    select: { id: true },
+  });
+  if (!report) return null;
+
+  return prisma.reportRow.updateMany({
+    where: {
+      id: input.rowId,
+      reportId: report.id,
+    },
+    data: {
+      rawValue: input.rawValue,
+      ppmValue: input.ppmValue,
     },
   });
 }

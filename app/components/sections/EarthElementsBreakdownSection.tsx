@@ -17,9 +17,15 @@ const EarthElementsBreakdownSection = ({
 }: EarthElementsBreakdownSectionProps) => {
   return (
     <section className={`earth_element_breakdown_section${locked ? ' locked' : ''}`}>
+      <div className="earth_element_header_band">
+        <div className="container">
+          <div className="earth_element_header_inner">
+            <h2 className="main_title">Rare Earth<br />Elements Breakdown</h2>
+          </div>
+        </div>
+      </div>
       <div className="container">
         <div className="text_center_header">
-          <h2 className="main_title">Rare Earth Elements Breakdown</h2>
           <p className="sub_title">Traces found in your land sample</p>
         </div>
         {locked ? (

@@ -14,6 +14,7 @@ import {
   extractReportRows,
   upsertReport,
   upsertManualPetroleumRowByRegistrationId,
+  updateReportRowValuesByRegistrationId,
 } from "../models/report.server";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 
@@ -129,6 +130,35 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     return { success: true, message: "Manual petroleum config saved.", intent: "manual_config" as const };
   }
 
+  if (intent === "report_row_config") {
+    const reportRowId = String(formData.get("reportRowId") || "").trim();
+    const rawValue = Number(String(formData.get("rawValue") || "").trim());
+    const ppmValue = Number(String(formData.get("ppmValue") || "").trim());
+
+    if (!reportRowId || !Number.isFinite(rawValue) || rawValue < 0 || !Number.isFinite(ppmValue) || ppmValue < 0) {
+      return {
+        error: "Enter valid non-negative Raw value and PPM value.",
+        intent: "report_row_config" as const,
+      };
+    }
+
+    const result = await updateReportRowValuesByRegistrationId({
+      registrationId: registration.id,
+      rowId: reportRowId,
+      rawValue,
+      ppmValue,
+    });
+
+    if (!result || result.count === 0) {
+      return {
+        error: "Could not update that report row.",
+        intent: "report_row_config" as const,
+      };
+    }
+
+    return { success: true, message: "Element values updated.", intent: "report_row_config" as const };
+  }
+
   const file = formData.get("csv");
 
   if (!(file instanceof File) || file.size === 0) {
@@ -198,8 +228,8 @@ export const headers: HeadersFunction = (args) => boundary.headers(args);
 
 type LoaderData = Awaited<ReturnType<typeof loader>>;
 type ActionData =
-  | { success: true; message: string; rowCount?: number; intent?: "upload_csv" | "manual_config" | "package_config" | "quick_view_config" }
-  | { error: string; intent?: "upload_csv" | "manual_config" | "package_config" | "quick_view_config" }
+  | { success: true; message: string; rowCount?: number; intent?: "upload_csv" | "manual_config" | "package_config" | "quick_view_config" | "report_row_config" }
+  | { error: string; intent?: "upload_csv" | "manual_config" | "package_config" | "quick_view_config" | "report_row_config" }
   | undefined;
 
   const PETROLEUM_CONTAMINANTS = [
@@ -262,11 +292,13 @@ export default function RegistrationDetail() {
   const { registration, shopDomain } = useLoaderData<LoaderData>();
   const actionData = useActionData<ActionData>();
   const manualPetroleumFetcher = useFetcher<ActionData>();
+  const reportRowFetcher = useFetcher<ActionData>();
   const packageConfigFetcher = useFetcher<ActionData>();
   const quickViewConfigFetcher = useFetcher<ActionData>();
   const nav = useNavigation();
   const isUploading = nav.state === "submitting";
   const isSavingPetroleum = manualPetroleumFetcher.state !== "idle";
+  const isSavingReportRow = reportRowFetcher.state !== "idle";
   const isSavingPackage = packageConfigFetcher.state !== "idle";
   const isSavingQuickViewPackage = quickViewConfigFetcher.state !== "idle";
   const packageConfigData =
@@ -285,6 +317,12 @@ export default function RegistrationDetail() {
     manualPetroleumFetcher.data && manualPetroleumFetcher.data.intent === "manual_config"
       ? manualPetroleumFetcher.data
       : actionData && actionData.intent === "manual_config"
+        ? actionData
+        : undefined;
+  const reportRowData =
+    reportRowFetcher.data && reportRowFetcher.data.intent === "report_row_config"
+      ? reportRowFetcher.data
+      : actionData && actionData.intent === "report_row_config"
         ? actionData
         : undefined;
   const currentReportPackage = (() => {
@@ -313,6 +351,9 @@ export default function RegistrationDetail() {
   );
   const [editingPetroleum, setEditingPetroleum] = useState<string | null>(null);
   const [savingPetroleum, setSavingPetroleum] = useState<string | null>(null);
+  const [editingReportRowId, setEditingReportRowId] = useState<string | null>(null);
+  const [savingReportRowId, setSavingReportRowId] = useState<string | null>(null);
+  const [reportRowDraft, setReportRowDraft] = useState({ rawValue: "", ppmValue: "" });
 
   useEffect(() => {
     setPetroleumPpmValues(buildPetroleumPpmValues(rows));
@@ -345,6 +386,19 @@ export default function RegistrationDetail() {
     }
   }, [manualPetroleumFetcher.state, manualPetroleumFetcher.data]);
 
+  useEffect(() => {
+    if (reportRowFetcher.state !== "idle") return;
+
+    setSavingReportRowId(null);
+    if (
+      reportRowFetcher.data &&
+      reportRowFetcher.data.intent === "report_row_config" &&
+      "success" in reportRowFetcher.data
+    ) {
+      setEditingReportRowId(null);
+    }
+  }, [reportRowFetcher.state, reportRowFetcher.data]);
+
   const onPetroleumPpmChange = (type: string, nextValue: string) => {
     setPetroleumPpmValues((prev) => ({ ...prev, [type]: nextValue }));
   };
@@ -357,6 +411,24 @@ export default function RegistrationDetail() {
     formData.set("petroleumPpm", ppmValue);
     setSavingPetroleum(type);
     manualPetroleumFetcher.submit(formData, { method: "post" });
+  };
+
+  const startEditingReportRow = (row: { id: string; rawValue: number; ppmValue: number }) => {
+    setEditingReportRowId(row.id);
+    setReportRowDraft({
+      rawValue: String(row.rawValue),
+      ppmValue: String(row.ppmValue),
+    });
+  };
+
+  const saveReportRowValues = (rowId: string) => {
+    const formData = new FormData();
+    formData.set("intent", "report_row_config");
+    formData.set("reportRowId", rowId);
+    formData.set("rawValue", reportRowDraft.rawValue);
+    formData.set("ppmValue", reportRowDraft.ppmValue);
+    setSavingReportRowId(rowId);
+    reportRowFetcher.submit(formData, { method: "post" });
   };
 
   const saveReportPackage = () => {
@@ -883,27 +955,176 @@ Ni,6.7106,mass%`}
       {/* ── Parsed rows table ── */}
       {rows.length > 0 && (
         <s-section heading={`Report data (${rows.length} elements)`}>
+          {reportRowData && "error" in reportRowData && (
+            <div
+              style={{
+                marginBottom: "16px",
+                padding: "12px 16px",
+                borderRadius: "10px",
+                background: "#fef2f2",
+                color: "#b91c1c",
+                fontSize: "14px",
+              }}
+            >
+              {reportRowData.error}
+            </div>
+          )}
+          {reportRowData && "success" in reportRowData && (
+            <div
+              style={{
+                marginBottom: "16px",
+                padding: "12px 16px",
+                borderRadius: "10px",
+                background: "#ecfdf3",
+                color: "#065f46",
+                fontSize: "14px",
+                fontWeight: 600,
+              }}
+            >
+              ✓ {reportRowData.message}
+            </div>
+          )}
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
               <thead>
                 <tr style={{ borderBottom: "2px solid #e5e7eb", textAlign: "left" }}>
-                  {["Element", "Raw value", "PPM value", "Unit", "Category"].map((h) => (
+                  {["Element", "Raw value", "PPM value", "Unit", "Category", "Actions"].map((h) => (
                     <th key={h} style={{ padding: "8px 12px", fontWeight: 600, color: "#374151" }}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {rows.map((row) => (
-                  <tr key={row.id} style={{ borderBottom: "1px solid #f3f4f6" }}>
-                    <td style={{ padding: "8px 12px", fontWeight: 500 }}>{row.element}</td>
-                    <td style={{ padding: "8px 12px", fontFamily: "monospace" }}>{row.rawValue}</td>
-                    <td style={{ padding: "8px 12px", fontFamily: "monospace", fontWeight: 600 }}>
-                      {row.ppmValue.toFixed(4)}
-                    </td>
-                    <td style={{ padding: "8px 12px", color: "#6b7280" }}>{row.unit}</td>
-                    <td style={{ padding: "8px 12px", color: "#6b7280" }}>{row.category || "—"}</td>
-                  </tr>
-                ))}
+                {rows.map((row) => {
+                  const isEditingRow = editingReportRowId === row.id;
+                  const isSavingRow = isSavingReportRow && savingReportRowId === row.id;
+                  return (
+                    <tr key={row.id} style={{ borderBottom: "1px solid #f3f4f6" }}>
+                      <td style={{ padding: "8px 12px", fontWeight: 500 }}>{row.element}</td>
+                      <td style={{ padding: "8px 12px", fontFamily: "monospace" }}>
+                        {isEditingRow ? (
+                          <input
+                            type="number"
+                            min="0"
+                            step="any"
+                            value={reportRowDraft.rawValue}
+                            onChange={(event) => {
+                              const nextValue = event.currentTarget.value;
+                              setReportRowDraft((prev) => ({ ...prev, rawValue: nextValue }));
+                            }}
+                            onKeyDown={(event) => {
+                              if (event.key === "Enter") event.preventDefault();
+                            }}
+                            disabled={isUploading || isSavingReportRow}
+                            style={{
+                              width: "130px",
+                              minHeight: "32px",
+                              padding: "6px 8px",
+                              borderRadius: "8px",
+                              border: "1px solid #d1d5db",
+                              fontFamily: "monospace",
+                              fontSize: "13px",
+                            }}
+                          />
+                        ) : (
+                          row.rawValue
+                        )}
+                      </td>
+                      <td style={{ padding: "8px 12px", fontFamily: "monospace", fontWeight: 600 }}>
+                        {isEditingRow ? (
+                          <input
+                            type="number"
+                            min="0"
+                            step="any"
+                            value={reportRowDraft.ppmValue}
+                            onChange={(event) => {
+                              const nextValue = event.currentTarget.value;
+                              setReportRowDraft((prev) => ({ ...prev, ppmValue: nextValue }));
+                            }}
+                            onKeyDown={(event) => {
+                              if (event.key === "Enter") event.preventDefault();
+                            }}
+                            disabled={isUploading || isSavingReportRow}
+                            style={{
+                              width: "140px",
+                              minHeight: "32px",
+                              padding: "6px 8px",
+                              borderRadius: "8px",
+                              border: "1px solid #d1d5db",
+                              fontFamily: "monospace",
+                              fontSize: "13px",
+                              fontWeight: 600,
+                            }}
+                          />
+                        ) : (
+                          row.ppmValue.toFixed(4)
+                        )}
+                      </td>
+                      <td style={{ padding: "8px 12px", color: "#6b7280" }}>{row.unit}</td>
+                      <td style={{ padding: "8px 12px", color: "#6b7280" }}>{row.category || "—"}</td>
+                      <td style={{ padding: "8px 12px" }}>
+                        {isEditingRow ? (
+                          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                            <button
+                              type="button"
+                              onClick={() => saveReportRowValues(row.id)}
+                              disabled={isUploading || isSavingReportRow}
+                              style={{
+                                minHeight: "32px",
+                                padding: "0 12px",
+                                border: 0,
+                                borderRadius: "999px",
+                                background: isUploading || isSavingReportRow ? "#9ca3af" : "#0f766e",
+                                color: "#fff",
+                                fontSize: "12px",
+                                fontWeight: 600,
+                                cursor: isUploading || isSavingReportRow ? "default" : "pointer",
+                              }}
+                            >
+                              {isSavingRow ? "Saving..." : "Save"}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setEditingReportRowId(null)}
+                              disabled={isUploading || isSavingReportRow}
+                              style={{
+                                minHeight: "32px",
+                                padding: "0 12px",
+                                borderRadius: "999px",
+                                border: "1px solid #d1d5db",
+                                background: "#fff",
+                                color: "#111827",
+                                fontSize: "12px",
+                                fontWeight: 600,
+                                cursor: isUploading || isSavingReportRow ? "default" : "pointer",
+                              }}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => startEditingReportRow(row)}
+                            disabled={isUploading || isSavingReportRow}
+                            style={{
+                              minHeight: "32px",
+                              padding: "0 12px",
+                              borderRadius: "999px",
+                              border: "1px solid #d1d5db",
+                              background: "#fff",
+                              color: "#111827",
+                              fontSize: "12px",
+                              fontWeight: 600,
+                              cursor: isUploading || isSavingReportRow ? "default" : "pointer",
+                            }}
+                          >
+                            Edit
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

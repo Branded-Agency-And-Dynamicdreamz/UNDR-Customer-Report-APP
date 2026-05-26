@@ -74,6 +74,7 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
     ...item,
     valueStyle: item.valueStyle || { backgroundColor: '#e5e7eb', color: '#6b7280' },
   }));
+  const hasDetectedPreciousMetals = report.preciousMetalPresent.items.some((item) => Number(item.ppm) > 0);
 
   return (
     <div>
@@ -188,9 +189,9 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
 
      
       {/* 18. Precious Metals Breakdown Heading */}
-      <PreciousMetalsBreakdownHeading />
+      {hasDetectedPreciousMetals && <PreciousMetalsBreakdownHeading />}
       {/* 19. Precious Metals */}
-      <PreciousMetalsSection items={report.preciousMetalPresent.items} />
+      {hasDetectedPreciousMetals && <PreciousMetalsSection items={report.preciousMetalPresent.items} />}
       {/* 20. Precious Metals Breakdown Heading Alt */}
       {/* <PreciousMetalsBreakdownHeadingAlt /> */}
       {/* 21. Precious Metals Not Present */}

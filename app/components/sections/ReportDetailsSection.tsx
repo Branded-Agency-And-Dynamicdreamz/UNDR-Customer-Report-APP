@@ -48,6 +48,7 @@ const ReportDetailsSection = ({
   const showRareEarthElements = quickViewPackage === "premium" || quickViewPackage === "treasure_plus";
   const hasTopRow = showHeavyMetals || (showOilIndicator && quickViewPackage !== "hs_plus");
   const showOilAsInfoBlock = showOilIndicator && quickViewPackage === "hs_plus";
+  const topInfoRowHasBorder = showOilAsInfoBlock || showPreciousMetals || showRareEarthElements;
 
   const renderHeavyMetals = () => (
     <div className="heavy_metals_block">
@@ -73,6 +74,15 @@ const ReportDetailsSection = ({
       <div className="oil_indicator_buttons">
         <div className={`oil_btn ${oilIndicator.crudeOilClassName}`}>{oilIndicator.crudeOil}</div>
         <div className={`oil_btn ${oilIndicator.petroleumClassName}`}>{oilIndicator.petroleum}</div>
+      </div>
+    </div>
+  );
+
+  const renderCrudeOilIndicator = () => (
+    <div className="oil_indicator_block oil_indicator_block_crude_only">
+      <h2 className="report_main_heading">Oil Indicator</h2>
+      <div className="oil_indicator_buttons">
+        <div className={`oil_btn ${oilIndicator.crudeOilClassName}`}>{oilIndicator.crudeOil}</div>
       </div>
     </div>
   );
@@ -115,10 +125,15 @@ const ReportDetailsSection = ({
 
           <div className="report_right_col">
             {hasTopRow && (
-              <div className={`top_info_row ${showHeavyMetals && showOilIndicator && quickViewPackage === "premium" ? "" : "single_info_row"}`}>
+              <div
+                className={`top_info_row ${showHeavyMetals && showOilIndicator && quickViewPackage === "premium" ? "" : "single_info_row"} ${
+                  topInfoRowHasBorder ? "" : "no_border"
+                }`}
+              >
                 {showHeavyMetals && renderHeavyMetals()}
                 {showHeavyMetals && showOilIndicator && quickViewPackage === "premium" && <div className="vertical_divider"></div>}
-                {showOilIndicator && quickViewPackage !== "hs_plus" && renderOilIndicator()}
+                {showOilIndicator && quickViewPackage === "premium" && renderOilIndicator()}
+                {showOilIndicator && quickViewPackage === "treasure_plus" && renderCrudeOilIndicator()}
               </div>
             )}
 

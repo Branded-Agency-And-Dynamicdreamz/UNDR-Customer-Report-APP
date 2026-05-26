@@ -19,8 +19,13 @@ const PreciousMetalPresentSection = ({
   unlockLabel = "Unlock report section",
   premiumUnlockHref,
 }: PreciousMetalPresentSectionProps) => {
+  const hasDetectedPreciousMetals = items.some((item) => Number(item.ppm) > 0);
+
   return (
-    <section className={`precious_metal_present_section${locked ? ' locked' : ''}`} data-item-count={items.length}>
+    <section
+      className={`precious_metal_present_section${locked ? ' locked' : ''}${!locked && !hasDetectedPreciousMetals ? ' zero_state' : ''}`}
+      data-item-count={items.length}
+    >
       <div className="container">
         {locked ? (
           <div className="report_unlock_preview">
@@ -31,6 +36,20 @@ const PreciousMetalPresentSection = ({
               aria-hidden="true"
             />
             <UnlockReportCta href={unlockHref} label={unlockLabel} premiumHref={premiumUnlockHref} />
+          </div>
+        ) : !hasDetectedPreciousMetals ? (
+          <div className="precious_zero_state_content">
+            <div className="precious_zero_value">0</div>
+            <div className="precious_zero_copy">
+              <span className="precious_zero_unit">ppm</span>
+              <h3>Precious Metals Not Detected</h3>
+              <p>
+                The good news? The rest of your report still has plenty to dig into.
+              </p>
+              <p>
+                And don't trade in your shovel just yet--the next scoop could tell a different story.
+              </p>
+            </div>
           </div>
         ) : (
           <>
