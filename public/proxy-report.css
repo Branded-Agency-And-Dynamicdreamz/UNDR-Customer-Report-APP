@@ -2242,13 +2242,218 @@ p {
     height: auto;
 }
 
+.earth_element_breakdown_section .earth_element_unlock_preview {
+    margin-top: 8px;
+    margin-bottom: 96px;
+}
+
+.earth_element_breakdown_section .earth_element_locked_chart {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    min-height: 560px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    background-color: transparent;
+}
+
 .earth_element_breakdown_section .earth_element_locked_preview {
     display: block;
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    filter: blur(2px);
-    opacity: 0.9;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(100%, 1120px);
+    max-width: none;
+    height: auto;
+    filter: blur(5px);
+    opacity: 0.68;
+    transform: translate(-50%, -50%) scale(1.08);
+}
+
+.earth_element_breakdown_section .earth_element_unlock_overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.earth_element_breakdown_section .earth_element_lock_icon {
+    position: relative;
+    width: 160px;
+    height: 205px;
+    margin-bottom: 14px;
+}
+
+.earth_element_breakdown_section .earth_element_lock_shackle {
+    position: absolute;
+    left: 28px;
+    top: 0;
+    width: 96px;
+    height: 112px;
+    border: 20px solid #df8066;
+    border-bottom: 0;
+    border-radius: 58px 58px 0 0;
+}
+
+.earth_element_breakdown_section .earth_element_lock_body {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 160px;
+    height: 122px;
+    background-color: #a52420;
+    border-radius: 18px;
+}
+
+.earth_element_breakdown_section .earth_element_lock_gem {
+    position: absolute;
+    left: 50%;
+    top: 36px;
+    width: 62px;
+    height: 62px;
+    background-color: #ffbd17;
+    clip-path: polygon(50% 0, 100% 76%, 50% 100%, 0 76%);
+    transform: translateX(-50%);
+}
+
+.earth_element_breakdown_section .earth_element_lock_gem::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    right: 5px;
+    bottom: 4px;
+    height: 16px;
+    border: 4px solid rgba(255, 255, 255, 0.4);
+    border-top: 0;
+    border-radius: 0 0 28px 28px;
+}
+
+.earth_element_breakdown_section .earth_element_unlock_text {
+    margin: 0;
+    color: #a52420;
+    font-size: 58px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0;
+}
+
+.earth_element_breakdown_section .rare_earth_zero_state_content {
+    position: relative;
+    width: min(100%, 1040px);
+    margin: 0 auto 96px;
+    padding: 0 18px 32px;
+    overflow: hidden;
+}
+
+.earth_element_breakdown_section .rare_earth_zero_top {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+}
+
+.earth_element_breakdown_section .rare_earth_zero_value {
+    color: #f6b600;
+    font-size: 210px;
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: 0;
+}
+
+.earth_element_breakdown_section .rare_earth_zero_unit {
+    color: #f6b600;
+    font-size: 82px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.earth_element_breakdown_section .rare_earth_zero_state_content h3 {
+    color: #a52420;
+    font-size: 50px;
+    font-weight: 800;
+    line-height: 1.12;
+    margin: 20px 0;
+}
+
+.earth_element_breakdown_section .rare_earth_zero_rule {
+    width: calc(100% - 84px);
+    height: 2px;
+    margin-bottom: 24px;
+    background-color: #9b9b9b;
+}
+
+.earth_element_breakdown_section .rare_earth_zero_bottom {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 32px;
+    align-items: start;
+    width: calc(100% - 84px);
+}
+
+.earth_element_breakdown_section .rare_earth_zero_bars {
+    display: grid;
+    grid-template-columns: repeat(24, 1fr);
+    gap: 9px;
+    min-height: 148px;
+    padding-top: 2px;
+}
+
+.earth_element_breakdown_section .rare_earth_zero_bars span {
+    display: block;
+    height: 146px;
+    border-radius: 999px;
+    background-color: #f3f3f3;
+}
+
+.earth_element_breakdown_section .rare_earth_zero_copy {
+    color: #8b8b8b;
+    font-size: 27px;
+    font-weight: 400;
+    line-height: 1.15;
+}
+
+.earth_element_breakdown_section .rare_earth_zero_copy p {
+    margin: 0 0 18px;
+}
+
+.earth_element_breakdown_section .rare_earth_zero_copy p:last-child {
+    margin-bottom: 0;
+}
+
+.earth_element_breakdown_section .rare_earth_zero_sparkle {
+    position: absolute;
+    z-index: 0;
+    display: block;
+    background-color: #e9e9e9;
+    clip-path: polygon(50% 0, 62% 36%, 100% 50%, 62% 64%, 50% 100%, 38% 64%, 0 50%, 38% 36%);
+    pointer-events: none;
+}
+
+.earth_element_breakdown_section .rare_earth_zero_sparkle.large {
+    top: 18px;
+    right: -92px;
+    width: 210px;
+    height: 210px;
+}
+
+.earth_element_breakdown_section .rare_earth_zero_sparkle.small {
+    top: -44px;
+    right: -24px;
+    width: 104px;
+    height: 104px;
+}
+
+.earth_element_breakdown_section .rare_earth_zero_top,
+.earth_element_breakdown_section .rare_earth_zero_state_content h3,
+.earth_element_breakdown_section .rare_earth_zero_rule,
+.earth_element_breakdown_section .rare_earth_zero_bottom {
+    position: relative;
+    z-index: 1;
 }
 
 @media (max-width: 1199px) {
@@ -2263,6 +2468,39 @@ p {
 
     .earth_element_breakdown_section .sub_title {
         font-size: 34px;
+    }
+
+    .earth_element_breakdown_section .earth_element_locked_chart {
+        min-height: 500px;
+    }
+
+    .earth_element_breakdown_section .earth_element_unlock_preview {
+        margin-bottom: 84px;
+    }
+
+    .earth_element_breakdown_section .earth_element_lock_icon {
+        transform: scale(0.9);
+        margin-bottom: 0;
+    }
+
+    .earth_element_breakdown_section .earth_element_unlock_text {
+        font-size: 50px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_value {
+        font-size: 180px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_unit {
+        font-size: 70px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_state_content h3 {
+        font-size: 44px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_copy {
+        font-size: 24px;
     }
 
 }
@@ -2284,6 +2522,61 @@ p {
 
     .earth_element_breakdown_section .sub_title {
         font-size: 28px;
+    }
+
+    .earth_element_breakdown_section .earth_element_locked_chart {
+        min-height: 420px;
+    }
+
+    .earth_element_breakdown_section .earth_element_unlock_preview {
+        margin-bottom: 72px;
+    }
+
+    .earth_element_breakdown_section .earth_element_lock_icon {
+        transform: scale(0.74);
+        margin-bottom: -14px;
+    }
+
+    .earth_element_breakdown_section .earth_element_unlock_text {
+        font-size: 42px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_state_content {
+        margin-bottom: 76px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_value {
+        font-size: 150px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_unit {
+        font-size: 58px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_state_content h3 {
+        font-size: 36px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_rule,
+    .earth_element_breakdown_section .rare_earth_zero_bottom {
+        width: 100%;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_bottom {
+        gap: 24px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_bars {
+        gap: 6px;
+        min-height: 124px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_bars span {
+        height: 122px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_copy {
+        font-size: 21px;
     }
 
 }
@@ -2311,6 +2604,79 @@ p {
 
     .earth_element_breakdown_section .chart_wrapper {
         max-width: 100%;
+    }
+
+    .earth_element_breakdown_section .earth_element_locked_chart {
+        min-height: 320px;
+    }
+
+    .earth_element_breakdown_section .earth_element_unlock_preview {
+        margin-bottom: 56px;
+    }
+
+    .earth_element_breakdown_section .earth_element_locked_preview {
+        width: 145%;
+    }
+
+    .earth_element_breakdown_section .earth_element_lock_icon {
+        transform: scale(0.52);
+        margin-bottom: -38px;
+    }
+
+    .earth_element_breakdown_section .earth_element_unlock_text {
+        font-size: 32px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_state_content {
+        margin-bottom: 58px;
+        padding: 0 0 20px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_top {
+        gap: 12px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_value {
+        font-size: 108px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_unit {
+        font-size: 42px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_state_content h3 {
+        font-size: 28px;
+        margin: 14px 0;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_bottom {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_bars {
+        grid-template-columns: repeat(18, 1fr);
+        min-height: 70px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_bars span {
+        height: 70px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_copy {
+        font-size: 19px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_sparkle.large {
+        right: -68px;
+        width: 140px;
+        height: 140px;
+    }
+
+    .earth_element_breakdown_section .rare_earth_zero_sparkle.small {
+        right: -18px;
+        width: 70px;
+        height: 70px;
     }
 
 }

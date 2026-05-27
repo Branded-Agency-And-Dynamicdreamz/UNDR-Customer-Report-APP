@@ -19,11 +19,11 @@ const PreciousMetalPresentSection = ({
   unlockLabel = "Unlock report section",
   premiumUnlockHref,
 }: PreciousMetalPresentSectionProps) => {
-  const hasDetectedPreciousMetals = items.some((item) => Number(item.ppm) > 0);
+  const canShowPreciousMetalsChart = items.length > 0 && items.every((item) => Number(item.ppm) > 0);
 
   return (
     <section
-      className={`precious_metal_present_section${locked ? ' locked' : ''}${!locked && !hasDetectedPreciousMetals ? ' zero_state' : ''}`}
+      className={`precious_metal_present_section${locked ? ' locked' : ''}${!locked && !canShowPreciousMetalsChart ? ' zero_state' : ''}`}
       data-item-count={items.length}
     >
       <div className="container">
@@ -37,7 +37,7 @@ const PreciousMetalPresentSection = ({
             />
             <UnlockReportCta href={unlockHref} label={unlockLabel} premiumHref={premiumUnlockHref} />
           </div>
-        ) : !hasDetectedPreciousMetals ? (
+        ) : !canShowPreciousMetalsChart ? (
           <div className="precious_zero_state_content">
             <div className="precious_zero_value">0</div>
             <div className="precious_zero_copy">

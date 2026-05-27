@@ -74,7 +74,9 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
     ...item,
     valueStyle: item.valueStyle || { backgroundColor: '#e5e7eb', color: '#6b7280' },
   }));
-  const hasDetectedPreciousMetals = report.preciousMetalPresent.items.some((item) => Number(item.ppm) > 0);
+  const canShowPreciousMetalsChart =
+    report.preciousMetalPresent.items.length > 0 &&
+    report.preciousMetalPresent.items.every((item) => Number(item.ppm) > 0);
 
   return (
     <div>
@@ -109,6 +111,7 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
       {/* 13. Earth Elements Breakdown */}
       {shouldShowRareEarthBreakdown && (
         <EarthElementsBreakdownSection
+          items={report.earthElementsBreakdown.items}
           locked={canUnlockRareEarthBreakdown}
           lockedPreviewImageUrl={`${appUrl}/images/rare-earth-elements-locked-preview.png`}
           unlockHref={unlockHref('rare_earth')}
@@ -116,6 +119,18 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
           premiumUnlockHref={premiumUnlockHref}
         />
       )}
+       {shouldShowOilBreakdown && (
+        <OilContaminantsSection
+          status={report.oilContaminants.status}
+          value={report.oilContaminants.value}
+          locked={canUnlockOilBreakdown}
+          lockedPreviewImageUrl={`${appUrl}/images/oil-contaminants-locked-preview.png`}
+          unlockHref={unlockHref('crude_oil')}
+          unlockLabel={unlockLabel('crude_oil', 'Crude Oil')}
+          premiumUnlockHref={premiumUnlockHref}
+        />
+      )}
+      
       {shouldShowPetroleumBreakdown && (
         <>
           {/* 7. Petroleum Contaminants */}
@@ -136,17 +151,7 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
         </>
       )}
 
-      {shouldShowOilBreakdown && (
-        <OilContaminantsSection
-          status={report.oilContaminants.status}
-          value={report.oilContaminants.value}
-          locked={canUnlockOilBreakdown}
-          lockedPreviewImageUrl={`${appUrl}/images/oil-contaminants-locked-preview.png`}
-          unlockHref={unlockHref('crude_oil')}
-          unlockLabel={unlockLabel('crude_oil', 'Crude Oil')}
-          premiumUnlockHref={premiumUnlockHref}
-        />
-      )}
+     
 
       {/* 5. Heavy Metal Breakdown */}
       <HeavyMetalBreakdownSection />
@@ -189,9 +194,9 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
 
      
       {/* 18. Precious Metals Breakdown Heading */}
-      {hasDetectedPreciousMetals && <PreciousMetalsBreakdownHeading />}
+      {canShowPreciousMetalsChart && <PreciousMetalsBreakdownHeading />}
       {/* 19. Precious Metals */}
-      {hasDetectedPreciousMetals && <PreciousMetalsSection items={report.preciousMetalPresent.items} />}
+      {canShowPreciousMetalsChart && <PreciousMetalsSection items={report.preciousMetalPresent.items} />}
       {/* 20. Precious Metals Breakdown Heading Alt */}
       {/* <PreciousMetalsBreakdownHeadingAlt /> */}
       {/* 21. Precious Metals Not Present */}

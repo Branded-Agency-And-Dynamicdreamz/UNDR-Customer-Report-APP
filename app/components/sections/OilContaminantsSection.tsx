@@ -11,7 +11,6 @@ type OilContaminantsSectionProps = {
 };
 
 const OilContaminantsSection = ({
-  status,
   value,
   locked = false,
   unlockHref,
@@ -19,13 +18,12 @@ const OilContaminantsSection = ({
   premiumUnlockHref,
 }: OilContaminantsSectionProps) => {
   const numericValue = Number((value || "").match(/-?\d+(?:\.\d+)?/)?.[0] || 0);
-  const displayStatus = Number.isFinite(numericValue) && numericValue > 0 ? "Found" : status || "Not Found";
+  const hasOilValue = Number.isFinite(numericValue) && numericValue > 0;
+  const displayStatus = hasOilValue ? "Found" : "Not Detected";
   const formattedValue = Number.isFinite(numericValue)
     ? (Number.isInteger(numericValue) ? String(numericValue) : numericValue.toFixed(2).replace(/\.?0+$/, ""))
     : "0";
-  const displayValue = Number.isFinite(numericValue) && numericValue > 0
-    ? `~${formattedValue} ppm`
-    : `${formattedValue} ppm`;
+  const displayValue = hasOilValue ? `~${formattedValue} ppm` : "";
 
   return (
     <section className="oil_contaminants_section">
@@ -48,7 +46,7 @@ const OilContaminantsSection = ({
         ) : (
           <div className="crude_oil_result_card">
             <span className="crude_oil_result_status">{displayStatus}</span>
-            <span className="crude_oil_result_value">{displayValue}</span>
+            {displayValue ? <span className="crude_oil_result_value">{displayValue}</span> : null}
           </div>
         )}
       </div>
