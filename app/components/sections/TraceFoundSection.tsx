@@ -65,12 +65,22 @@ const TraceFoundSection = ({
       <div className="container">
         {locked && lockedPreviewImageUrl ? (
           <div className="report_unlock_preview">
-            <img
-              src={lockedPreviewImageUrl}
-              alt=""
-              className="oil_breakdown_locked_preview"
-              aria-hidden="true"
-            />
+            <div className="petroleum_locked_chart" aria-hidden="true">
+              <img
+                src={lockedPreviewImageUrl}
+                alt=""
+                className="oil_breakdown_locked_preview"
+              />
+              <div className="petroleum_unlock_overlay">
+                <div className="petroleum_lock_icon">
+                  <span className="petroleum_lock_shackle" />
+                  <span className="petroleum_lock_body">
+                    <span className="petroleum_lock_gem" />
+                  </span>
+                </div>
+                <p className="petroleum_unlock_text">Unlock Chart</p>
+              </div>
+            </div>
             <UnlockReportCta href={unlockHref} label={unlockLabel} premiumHref={premiumUnlockHref} />
           </div>
         ) : (

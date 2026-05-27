@@ -76,6 +76,38 @@ export const UNLOCK_OFFERS: Record<UnlockModule, UnlockOffer> = {
   },
 };
 
+const FINDASH_15_SHOP = "findash-shipping-15.myshopify.com";
+
+const FINDASH_15_VARIANT_IDS: Record<UnlockModule, string> = {
+  precious_metals: "47653663375523",
+  rare_earth: "47653663408291",
+  crude_oil: "47653663441059",
+  petroleum: "47653663473827",
+  heavy_metals: "47653663506595",
+  premium: "47653663539363",
+};
+
+function normalizeShopDomain(shop?: string | null) {
+  return String(shop || "").trim().toLowerCase();
+}
+
+export function getUnlockOffer(module: UnlockModule, shop?: string | null) {
+  const offer = UNLOCK_OFFERS[module];
+
+  if (normalizeShopDomain(shop) !== FINDASH_15_SHOP) {
+    return offer;
+  }
+
+  return {
+    ...offer,
+    variantId: FINDASH_15_VARIANT_IDS[module],
+  };
+}
+
+export function getUnlockOffersForShop(shop?: string | null) {
+  return UNLOCK_MODULES.map((module) => getUnlockOffer(module, shop));
+}
+
 export function isUnlockModule(value: string): value is UnlockModule {
   return UNLOCK_MODULES.includes(value as UnlockModule);
 }

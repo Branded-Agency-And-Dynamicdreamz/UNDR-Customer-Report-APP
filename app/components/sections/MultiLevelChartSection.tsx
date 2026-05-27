@@ -96,12 +96,22 @@ const MultiLevelChartSection = ({
       <div className="container">
         {locked && lockedPreviewImageUrl ? (
           <div className="report_unlock_preview">
-            <img
-              src={lockedPreviewImageUrl}
-              alt=""
-              className="heavy_metals_breakdown_locked_preview"
-              aria-hidden="true"
-            />
+            <div className="heavy_metals_locked_chart" aria-hidden="true">
+              <img
+                src={lockedPreviewImageUrl}
+                alt=""
+                className="heavy_metals_breakdown_locked_preview"
+              />
+              <div className="heavy_metals_unlock_overlay">
+                <div className="heavy_metals_lock_icon">
+                  <span className="heavy_metals_lock_shackle" />
+                  <span className="heavy_metals_lock_body">
+                    <span className="heavy_metals_lock_gem" />
+                  </span>
+                </div>
+                <p className="heavy_metals_unlock_text">Unlock Chart</p>
+              </div>
+            </div>
             <UnlockReportCta href={unlockHref} label={unlockLabel} premiumHref={premiumUnlockHref} />
           </div>
         ) : (

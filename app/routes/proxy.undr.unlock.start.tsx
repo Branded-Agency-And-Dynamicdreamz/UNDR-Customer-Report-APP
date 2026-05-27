@@ -2,7 +2,7 @@ import { redirect, type LoaderFunctionArgs } from "react-router";
 
 import { getRegistrationByKitNumber } from "../models/registration.server";
 import { authenticate } from "../shopify.server";
-import { isReportPackage, isUnlockModule, UNLOCK_OFFERS } from "../lib/report-packages";
+import { getUnlockOffer, isReportPackage, isUnlockModule } from "../lib/report-packages";
 
 function encodeCartProperties(properties: Record<string, string>) {
   return Buffer.from(JSON.stringify(properties))
@@ -61,7 +61,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     return liquid(renderUnlockError("We could not match this report to the current store."), { layout: true });
   }
 
-  const offer = UNLOCK_OFFERS[module];
+  const offer = getUnlockOffer(module, requestingShop);
   const reportPackage = isReportPackage(requestedReportPackage)
     ? requestedReportPackage
     : registration.reportPackage;

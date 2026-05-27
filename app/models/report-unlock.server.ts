@@ -2,7 +2,8 @@ import type { Prisma } from "@prisma/client";
 
 import prisma from "../db.server";
 import {
-  UNLOCK_OFFERS,
+  getUnlockOffer,
+  getUnlockOffersForShop,
   isReportPackage,
   isUnlockModule,
   type UnlockModule,
@@ -37,26 +38,26 @@ function getProperty(lineItem: ShopifyLineItem, name: string) {
   ).trim();
 }
 
-function findModuleFromLineItem(lineItem: ShopifyLineItem): UnlockModule | null {
+function findModuleFromLineItem(lineItem: ShopifyLineItem, shop: string): UnlockModule | null {
   const explicitModule = getProperty(lineItem, "_undr_unlock").toLowerCase();
   if (isUnlockModule(explicitModule)) return explicitModule;
 
   const variantId = String(lineItem.variant_id || "").trim();
   const sku = String(lineItem.sku || "").trim();
-  const offer = Object.values(UNLOCK_OFFERS).find(
+  const offer = getUnlockOffersForShop(shop).find(
     (item) => item.variantId === variantId || item.sku === sku,
   );
 
   return offer?.module || null;
 }
 
-function getLineItemAmountCents(lineItem: ShopifyLineItem, module: UnlockModule) {
+function getLineItemAmountCents(lineItem: ShopifyLineItem, module: UnlockModule, shop: string) {
   const price = Number(lineItem.price);
   if (Number.isFinite(price) && price > 0) {
     return Math.round(price * 100);
   }
 
-  return UNLOCK_OFFERS[module].priceCents;
+  return getUnlockOffer(module, shop).priceCents;
 }
 
 function jsonPayload(payload: ShopifyOrderPayload): Prisma.InputJsonValue {
@@ -74,7 +75,7 @@ export async function recordPaidReportUnlocks(input: {
   const lineItems = input.payload.line_items || [];
 
   for (const lineItem of lineItems) {
-    const module = findModuleFromLineItem(lineItem);
+    const module = findModuleFromLineItem(lineItem, input.shop);
     if (!module) continue;
 
     const kitRegistrationNumber = getProperty(lineItem, "_undr_kit");
@@ -113,7 +114,7 @@ export async function recordPaidReportUnlocks(input: {
         reportId: registration.report?.id ?? null,
         module,
         reportPackage: paidReportPackage,
-        amountCents: getLineItemAmountCents(lineItem, module),
+        amountCents: getLineItemAmountCents(lineItem, module, input.shop),
         currency: String(input.payload.currency || "USD").toUpperCase(),
         status: "paid",
         source: "shopify_order",
@@ -122,7 +123,7 @@ export async function recordPaidReportUnlocks(input: {
       },
       update: {
         reportId: registration.report?.id ?? null,
-        amountCents: getLineItemAmountCents(lineItem, module),
+        amountCents: getLineItemAmountCents(lineItem, module, input.shop),
         currency: String(input.payload.currency || "USD").toUpperCase(),
         status: "paid",
         source: "shopify_order",

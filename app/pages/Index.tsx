@@ -57,13 +57,14 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
       reportPackage === 'hs_base' ||
       reportPackage === 'hs_plus');
   const shouldShowRareEarthBreakdown = canDisplayRareEarthBreakdown || canUnlockRareEarthBreakdown;
-  const canHideOilBreakdown = reportPackage === 'treasure_base' || reportPackage === 'hs_base';
-  const canDisplayOilBreakdown = reportPackage === 'treasure_plus' || reportPackage === 'premium' || hasCrudeOilUnlock;
-  const canUnlockOilBreakdown = !hasCrudeOilUnlock && (reportPackage === 'hs_plus' || canHideOilBreakdown);
+  const canDisplayOilBreakdown =
+    reportPackage === 'treasure_plus' ||
+    reportPackage === 'premium' ||
+    (reportPackage === 'hs_plus' && hasCrudeOilUnlock);
+  const canUnlockOilBreakdown = !hasCrudeOilUnlock && reportPackage === 'hs_plus';
   const shouldShowOilBreakdown = canDisplayOilBreakdown || canUnlockOilBreakdown;
-  const canHidePetroleumBreakdown = reportPackage === 'treasure_base' || reportPackage === 'hs_base';
   const canDisplayPetroleumBreakdown = reportPackage === 'hs_plus' || reportPackage === 'premium' || hasPetroleumUnlock;
-  const canUnlockPetroleumBreakdown = !hasPetroleumUnlock && (reportPackage === 'treasure_plus' || canHidePetroleumBreakdown);
+  const canUnlockPetroleumBreakdown = !hasPetroleumUnlock && reportPackage === 'treasure_plus';
   const shouldShowPetroleumBreakdown =
     canDisplayPetroleumBreakdown || canUnlockPetroleumBreakdown;
   const foundElementsForList = report.foundElements.map((item) => ({
