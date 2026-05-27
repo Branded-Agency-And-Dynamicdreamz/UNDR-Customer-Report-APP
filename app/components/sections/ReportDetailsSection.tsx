@@ -68,12 +68,27 @@ const ReportDetailsSection = ({
     </div>
   );
 
+  const renderSplitOilButton = (text: string, className: string) => {
+    const parts = text.match(/^([^:]+):\s*(.+)$/);
+
+    if (!parts) {
+      return <div className={`oil_btn ${className}`}>{text}</div>;
+    }
+
+    return (
+      <div className={`oil_btn oil_btn_split ${className}`}>
+        <span className="oil_btn_label">{parts[1]}</span>
+        <span className="oil_btn_value">{parts[2]}</span>
+      </div>
+    );
+  };
+
   const renderOilIndicator = () => (
     <div className="oil_indicator_block">
       <h2 className="report_main_heading">Oil Indicator</h2>
       <div className="oil_indicator_buttons">
         <div className={`oil_btn ${oilIndicator.crudeOilClassName}`}>{oilIndicator.crudeOil}</div>
-        <div className={`oil_btn ${oilIndicator.petroleumClassName}`}>{oilIndicator.petroleum}</div>
+        {renderSplitOilButton(oilIndicator.petroleum, oilIndicator.petroleumClassName)}
       </div>
     </div>
   );

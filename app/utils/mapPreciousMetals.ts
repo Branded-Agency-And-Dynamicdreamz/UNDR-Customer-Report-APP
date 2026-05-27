@@ -25,8 +25,8 @@ const asNumber = (value: unknown): number | null => {
 };
 
 const formatPpm = (value: number): string => {
-  if (!Number.isFinite(value)) return "0ppm";
-  return `${Math.round(value)}ppm`;
+  if (!Number.isFinite(value)) return "0 ppm";
+  return `${Math.round(value)} ppm`;
 };
 
 const mapOne = (row: RawPreciousMetalRow): { item: MetalCardItem; ppm: number } | null => {
@@ -73,4 +73,3 @@ export function mapPreciousMetals(rows: unknown): MetalCardItem[] {
 
   return top3;
 }
-
