@@ -37,9 +37,20 @@ const OilContaminantsSection = ({
       <div className="container">
         {locked ? (
           <div className="report_unlock_preview crude_oil_unlock_preview">
-            <div className="crude_oil_result_card crude_oil_result_card_locked" aria-hidden="true">
-              <span className="crude_oil_result_status">Found</span>
-              <span className="crude_oil_result_value">~2 ppm</span>
+            <div className="crude_oil_locked_card" aria-hidden="true">
+              <div className="crude_oil_result_card crude_oil_result_card_locked">
+                <span className="crude_oil_result_status">Found</span>
+                <span className="crude_oil_result_value">~2 ppm</span>
+              </div>
+              <div className="crude_oil_unlock_overlay">
+                <div className="crude_oil_lock_icon">
+                  <span className="crude_oil_lock_shackle" />
+                  <span className="crude_oil_lock_body">
+                    <span className="crude_oil_lock_gem" />
+                  </span>
+                </div>
+                <p className="crude_oil_unlock_text">Unlock Chart</p>
+              </div>
             </div>
             <UnlockReportCta href={unlockHref} label={unlockLabel} premiumHref={premiumUnlockHref} />
           </div>

@@ -29,12 +29,22 @@ const PreciousMetalPresentSection = ({
       <div className="container">
         {locked ? (
           <div className="report_unlock_preview">
-            <img
-              src={lockedPreviewImageUrl}
-              alt=""
-              className="precious_metal_locked_preview"
-              aria-hidden="true"
-            />
+            <div className="precious_metal_locked_chart" aria-hidden="true">
+              <img
+                src={lockedPreviewImageUrl}
+                alt=""
+                className="precious_metal_locked_preview"
+              />
+              <div className="precious_metal_unlock_overlay">
+                <div className="precious_metal_lock_icon">
+                  <span className="precious_metal_lock_shackle" />
+                  <span className="precious_metal_lock_body">
+                    <span className="precious_metal_lock_gem" />
+                  </span>
+                </div>
+                <p className="precious_metal_unlock_text">Unlock Chart</p>
+              </div>
+            </div>
             <UnlockReportCta href={unlockHref} label={unlockLabel} premiumHref={premiumUnlockHref} />
           </div>
         ) : !canShowPreciousMetalsChart ? (
