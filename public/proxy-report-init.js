@@ -323,18 +323,17 @@
     var d3 = window.d3;
     d3.select(chartRef).selectAll("*").remove();
 
-    var data = (reportData.earthElementsBreakdown.items || []).map(function (item) { return Object.assign({}, item); });
-    if (!data.length) return;
     var isMobile = window.innerWidth < 767;
     var width = 1000;
-    var compactChart = data.length <= 6;
-    var height = compactChart ? (isMobile ? 640 : 470) : (isMobile ? 980 : 720);
+    var height = isMobile ? 1100 : 900;
 
     var svg = d3.select(chartRef)
       .append("svg")
       .attr("viewBox", "0 0 " + width + " " + height)
       .attr("preserveAspectRatio", "xMidYMid meet");
 
+    var data = (reportData.earthElementsBreakdown.items || []).map(function (item) { return Object.assign({}, item); });
+    if (!data.length) return;
     var minPpm = d3.min(data, function (item) { return item.ppm; }) || 2;
     var maxPpm = d3.max(data, function (item) { return item.ppm; }) || 31;
     var radiusScale = d3.scaleSqrt().domain([minPpm, maxPpm]).range([isMobile ? 55 : 50, isMobile ? 130 : 120]);
