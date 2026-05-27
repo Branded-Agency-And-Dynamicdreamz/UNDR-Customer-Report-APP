@@ -894,14 +894,23 @@ p {
     padding: 0 20px 40px 0px;
     display: flex;
     flex-direction: column;
-    justify-content:space-between;
+    /* justify-content:space-between; */
 }
 
 .elemental_breakdown_section .report_title {
-    font-weight: 600;
-    font-size: 50px;
+    font-weight: 700;
+    font-size: 74px;
     line-height: 68px;
     color: #8B2323;
+}
+
+.elemental_breakdown_section.other_trace_elements_section .report_title {
+    font-weight: 600;
+    font-size: 50px;
+}
+
+.elemental_breakdown_section.other_trace_elements_section .report_left_content {
+    justify-content: space-between;
 }
 
 .elemental_breakdown_section .report_subtitle {
