@@ -4555,6 +4555,84 @@ p {
     margin-bottom: 14px;
 }
 
+/* PDF-only layout tightening. The browser report keeps the larger editorial spacing. */
+.pdf_render .heavy_metal_breakdown_section.precious_metal_breakdown_section {
+    margin-top: 28px;
+    padding: 40px 0;
+    border-bottom-right-radius: 110px;
+}
+
+.pdf_render .precious_metal_present_section.zero_state {
+    padding: 18px 0 22px;
+}
+
+.pdf_render .precious_metal_present_section .precious_zero_state_content {
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.pdf_render .precious_metal_present_section .precious_zero_value {
+    font-size: 205px;
+    line-height: 0.72;
+}
+
+.pdf_render .precious_metal_present_section .precious_zero_unit {
+    font-size: 64px;
+    line-height: 0.84;
+    margin-bottom: 8px;
+}
+
+.pdf_render .precious_metal_present_section .precious_zero_copy h3 {
+    font-size: 18px;
+    line-height: 1.15;
+    margin-bottom: 6px;
+}
+
+.pdf_render .precious_metal_present_section .precious_zero_copy p {
+    font-size: 16px;
+    line-height: 1.2;
+    margin-bottom: 8px;
+}
+
+.pdf_render .oil_contaminants_section {
+    padding-bottom: 12px;
+}
+
+.pdf_render .oil_contaminants_section .crude_oil_header_band {
+    margin-bottom: 18px;
+    padding: 34px 0 30px;
+    border-bottom-right-radius: 110px;
+}
+
+.pdf_render .oil_contaminants_section .crude_oil_header_inner {
+    min-height: 72px;
+}
+
+.pdf_render .oil_contaminants_section .crude_oil_title {
+    font-size: 44px;
+}
+
+.pdf_render .oil_contaminants_section .crude_oil_result_card {
+    width: min(100%, 420px);
+    min-height: 104px;
+    gap: 28px;
+    padding: 26px 28px;
+}
+
+.pdf_render .oil_contaminants_section .crude_oil_result_status,
+.pdf_render .oil_contaminants_section .crude_oil_result_value {
+    font-size: 34px;
+}
+
+.pdf_render .petroleum_contaminants_section {
+    margin-top: 20px;
+}
+
+.pdf_render .heavy_metal_breakdown_section.petroleum_contaminants_section {
+    padding: 40px 0;
+    border-bottom-right-radius: 110px;
+}
+
 @media (max-width: 1199px) {
 
     .additional_resources_intro p {

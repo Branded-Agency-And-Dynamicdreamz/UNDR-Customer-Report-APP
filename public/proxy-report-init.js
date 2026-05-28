@@ -472,6 +472,10 @@
           backgroundColor: "#ffffff",
           windowWidth: Math.max(reportElement.scrollWidth, document.documentElement.scrollWidth),
           onclone: function (clonedDocument) {
+            clonedDocument.documentElement.classList.add("pdf_render");
+            if (clonedDocument.body) {
+              clonedDocument.body.classList.add("pdf_render");
+            }
             clonedDocument.querySelectorAll(".oil_label, .oil_found_text, .oil_ppm_value, .crude_oil_title, .crude_oil_result_status, .crude_oil_result_value").forEach(function (element) {
               element.style.color = "#ffffff";
               element.style.opacity = "1";
@@ -556,10 +560,12 @@
               if (canvas.width > 0 && canvas.height > 0) {
                 items.push({
                   canvas: canvas,
-                  oilTexts: drawOilTextOnCanvas(canvas, section),
+                  keepWithNext: false,
+                  oilTexts: [],
                   canSplit:
                     section.classList.contains("found_elements_list_section") ||
-                    section.classList.contains("not_found_elements_list_section"),
+                    section.classList.contains("not_found_elements_list_section") ||
+                    section.classList.contains("additional_resources_section"),
                 });
               }
               return items;
@@ -579,6 +585,18 @@
               var imageData = canvas.toDataURL("image/jpeg", 0.98);
               var imageHeight = (canvas.height * availableWidth) / canvas.width;
               var remainingPageHeight = pageHeight - cursorY;
+
+              if (item.keepWithNext && index < items.length - 1 && cursorY > 0) {
+                var nextCanvas = items[index + 1].canvas;
+                var nextImageHeight = (nextCanvas.height * availableWidth) / nextCanvas.width;
+                var nextPreviewHeight = Math.min(nextImageHeight, pageHeight * 0.45);
+
+                if (cursorY + imageHeight + nextPreviewHeight > pageHeight) {
+                  pdf.addPage();
+                  cursorY = 0;
+                  remainingPageHeight = pageHeight;
+                }
+              }
 
               if (
                 index > 0 &&
