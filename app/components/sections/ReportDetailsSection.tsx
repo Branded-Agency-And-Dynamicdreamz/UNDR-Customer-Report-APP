@@ -77,7 +77,7 @@ const ReportDetailsSection = ({
 
     return (
       <div className={`oil_btn oil_btn_split ${className}`}>
-        <span className="oil_btn_label">{parts[1]}</span>
+        <span className="oil_btn_label">{parts[1]} :</span>
         <span className="oil_btn_value">{parts[2]}</span>
       </div>
     );
