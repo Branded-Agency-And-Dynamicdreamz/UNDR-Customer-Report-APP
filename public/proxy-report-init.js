@@ -486,6 +486,27 @@
               element.style.display = "inline-block";
               element.style.fontWeight = "700";
             });
+            clonedDocument.querySelectorAll(".precious_zero_unit").forEach(function (element) {
+              element.style.webkitTextFillColor = "#9e2a1f";
+              element.style.color = "#9e2a1f";
+            });
+            clonedDocument.querySelectorAll(".precious_zero_value").forEach(function (element) {
+              var rect = element.getBoundingClientRect();
+              var svg = clonedDocument.createElementNS("http://www.w3.org/2000/svg", "svg");
+              svg.setAttribute("class", element.getAttribute("class") || "precious_zero_value");
+              svg.setAttribute("viewBox", "0 0 260 360");
+              svg.setAttribute("aria-label", "0");
+              svg.innerHTML =
+                '<ellipse cx="130" cy="178" rx="70" ry="128" fill="none" stroke="#a32720" stroke-width="48"></ellipse>' +
+                '<path d="M130 50A70 128 0 0 0 60 178" fill="none" stroke="#85878a" stroke-width="48" stroke-linecap="butt"></path>' +
+                '<path d="M130 50A70 128 0 0 1 190 244" fill="none" stroke="#f6b315" stroke-width="48" stroke-linecap="butt"></path>' +
+                '<path d="M60 178A70 128 0 0 0 130 306" fill="none" stroke="#a32720" stroke-width="48" stroke-linecap="butt"></path>';
+              svg.style.width = Math.round(rect.width * 0.9) + "px";
+              svg.style.height = Math.round(rect.height * 0.9) + "px";
+              svg.style.display = "block";
+              svg.style.flex = "0 0 auto";
+              element.replaceWith(svg);
+            });
           },
         };
 
@@ -562,30 +583,13 @@
 
             var pdfWidth = 1152;
             var pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-            var maxPdfPageHeight = 14400;
-            var pageHeight = Math.min(pdfHeight, maxPdfPageHeight);
             var pdf = new jsPDF({
               unit: "pt",
-              format: [pdfWidth, pageHeight],
+              format: [pdfWidth, pdfHeight],
               orientation: "portrait",
             });
             var imageData = canvas.toDataURL("image/jpeg", 0.96);
-
-            if (pdfHeight <= maxPdfPageHeight) {
-              pdf.addImage(imageData, "JPEG", 0, 0, pdfWidth, pdfHeight);
-            } else {
-              var y = 0;
-              var remainingHeight = pdfHeight;
-              pdf.addImage(imageData, "JPEG", 0, y, pdfWidth, pdfHeight);
-              remainingHeight -= pageHeight;
-
-              while (remainingHeight > 0) {
-                y = remainingHeight - pdfHeight;
-                pdf.addPage([pdfWidth, Math.min(remainingHeight, maxPdfPageHeight)], "portrait");
-                pdf.addImage(imageData, "JPEG", 0, y, pdfWidth, pdfHeight);
-                remainingHeight -= maxPdfPageHeight;
-              }
-            }
+            pdf.addImage(imageData, "JPEG", 0, 0, pdfWidth, pdfHeight);
 
             pdf.save((customerName || "report") + "-undr-report.pdf");
           })

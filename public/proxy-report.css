@@ -2285,13 +2285,11 @@ p {
     line-height: normal;
     letter-spacing: 0;
     flex: 0 0 auto;
-    background: linear-gradient(118deg, transparent 49.6%, rgba(255, 255, 255, 0.16) 50%, transparent 50.4%),
-        linear-gradient(145deg, transparent 49.6%, rgba(255, 255, 255, 0.13) 50%, transparent 50.4%),
-        conic-gradient(from 0deg,
-            #f6b315 0deg 130deg,
-            #a32720 90deg 214deg,
-            #9f241f 214deg 270deg,
-            #85878a 270deg 360deg);
+    background: conic-gradient(from 0deg,
+        #f6b315 0deg 130deg,
+        #a32720 90deg 214deg,
+        #9f241f 214deg 270deg,
+        #85878a 270deg 360deg);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

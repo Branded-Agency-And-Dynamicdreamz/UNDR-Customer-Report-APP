@@ -751,6 +751,15 @@ function getHeavyMetalDisplayOrder(input: string) {
   return HEAVY_METAL_DISPLAY_ORDER_INDEX.get(normalizedName) ?? Number.MAX_SAFE_INTEGER;
 }
 
+function isChromiumOrLead(input: string) {
+  const key = input.trim().toLowerCase();
+  const symbol = key.match(/\(([a-z0-9]+)\)\s*$/)?.[1];
+  const normalizedName = symbol && ELEMENT_NAME_MAP[symbol]
+    ? ELEMENT_NAME_MAP[symbol].toLowerCase()
+    : ELEMENT_NAME_MAP[key]?.toLowerCase() || key.replace(/\s*\([^)]+\)\s*$/, "");
+  return normalizedName === "chromium" || normalizedName === "lead";
+}
+
 function buildScaleLabels(max: number, step: number) {
   const labels: string[] = [];
   for (let value = 0; value <= max; value += step) {
@@ -1136,9 +1145,8 @@ base.foundElements = found.slice(0, 60)
       if (orderDiff !== 0) return orderDiff;
       return a.ppmValue - b.ppmValue;
     });
-    const group1Threshold = 35;
-    const group1Source = sortedHeavyMetalRows.filter((r) => r.ppmValue <= group1Threshold);
-    const group2Source = sortedHeavyMetalRows.filter((r) => r.ppmValue > group1Threshold);
+    const group1Source = sortedHeavyMetalRows.filter((r) => !isChromiumOrLead(r.element));
+    const group2Source = sortedHeavyMetalRows.filter((r) => isChromiumOrLead(r.element));
 
     base.multiLevelCharts.group1Rows = group1Source.map((r) => {
       const maxVal = base.multiLevelCharts.group1Max;
