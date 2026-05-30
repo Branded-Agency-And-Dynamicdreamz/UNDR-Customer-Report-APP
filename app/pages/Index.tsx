@@ -90,13 +90,14 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
         oilIndicator={report.reportDetails.oilIndicator}
         preciousMetals={report.reportDetails.preciousMetals}
         rareEarthElements={report.reportDetails.rareEarthElements}
+        appUrl={appUrl}
       />
       {/* 3. Elemental Breakdown */}
       <ElementalBreakdownSection />
       {/* 4. Other Trace Elements */}
-      <OtherTraceElementsSection />
+      <OtherTraceElementsSection appUrl={appUrl} />
       {/* 11. Precious Metals Breakdown */}
-      {shouldShowPreciousBreakdown && <PreciousMetalsBreakdownSection />}
+  {shouldShowPreciousBreakdown && <PreciousMetalsBreakdownSection appUrl={appUrl} />}
       {/* 12. Precious Metal Present */}
       {shouldShowPreciousBreakdown && (
         <PreciousMetalPresentSection
@@ -106,6 +107,7 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
           unlockHref={unlockHref('precious_metals')}
           unlockLabel={unlockLabel('precious_metals', 'Precious Metals')}
           premiumUnlockHref={premiumUnlockHref}
+          appUrl={appUrl}
         />
       )}
 
@@ -118,6 +120,7 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
           unlockHref={unlockHref('rare_earth')}
           unlockLabel={unlockLabel('rare_earth', 'REEs')}
           premiumUnlockHref={premiumUnlockHref}
+          appUrl={appUrl}
         />
       )}
        {shouldShowOilBreakdown && (
@@ -129,6 +132,7 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
           unlockHref={unlockHref('crude_oil')}
           unlockLabel={unlockLabel('crude_oil', 'Crude Oil')}
           premiumUnlockHref={premiumUnlockHref}
+          appUrl={appUrl}
         />
       )}
       

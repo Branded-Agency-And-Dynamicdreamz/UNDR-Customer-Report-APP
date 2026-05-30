@@ -8,6 +8,7 @@ type EarthElementsBreakdownSectionProps = {
   unlockHref?: string;
   unlockLabel?: string;
   premiumUnlockHref?: string;
+  appUrl?: string;
 };
 
 const EarthElementsBreakdownSection = ({
@@ -17,6 +18,7 @@ const EarthElementsBreakdownSection = ({
   unlockHref,
   unlockLabel = "Unlock report section",
   premiumUnlockHref,
+  appUrl = '',
 }: EarthElementsBreakdownSectionProps) => {
   const hasDetectedRareEarthElements = items.some((item) => Number(item.ppm) > 0);
 
@@ -28,6 +30,10 @@ const EarthElementsBreakdownSection = ({
             <h2 className="main_title">Rare Earth<br />Elements Breakdown</h2>
           </div>
         </div>
+
+  {/* appUrl defaults to '' so this safely resolves to '/images/REEB-icon.svg' when empty */}
+  <img src={`${appUrl}/images/REEB-icon.svg`} className="rare_earth_breakdown_icon" alt="Icon" />
+
       </div>
       <div className="container">
         {!locked && hasDetectedRareEarthElements ? (

@@ -32,6 +32,7 @@ type ReportDetailsSectionProps = {
   };
   preciousMetals: MetalCardItem[];
   rareEarthElements: MetalCardItem[];
+  appUrl?: string;
 };
 
 const ReportDetailsSection = ({
@@ -40,6 +41,7 @@ const ReportDetailsSection = ({
   oilIndicator,
   preciousMetals,
   rareEarthElements,
+  appUrl = '',
 }: ReportDetailsSectionProps) => {
   const showHeavyMetals = quickViewPackage === "premium" || quickViewPackage === "hs_base" || quickViewPackage === "hs_plus";
   const showOilIndicator = quickViewPackage === "premium" || quickViewPackage === "treasure_plus" || quickViewPackage === "hs_plus";
@@ -76,7 +78,7 @@ const ReportDetailsSection = ({
     }
 
     return (
-      <div className={`oil_btn oil_btn_split ${className}`}>
+      <div className={`oil_btn oil_btn_split btn_red_curved ${className}`}>
         <span className="oil_btn_label">{parts[1]} :</span>
         <span className="oil_btn_value">{parts[2]}</span>
       </div>
@@ -118,24 +120,23 @@ const ReportDetailsSection = ({
   );
   
   return (
-    <section className="report_details_section">
+    <section className="report_details_section quick_look_section">
       <div className="container">
         <div className="report_flex_row">
           <div className="report_left_col">
             <h1 className="quick_look_title">Quick Look</h1>
-            <h2 className="report_main_heading">Element Breakdown chart</h2>
+            <h2 className="report_main_heading">Element Breakdown Fingerprint</h2>
             <div className="chart_wrapper">
               <canvas id="element_layered_chart"></canvas>
             </div>
             <div className="chart_legend">
-              <span className="legend_item"><span className="box_below"></span> Below Range</span>
-              <span className="legend_item"><span className="box_ref"></span> Reference Range</span>
-              <span className="legend_item"><span className="box_above"></span> Above Range</span>
+              <span className="legend_item"><span className="box_below"></span>Below Average</span>
+              <span className="legend_item"><span className="box_ref"></span>Average</span>
+              <span className="legend_item"><span className="box_above"></span>Above Average</span>
             </div>
             <div className="chart_footer_divider"></div>
             <div className="chart_footer_text">
-              <p>Measured elemental levels shown relative to a reference range.</p>
-              <p>This fingerprint is informational and does not assess safety, risk, or suitability for any use.</p>
+              <p>Every sample has a fingerprint. This is yours—each element is plotted against an average reference range, so you can see at a glance what's below, within, or above what's commonly found in soil.</p>
             </div>
           </div>
 
@@ -204,6 +205,8 @@ const ReportDetailsSection = ({
           <div className="dive_arrow"><DiveArrow /></div>
         </div>
       </div>
+  
+  <img src={`${appUrl ? appUrl : ''}/images/quick-look-icon.svg`} className="quick_look_icon" alt="Quick look icon" />
     </section>
   );
 };

@@ -198,7 +198,7 @@ p {
     font-weight: 400;
     font-size: 38px;
     line-height: 46px;
-    color: #ffffff;
+    color: #D4D5D6;
 }
 
 @media (max-width: 1199px) {
@@ -279,7 +279,7 @@ p {
     color: #6d7566;
     font-family: 'Obviously', Arial, sans-serif;
     font-size: 68px;
-    font-weight: 800;
+    font-weight: bold;
     line-height: 1;
     margin: 0 0 28px;
     letter-spacing: 0;
@@ -287,7 +287,7 @@ p {
 
 .report_details_section .report_main_heading {
     font-family: 'Obviously', Arial, sans-serif;
-    font-weight: 700;
+    font-weight: 500;
     color: #8b231a;
     font-size: 30px;
     margin-bottom: 30px;
@@ -413,7 +413,7 @@ p {
 }
 
 .report_details_section .metal_txt {
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0;
     font-size: 16px;
 }
@@ -490,6 +490,7 @@ p {
 .report_details_section .btn_red_curved {
     background: #8b231a;
     border-radius: 0 10px 0 0;
+    margin-bottom: 0;
 }
 
 .report_details_section .oil_indicator_block_compact {
@@ -558,8 +559,8 @@ p {
 }
 
 .report_details_section .metal_circle span {
-    font-weight: normal;
-    font-size: 13px;
+    font-weight: 600;
+    font-size: 16px;
 }
 
 .report_details_section .quicklook_locked_preview {
@@ -899,14 +900,14 @@ p {
 
 .elemental_breakdown_section .report_title {
     font-weight: 700;
-    font-size: 74px;
-    line-height: 68px;
+    font-size: 60px;
+    line-height: 70px;
     color: #8B2323;
 }
 
 .elemental_breakdown_section.other_trace_elements_section .report_title {
     font-weight: 600;
-    font-size: 50px;
+    font-size: 40px;
 }
 
 .elemental_breakdown_section.other_trace_elements_section .report_left_content {
@@ -915,8 +916,8 @@ p {
 
 .elemental_breakdown_section .report_subtitle {
     font-weight: 400;
-    font-size: 36px;
-    line-height: 46px;
+    font-size: 32px;
+    line-height: 42px;
     color: #E29578;
     margin: 15px 0px 90px 0px;
     max-width: 70%;
@@ -980,6 +981,7 @@ p {
 
 .other_trace_elements_section {
     padding: 80px 0;
+    position: relative;
 }
 
 @media (min-width: 1400px) {
@@ -1008,8 +1010,8 @@ p {
     }
 
     .elemental_breakdown_section .report_subtitle {
-        font-size: 30px;
-        max-width: 70%;
+        font-size: 26px;
+        line-height: 36px;
         margin-bottom: 60px;
     }
 
@@ -1026,6 +1028,11 @@ p {
 
     .other_trace_elements_section {
         padding: 60px 0;
+    }
+
+    .elemental_breakdown_section.other_trace_elements_section .report_title {
+        font-size: 36px;
+        line-height: 46px;
     }
 }
 
@@ -1045,7 +1052,8 @@ p {
     }
 
     .elemental_breakdown_section .report_subtitle {
-        font-size: 24px;
+        font-size: 22px;
+        line-height: 32px;
         margin-bottom: 40px;
         max-width: 90%;
     }
@@ -1073,6 +1081,11 @@ p {
     .elemental_breakdown_section .arrow_down_icon svg {
         width: 30px;
     }
+
+    .elemental_breakdown_section.other_trace_elements_section .report_title {
+        font-size: 32px;
+        line-height: 42px;
+    }
 }
 
 @media (max-width: 767px) {
@@ -1093,6 +1106,7 @@ p {
 
     .elemental_breakdown_section .report_subtitle {
         font-size: 16px;
+        line-height: 26px;
         margin: 10px 0px 20px 0px;
         max-width: 100%;
     }
@@ -1134,6 +1148,11 @@ p {
     .other_trace_elements_section {
         padding: 40px 0;
     }
+
+    .elemental_breakdown_section.other_trace_elements_section .report_title {
+        font-size: 28px;
+        line-height: 38px;
+    }
 }
 
 @media (max-width: 575px) {
@@ -1170,7 +1189,7 @@ p {
 }
 
 .heavy_metal_breakdown_section .heavy_metal_title {
-    font-weight: 700;
+    font-weight: 600;
     font-size: 64px;
     line-height: 70px;
     color: #ffffff;
@@ -1831,6 +1850,7 @@ p {
     border-bottom-right-radius: 150px;
     margin-bottom: 52px;
     padding: 72px 0 62px;
+    position: relative;
 }
 
 .oil_contaminants_section .crude_oil_header_inner {
@@ -1842,8 +1862,8 @@ p {
 .oil_contaminants_section .crude_oil_title {
     color: #ffffff;
     font-size: 64px;
-    font-weight: 800;
-    line-height: 1;
+    font-weight: 600;
+    line-height: 74px;
     margin: 0;
 }
 
@@ -2254,16 +2274,26 @@ p {
 
 .precious_metal_breakdown_section {
     background-color: #d68a6d;
+    position: relative;
+}
+
+.pmb_outside_icon {
+    position: absolute;
+    bottom: 100%;
+    left: 35%;
 }
 
 .heavy_metal_breakdown_section.precious_metal_breakdown_section .heavy_metal_content_left {
     margin-bottom: 0;
+    flex-basis: 100%;
 }
 
 /* Precious Metal Present Section CSS */
 
 .precious_metal_present_section {
     padding: 80px 0px;
+    position: relative;
+    overflow: hidden;
 }
 
 .precious_metal_present_section.zero_state {
@@ -2286,14 +2316,15 @@ p {
     letter-spacing: 0;
     flex: 0 0 auto;
     background: conic-gradient(from 0deg,
-        #f6b315 0deg 130deg,
-        #a32720 90deg 214deg,
-        #9f241f 214deg 270deg,
-        #85878a 270deg 360deg);
+            #f6b315 0deg 130deg,
+            #a32720 90deg 214deg,
+            #9f241f 214deg 270deg,
+            #85878a 270deg 360deg);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     /* font-family: Helvetica, Arial, sans-serif; */
+    padding-left: 15px;
 }
 
 .precious_metal_present_section .precious_zero_copy {
@@ -2332,6 +2363,7 @@ p {
 .precious_metal_present_section .header_content {
     text-align: center;
     margin-bottom: 50px;
+    position: relative;
 }
 
 .precious_metal_present_section .main_title {
@@ -2376,6 +2408,7 @@ p {
     display: flex;
     justify-content: center;
     transition: all 0.5s ease;
+    min-height: 50px;
 }
 
 .precious_metal_present_section .ppm_value {
@@ -2592,6 +2625,10 @@ p {
     .precious_metal_present_section .metal_short_symbol {
         font-size: 15px;
     }
+
+    .pmb_outside_icon {
+        left: 25%;
+    }
 }
 
 @media (max-width: 991px) {
@@ -2699,6 +2736,11 @@ p {
     .precious_metal_present_section .metal_full_name,
     .precious_metal_present_section .metal_short_symbol {
         font-size: 14px;
+    }
+
+    .pmb_outside_icon {
+        left: 20%;
+        width: 200px;
     }
 }
 
@@ -2888,6 +2930,7 @@ p {
     border-bottom-right-radius: 150px;
     padding: 70px 0 66px;
     margin-bottom: 72px;
+    position: relative;
 }
 
 .earth_element_breakdown_section .earth_element_header_inner {
@@ -2904,7 +2947,7 @@ p {
 }
 
 .earth_element_breakdown_section .main_title {
-    font-weight: 800;
+    font-weight: 600;
     font-size: 54px;
     line-height: 1.08;
     color: #9e2a1f;
@@ -3388,7 +3431,6 @@ p {
     line-height: 72px;
     color: #ffffff;
     margin-bottom: 15px;
-    white-space: nowrap;
 }
 
 .unique_soil_section .soil_sub_heading {
@@ -4729,4 +4771,136 @@ p {
         margin-top: 40px;
     }
 
+}
+
+.quick_look_section {
+    position: relative;
+}
+
+.quick_look_icon {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+.other_trace_icon {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.pmb_inside_icon {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+}
+
+.pmp_round_icon {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+.pmp_star_icon {
+    position: absolute;
+    top: 90%;
+    left: -50px;
+}
+
+.rare_earth_breakdown_icon {
+    position: absolute;
+    right: 30%;
+    bottom: 0;
+}
+
+.crude_oil_icon {
+    position: absolute;
+    bottom: 0;
+    left: 40%;
+}
+
+@media (max-width: 1399px) {
+    .other_trace_icon {
+        top: 49%;
+    }
+
+    .pmb_inside_icon {
+        left: 55%;
+    }
+
+    .pmp_star_icon {
+        left: -35px;
+    }
+
+    .rare_earth_breakdown_icon {
+        right: 20%;
+    }
+}
+
+@media (max-width: 1199px) {
+    .other_trace_icon {
+        top: 46%;
+        width: 90px;
+    }
+
+    .pmp_star_icon {
+        left: -10px;
+        width: 35px;
+    }
+
+    .pmp_round_icon {
+        width: 130px;
+        top: 45%;
+        right: -100px;
+    }
+
+    .rare_earth_breakdown_icon {
+        width: 170px;
+        right: 15%;
+    }
+}
+
+@media (max-width: 991px) {
+    .quick_look_icon {
+        transform: none;
+        top: auto;
+        bottom: 15%;
+    }
+
+    .pmb_inside_icon {
+        width: 170px;
+        left: 60%;
+    }
+
+    .pmp_star_icon {
+        width: 25px;
+        left: 0;
+    }
+
+    .rare_earth_breakdown_icon {
+        width: 140px;
+        right: 10%;
+    }
+
+    .crude_oil_icon {
+        width: 110px;
+        left: 50%;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .quick_look_icon,
+    .other_trace_icon,
+    .pmb_outside_icon,
+    .pmb_inside_icon,
+    .pmp_star_icon,
+    .pmp_round_icon,
+    .rare_earth_breakdown_icon,
+    .crude_oil_icon {
+        display: none;
+    }
 }

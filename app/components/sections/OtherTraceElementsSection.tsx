@@ -1,4 +1,8 @@
-const OtherTraceElementsSection = () => {
+type OtherTraceElementsSectionProps = {
+  appUrl?: string;
+};
+
+const OtherTraceElementsSection = ({ appUrl = '' }: OtherTraceElementsSectionProps) => {
   return (
     <section className="elemental_breakdown_section other_trace_elements_section">
       <div className="container">
@@ -22,6 +26,7 @@ const OtherTraceElementsSection = () => {
           <div className="report_right_chart" id="trace-chart"></div>
         </div>
       </div>
+      <img src={`${appUrl ? appUrl : ''}/images/other-trace-elements-icon.svg`} className="other_trace_icon" alt="Quick look icon" />
     </section>
   );
 };

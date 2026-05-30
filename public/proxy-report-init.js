@@ -336,7 +336,7 @@
     if (!data.length) return;
     var minPpm = d3.min(data, function (item) { return item.ppm; }) || 2;
     var maxPpm = d3.max(data, function (item) { return item.ppm; }) || 31;
-    var radiusScale = d3.scaleSqrt().domain([minPpm, maxPpm]).range([isMobile ? 55 : 50, isMobile ? 130 : 120]);
+    var radiusScale = d3.scaleSqrt().domain([minPpm, maxPpm]).range([isMobile ? 75 : 70, isMobile ? 150 : 140]);
     function truncateLabel(text, maxChars) {
       if (!text || text.length <= maxChars) return text;
       return text.slice(0, Math.max(1, maxChars - 3)) + "...";

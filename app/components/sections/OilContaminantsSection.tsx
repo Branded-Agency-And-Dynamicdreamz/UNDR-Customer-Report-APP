@@ -8,6 +8,7 @@ type OilContaminantsSectionProps = {
   unlockHref?: string;
   unlockLabel?: string;
   premiumUnlockHref?: string;
+  appUrl?: string;
 };
 
 const OilContaminantsSection = ({
@@ -16,6 +17,7 @@ const OilContaminantsSection = ({
   unlockHref,
   unlockLabel = "Unlock report section",
   premiumUnlockHref,
+  appUrl = '',
 }: OilContaminantsSectionProps) => {
   const numericValue = Number((value || "").match(/-?\d+(?:\.\d+)?/)?.[0] || 0);
   const hasOilValue = Number.isFinite(numericValue) && numericValue > 0;
@@ -33,6 +35,10 @@ const OilContaminantsSection = ({
             <h2 className="crude_oil_title">Crude Oil</h2>
           </div>
         </div>
+
+  {/* appUrl defaults to '' so this will resolve to '/images/Crude-Oil-icon.svg' when empty */}
+  <img src={`${appUrl}/images/Crude-Oil-icon.svg`} className="crude_oil_icon" alt="Icon" />
+
       </div>
       <div className="container">
         {locked ? (

@@ -9,6 +9,7 @@ type PreciousMetalPresentSectionProps = {
   unlockHref?: string;
   unlockLabel?: string;
   premiumUnlockHref?: string;
+  appUrl?: string;
 };
 
 const PreciousMetalPresentSection = ({
@@ -18,6 +19,7 @@ const PreciousMetalPresentSection = ({
   unlockHref,
   unlockLabel = "Unlock report section",
   premiumUnlockHref,
+  appUrl = '',
 }: PreciousMetalPresentSectionProps) => {
   const canShowPreciousMetalsChart = items.length > 0 && items.every((item) => Number(item.ppm) > 0);
 
@@ -66,6 +68,10 @@ const PreciousMetalPresentSection = ({
             <div className="header_content">
               <h2 className="main_title">Precious Metals<br /> Present!</h2>
               <p className="sub_text">Detected in your sample<br /> at trace levels</p>
+
+              {/* appUrl defaults to '' so `${appUrl}/images/...` resolves to '/images/...' when not provided */}
+              <img src={`${appUrl}/images/pmp-star-icon.svg`} className="pmp_star_icon" alt="Icon" />
+
             </div>
             <div className="graph_container" id="graph_wrapper">
               <div className="graph_bar_wrapper" id="master_bar_layout" style={{ display: 'none' }}>
@@ -83,10 +89,14 @@ const PreciousMetalPresentSection = ({
                 <p className="dive_text">More below</p>
                 <div className="dive_arrow"><DiveArrow /></div>
               </div>
+
             </div>
           </>
         )}
       </div>
+
+      <img src={`${appUrl}/images/pmp-round-icon.svg`} className="pmp_round_icon" alt="Icon" />
+
     </section>
   );
 };
