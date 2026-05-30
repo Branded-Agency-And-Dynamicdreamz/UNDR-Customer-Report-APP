@@ -5,6 +5,7 @@ import {
 	listRegistrationsByCustomerId,
 } from "../models/registration.server";
 import { authenticate } from "../shopify.server";
+import { buildReportPath } from "../lib/report-url";
 
 type GuestLookupFormState = {
 	orderNumber: string;
@@ -101,7 +102,7 @@ function renderLoggedInSection(state: DashboardState) {
 					const reportReady = registration.report?.status === "uploaded";
 					const actionLabel = reportReady ? "View report" : "Report pending";
 					const actionHref = reportReady
-						? `/apps/undr/report/${encodeURIComponent(registration.kitRegistrationNumber)}`
+						? buildReportPath(registration.kitRegistrationNumber)
 						: "#";
 
 					return `
@@ -163,7 +164,7 @@ function renderGuestSection(state: DashboardState) {
 					Kit <strong>${escapeHtml(state.guestLookupResult.kitRegistrationNumber)}</strong> matched order <strong>${escapeHtml(state.guestLookupResult.orderNumber)}</strong>.
 				</div>
 				${state.guestLookupResult.reportReady
-					? `<a href="/apps/undr/report/${encodeURIComponent(state.guestLookupResult.kitRegistrationNumber)}" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:999px;background:#111827;color:#fff;font-size:14px;font-weight:600;text-decoration:none;width:max-content;">View Report</a>`
+					? `<a href="${buildReportPath(state.guestLookupResult.kitRegistrationNumber)}" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:999px;background:#111827;color:#fff;font-size:14px;font-weight:600;text-decoration:none;width:max-content;">View Report</a>`
 					: `<div style="color:#9a3412;font-size:14px;">Your report is not ready yet. Please check back later.</div>`}
 			</div>
 		`

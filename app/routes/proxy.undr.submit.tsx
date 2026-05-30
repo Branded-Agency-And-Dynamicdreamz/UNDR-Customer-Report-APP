@@ -470,9 +470,9 @@ export async function action({ request }: ActionFunctionArgs) {
 	if (existing) {
 		const data: ActionData = {
 			ok: false,
-			message: "Kit registration number is already used.",
+			message: "This kit registration number is already registered. Please add a different kit number.",
 			errors: {
-				kitRegistrationNumber: "This kit registration number has already been used.",
+				kitRegistrationNumber: "Already used. Please enter a different kit registration number.",
 			},
 			form,
 		};

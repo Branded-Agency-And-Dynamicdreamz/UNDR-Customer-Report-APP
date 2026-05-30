@@ -3,6 +3,7 @@ import { useActionData, useFetcher, useLoaderData, useNavigation } from "react-r
 import { useEffect, useMemo, useState } from "react";
 import { authenticate } from "../shopify.server";
 import { isReportPackage } from "../lib/report-packages";
+import { buildReportPath } from "../lib/report-url";
 import {
   getRegistrationById,
   updateRegistrationQuickViewPackageById,
@@ -449,7 +450,7 @@ export default function RegistrationDetail() {
   const normalizedShopDomain = String(shopDomain || "")
     .replace(/^https?:\/\//, "")
     .replace(/\/$/, "");
-  const reportPath = `/apps/undr/report/${encodeURIComponent(registration.kitRegistrationNumber)}`;
+  const reportPath = buildReportPath(registration.kitRegistrationNumber);
   const reportBaseUrl = normalizedShopDomain
     ? `https://${normalizedShopDomain}`
     : appUrl.replace(/\/$/, "");

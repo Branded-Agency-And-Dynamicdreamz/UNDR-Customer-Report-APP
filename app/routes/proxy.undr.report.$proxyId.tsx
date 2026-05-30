@@ -13,6 +13,7 @@ import { mapEarthElementsBreakdown } from "../utils/mapEarthElementsBreakdown";
 import IndexPage from "../pages/Index";
 import { authenticate } from "../shopify.server";
 import { isUnlockModule } from "../lib/report-packages";
+import { decodeReportProxyId } from "../lib/report-url";
 
 const REPORT_PACKAGES = ["treasure_base", "treasure_plus", "hs_base", "hs_plus", "premium"] as const;
 
@@ -191,6 +192,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const embed = isEmbedMode(url);
   const proxyId = params.proxyId || "";
+  const kitRegistrationNumber = decodeReportProxyId(proxyId);
   const appUrl = (process.env.SHOPIFY_APP_URL || "").replace(/\/$/, "");
   const requestingShop = (session?.shop || url.searchParams.get("shop") || "").trim().toLowerCase();
   const rawLoggedInCustomerId = resolveLoggedInCustomerId(url);
@@ -201,7 +203,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   }
 
   
-  const registration = await getRegistrationByKitNumber(proxyId);
+  const registration = await getRegistrationByKitNumber(kitRegistrationNumber);
 
   if (!registration) {
     return liquid(renderReportNotFoundPage(), { layout: !embed });
@@ -219,7 +221,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   }
 
   
-  const customerName = registration?.name || proxyId;
+  const customerName = registration?.name || kitRegistrationNumber;
   const selectedReportPackage = normalizeReportPackage(
     (registration as unknown as { reportPackage?: string } | null)?.reportPackage,
   );
@@ -235,7 +237,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       report = buildReportDataFromRows(                                                                                                       
         registration.report.rows as Parameters<typeof buildReportDataFromRows>[0],
         customerName,
-        proxyId,
+        kitRegistrationNumber,
       );
       report.reportPackage = selectedReportPackage;
       report.quickViewPackage = selectedQuickViewPackage;
@@ -248,12 +250,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   
   if (!report) {
-    report = createEmptyReport(customerName, proxyId, selectedReportPackage);
+    report = createEmptyReport(customerName, kitRegistrationNumber, selectedReportPackage);
   }
 
   report.reportPackage = selectedReportPackage;
   report.quickViewPackage = selectedQuickViewPackage;
-  report.kitRegistrationNumber = proxyId;
+  report.kitRegistrationNumber = kitRegistrationNumber;
   const registrationUnlocks =
     "unlocks" in registration && Array.isArray(registration.unlocks)
       ? registration.unlocks
