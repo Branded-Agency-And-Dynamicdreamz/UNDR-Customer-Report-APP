@@ -478,9 +478,11 @@ export async function action({ request }: ActionFunctionArgs) {
 		return proxyPageResponse(request, liquid, data);
 	}
 
+	const rawLoggedInCustomerId = getLoggedInCustomerId(url);
 	let shopifyCustomerId: string | null = normalizeCustomerId(
-		getLoggedInCustomerId(url),
+		rawLoggedInCustomerId,
 	);
+
 	if (!shopifyCustomerId) {
 		shopifyCustomerId = await findCustomerIdByEmail({
 			admin,

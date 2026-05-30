@@ -28,11 +28,70 @@ function isEmbedMode(url: URL) {
   return embed === "1" || embed === "true";
 }
 
+function resolveLoggedInCustomerId(url: URL) {
+  return (
+    url.searchParams.get("logged_in_customer_id")?.trim() ||
+    url.searchParams.get("customer_id")?.trim() ||
+    null
+  );
+}
+
+function normalizeShopifyCustomerId(value?: string | null) {
+  if (!value) return null;
+  const match = value.match(/(\d+)$/);
+  return match?.[1] ?? null;
+}
+
+function buildCustomerLoginRedirect(proxyId: string) {
+  const returnUrl = `/apps/undr/report/${encodeURIComponent(proxyId)}`;
+  return `/customer_authentication/login?return_to=${encodeURIComponent(returnUrl)}`;
+}
+
+function renderCustomerLoginRedirectPage(proxyId: string) {
+  const loginUrl = buildCustomerLoginRedirect(proxyId);
+
+  return `
+<script>
+window.location.replace(${JSON.stringify(loginUrl)});
+</script>
+<noscript><meta http-equiv="refresh" content="0;url=${loginUrl}"></noscript>
+`;
+}
+
+function customerLoginRedirectResponse(proxyId: string) {
+  return new Response(renderCustomerLoginRedirectPage(proxyId), {
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+      "Cache-Control": "no-store",
+    },
+  });
+}
+
 function renderReportNotFoundPage() {
   return `
 <section style="padding:40px 20px;max-width:760px;margin:0 auto;">
   <h1 style="margin:0 0 12px;font-size:30px;line-height:1.2;color:#111827;">Report not found</h1>
   <p style="margin:0;font-size:16px;line-height:1.6;color:#4b5563;">We could not find a report for this kit on the current store.</p>
+</section>
+`;
+}
+
+function renderReportAccessDeniedPage() {
+  return `
+<section style="min-height:70vh;padding:56px 20px;display:grid;place-items:center;color:#111827;">
+  <!-- Background intentionally disabled: background:linear-gradient(180deg,#faf9f5 0%,#f4f1ea 100%); -->
+  <div style="width:100%;max-width:560px;border:1px solid rgba(17,24,39,0.12);border-radius:18px;background:#ffffff;box-shadow:0 18px 45px rgba(17,24,39,0.08);padding:34px 30px;text-align:center;">
+    <div style="width:54px;height:54px;border-radius:999px;background:#fff7ed;border:1px solid #fed7aa;display:grid;place-items:center;margin:0 auto 18px;color:#c2410c;font-size:26px;font-weight:800;">!</div>
+    <p style="margin:0 0 8px;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#6b7280;">Access restricted</p>
+    <h1 style="margin:0 0 12px;font-size:clamp(26px,5vw,36px);line-height:1.12;color:#111827;">You do not have access to this report</h1>
+    <p style="margin:0 auto 24px;font-size:16px;line-height:1.7;color:#4b5563;max-width:440px;">This report is linked to a different customer account. Please log in with the account used for this kit.</p>
+    <!-- Action buttons intentionally hidden for now.
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="#" style="display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 20px;border-radius:999px;background:#111827;color:#fff;font-size:14px;font-weight:700;text-decoration:none;">Log in with another account</a>
+        <a href="/account/orders" style="display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 20px;border-radius:999px;border:1px solid rgba(17,24,39,0.16);color:#111827;background:#fff;font-size:14px;font-weight:700;text-decoration:none;">Back to account</a>
+      </div>
+    -->
+  </div>
 </section>
 `;
 }
@@ -134,6 +193,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const proxyId = params.proxyId || "";
   const appUrl = (process.env.SHOPIFY_APP_URL || "").replace(/\/$/, "");
   const requestingShop = (session?.shop || url.searchParams.get("shop") || "").trim().toLowerCase();
+  const rawLoggedInCustomerId = resolveLoggedInCustomerId(url);
+  const loggedInCustomerId = normalizeShopifyCustomerId(rawLoggedInCustomerId);
+
+  if (!loggedInCustomerId) {
+    return customerLoginRedirectResponse(proxyId);
+  }
 
   
   const registration = await getRegistrationByKitNumber(proxyId);
@@ -145,6 +210,12 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const registrationShop = String(registration.shop || "").trim().toLowerCase();
   if (!requestingShop || !registrationShop || requestingShop !== registrationShop) {
     return liquid(renderReportNotFoundPage(), { layout: !embed });
+  }
+
+  const reportCustomerId = normalizeShopifyCustomerId(registration.shopifyCustomerId);
+
+  if (!reportCustomerId || loggedInCustomerId !== reportCustomerId) {
+    return liquid(renderReportAccessDeniedPage(), { layout: !embed });
   }
 
   
