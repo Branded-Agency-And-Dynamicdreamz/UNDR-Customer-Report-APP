@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs, HeadersFunction, LoaderFunctionArgs } from "react-router";
 import { useActionData, useFetcher, useLoaderData, useNavigation } from "react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { authenticate } from "../shopify.server";
 import { isReportPackage } from "../lib/report-packages";
 import { buildReportPath } from "../lib/report-url";
@@ -303,8 +303,10 @@ export default function RegistrationDetail() {
   const reportRowFetcher = useFetcher<ActionData>();
   const packageConfigFetcher = useFetcher<ActionData>();
   const quickViewConfigFetcher = useFetcher<ActionData>();
+  const uploadFetcher = useFetcher<ActionData>();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const nav = useNavigation();
-  const isUploading = nav.state === "submitting";
+  const isUploading = uploadFetcher.state !== "idle" || nav.state === "submitting";
   const isSavingPetroleum = manualPetroleumFetcher.state !== "idle";
   const isSavingReportRow = reportRowFetcher.state !== "idle";
   const isSavingPackage = packageConfigFetcher.state !== "idle";
@@ -605,7 +607,7 @@ export default function RegistrationDetail() {
 
       {/* ── CSV Upload ── */}
       <s-section heading={report?.status === "uploaded" ? "Replace CSV report" : "Upload CSV report"}>
-        {actionData && actionData.intent === "upload_csv" && "error" in actionData && (
+        {uploadFetcher.data && uploadFetcher.data.intent === "upload_csv" && "error" in uploadFetcher.data && (
           <div
             style={{
               marginBottom: "16px",
@@ -616,10 +618,10 @@ export default function RegistrationDetail() {
               fontSize: "14px",
             }}
           >
-            {actionData.error}
+            {uploadFetcher.data.error}
           </div>
         )}
-        {actionData && actionData.intent === "upload_csv" && "success" in actionData && (
+        {uploadFetcher.data && uploadFetcher.data.intent === "upload_csv" && "success" in uploadFetcher.data && (
           <div
             style={{
               marginBottom: "16px",
@@ -631,17 +633,12 @@ export default function RegistrationDetail() {
               fontWeight: 600,
             }}
           >
-            ✓ {actionData.message}
-            {typeof actionData.rowCount === "number" ? ` (${actionData.rowCount} rows)` : ""}
+            ✓ {uploadFetcher.data.message}
+            {typeof uploadFetcher.data.rowCount === "number" ? ` (${uploadFetcher.data.rowCount} rows)` : ""}
           </div>
         )}
 
-        <form
-          method="post"
-          encType="multipart/form-data"
-          style={{ display: "grid", gap: "16px", maxWidth: "480px" }}
-        >
-          <input type="hidden" name="intent" value="upload_csv" />
+        <div style={{ display: "grid", gap: "16px", maxWidth: "480px" }}>
           <label style={{ display: "grid", gap: "8px" }}>
             <span style={{ fontSize: "14px", fontWeight: 600 }}>
               CSV file{" "}
@@ -650,17 +647,25 @@ export default function RegistrationDetail() {
               </span>
             </span>
             <input
+              ref={fileInputRef}
               type="file"
               name="csv"
-                accept=".csv,.xlsx,.xls,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-              required
+              accept=".csv,.xlsx,.xls,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
               style={{ fontSize: "14px" }}
             />
           </label>
           <div>
             <button
-              type="submit"
+              type="button"
               disabled={isUploading}
+              onClick={() => {
+                const file = fileInputRef.current?.files?.[0];
+                if (!file) return;
+                const formData = new FormData();
+                formData.set("intent", "upload_csv");
+                formData.set("csv", file);
+                uploadFetcher.submit(formData, { method: "post", encType: "multipart/form-data" });
+              }}
               style={{
                 minHeight: "40px",
                 padding: "0 20px",
@@ -676,7 +681,7 @@ export default function RegistrationDetail() {
               {isUploading ? "Processing…" : report?.status === "uploaded" ? "Replace report" : "Upload report"}
             </button>
           </div>
-        </form>
+        </div>
 
         <details style={{ marginTop: "20px" }}>
           <summary style={{ fontSize: "13px", color: "#6b7280", cursor: "pointer" }}>
