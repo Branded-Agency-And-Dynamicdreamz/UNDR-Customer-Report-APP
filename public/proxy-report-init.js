@@ -89,11 +89,13 @@
       document.body.classList.remove("element_blurb_modal_open");
     }
 
-    function openModal(elementSymbol) {
+    function openModal(elementSymbol, elementColor) {
       var key = String(elementSymbol || "").trim().toUpperCase();
       var blurb = blurbs[key];
       if (!blurb || !title || !symbol || !content) return;
 
+      var accentColor = String(elementColor || "").trim();
+      modal.style.setProperty("--element-accent", accentColor || "#8b2323");
       title.textContent = blurb.name || key;
       symbol.textContent = (blurb.symbol || key) + " · Atomic no. " + (blurb.atomicNumber || "");
       content.innerHTML = "";
@@ -120,7 +122,10 @@
 
     document.querySelectorAll("[data-element-blurb-trigger]").forEach(function (button) {
       button.addEventListener("click", function () {
-        openModal(button.getAttribute("data-element-symbol"));
+        openModal(
+          button.getAttribute("data-element-symbol"),
+          button.getAttribute("data-element-color")
+        );
       });
     });
 
@@ -145,14 +150,31 @@
       }
     });
 
-    var sorted = (reportData.preciousMetalPresent.items || []).slice().sort(function (a, b) { return b.ppm - a.ppm; });
+    var sorted = (reportData.preciousMetalPresent.items || []).slice().sort(function (a, b) { return Number(b.ppm) - Number(a.ppm); });
     if (!sorted.length) return;
-    var maxPpm = Math.max.apply(null, sorted.map(function (item) { return item.ppm; }));
+    var maxPpm = Math.max.apply(null, sorted.map(function (item) { return Number(item.ppm) || 0; }));
+    if (maxPpm <= 0) return;
+
+    // Collect all non-zero ppm values to find the range for proportional scaling
+    var nonZeroPpms = sorted.map(function (item) { return Number(item.ppm) || 0; }).filter(function (v) { return v > 0; });
+    var minNonZeroPpm = nonZeroPpms.length ? Math.min.apply(null, nonZeroPpms) : maxPpm;
+    var MIN_BAR_HEIGHT = 22;  // minimum height % for any non-zero bar
+    var MAX_BAR_HEIGHT = 100; // maximum height % for the highest bar
 
     sorted.forEach(function (item) {
-      var heightPercent = (item.ppm / maxPpm) * 100;
-      // if (heightPercent < 18) heightPercent = 18;
-      if (heightPercent < 8 && item.ppm > 0) heightPercent = 8;
+      var ppm = Number(item.ppm) || 0;
+      var heightPercent;
+      if (ppm <= 0) {
+        // 0ppm bars: fixed small flat chip
+        heightPercent = 8;
+      } else if (minNonZeroPpm === maxPpm) {
+        // Only one unique non-zero value → give it full height
+        heightPercent = MAX_BAR_HEIGHT;
+      } else {
+        // Map [minNonZeroPpm, maxPpm] → [MIN_BAR_HEIGHT, MAX_BAR_HEIGHT]
+        // so every distinct non-zero value has a unique proportional height
+        heightPercent = MIN_BAR_HEIGHT + ((ppm - minNonZeroPpm) / (maxPpm - minNonZeroPpm)) * (MAX_BAR_HEIGHT - MIN_BAR_HEIGHT);
+      }
 
 
       var barWrapper = document.createElement("div");
@@ -166,7 +188,7 @@
 
       var ppmValue = document.createElement("span");
       ppmValue.className = "ppm_value";
-      ppmValue.textContent = item.ppm + "ppm";
+      ppmValue.textContent = ppm + "ppm";
       body.appendChild(ppmValue);
 
       var labelContainer = document.createElement("div");

@@ -1,5 +1,5 @@
 import type { FoundElementItem } from "../lib/proxy-report-data";
-import { formatElementName, getElementColors } from "./elementMeta";
+import { formatElementName, formatElementSymbol, getElementColors } from "./elementMeta";
 
 type RawFoundElement = FoundElementItem | Record<string, unknown>;
 
@@ -34,7 +34,7 @@ export function mapFoundElements(rows: unknown): FoundElementItem[] {
     .map((row) => {
       const r = row as RawFoundElement;
       const raw = r as Record<string, unknown>;
-      const symbol = toStr(raw.symbol).toUpperCase();
+      const symbol = formatElementSymbol(toStr(raw.symbol));
       const name = toStr(raw.name);
       if (!symbol && !name) return null;
 

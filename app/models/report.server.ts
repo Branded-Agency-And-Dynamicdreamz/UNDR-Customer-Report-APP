@@ -142,17 +142,28 @@ function isPetroleumContaminantCategory(value: string) {
   return value.trim().toLowerCase() === "petroleum_contaminant";
 }
 
-function getElementClassName(input: string): string {
+function getElementLookupKeys(input: string) {
   const key = input.trim().toLowerCase();
+  const withoutParenthetical = key.replace(/\s*\([^)]+\)\s*$/, "");
+  const parentheticalSymbol = key.match(/\(([a-z0-9]+)\)\s*$/)?.[1] || "";
+
+  return Array.from(new Set([key, withoutParenthetical, parentheticalSymbol].filter(Boolean)));
+}
+
+function getElementClassName(input: string): string {
+  const keys = getElementLookupKeys(input);
+  const key = keys[0] || input.trim().toLowerCase();
 
   // symbol → name
-  if (ELEMENT_NAME_MAP[key]) {
-    return ELEMENT_NAME_MAP[key].toLowerCase(); // chromium
+  const symbolKey = keys.find((item) => ELEMENT_NAME_MAP[item]);
+  if (symbolKey) {
+    return ELEMENT_NAME_MAP[symbolKey].toLowerCase(); // chromium
   }
 
   // name → symbol → name
-  if (ELEMENT_SYMBOL_FROM_NAME[key]) {
-    const symbol = ELEMENT_SYMBOL_FROM_NAME[key];
+  const nameKey = keys.find((item) => ELEMENT_SYMBOL_FROM_NAME[item]);
+  if (nameKey) {
+    const symbol = ELEMENT_SYMBOL_FROM_NAME[nameKey];
     return ELEMENT_NAME_MAP[symbol].toLowerCase();
   }
 
@@ -490,8 +501,8 @@ export function parseSpreadsheet(buffer: ArrayBuffer): Record<string, string>[] 
 }
 
 function inferCategoryFromElement(elementName: string): string {
-  const normalized = elementName.trim().toLowerCase();
-  if (!normalized) return "";
+  const lookupKeys = getElementLookupKeys(elementName);
+  if (lookupKeys.length === 0) return "";
 
   const heavyMetals = new Set([
     "lead",
@@ -584,9 +595,10 @@ function inferCategoryFromElement(elementName: string): string {
     "lu",
   ]);
 
-  if (heavyMetals.has(normalized)) return "heavy_metal";
-  if (preciousMetals.has(normalized)) return "precious_metal";
-  if (rareEarth.has(normalized)) return "rare_earth";
+  if (lookupKeys.some((key) => heavyMetals.has(key))) return "heavy_metal";
+  if (lookupKeys.some((key) => preciousMetals.has(key))) return "precious_metal";
+  if (lookupKeys.some((key) => rareEarth.has(key))) return "rare_earth";
+  const normalized = lookupKeys[0] || "";
   if (normalized.includes("oil") || normalized.includes("petroleum") || normalized.includes("hydrocarbon")) {
     return "oil_contaminant";
   }
@@ -884,10 +896,10 @@ export function buildReportDataFromRows(
 
   // Separate rows by known categories
   const heavyMetalRows = reportRows.filter((r) => {
-    const elementKey = String(r.element || "").trim().toLowerCase();
+    const elementKeys = getElementLookupKeys(String(r.element || ""));
     return (
       categoryIncludes(r.category, "heavy", "metal", "toxic") &&
-      HEAVY_METAL_ELEMENTS.has(elementKey)
+      elementKeys.some((key) => HEAVY_METAL_ELEMENTS.has(key))
     );
   });
   const preciousRows = reportRows.filter((r) =>
@@ -914,7 +926,7 @@ base.foundElements = found.slice(0, 60)
     const colors = ELEMENT_COLOR_MAP[key] ?? ELEMENT_COLOR_MAP.default;
 
     const mapped: FoundElementItem = {
-      symbol: ELEMENT_SYMBOL_FROM_NAME[key]?.toUpperCase() || key.substring(0, 2).toUpperCase(),
+      symbol: formatElementSymbol(ELEMENT_SYMBOL_FROM_NAME[key] || key.substring(0, 2)),
       name: formatElementName(r.element).replace(/\s*\([^)]+\)\s*$/, ""),
       // ppm: r.ppmValue.toFixed(2),
       ppm: Math.floor(r.ppmValue).toString().slice(0, 2) +"ppm",
@@ -950,7 +962,7 @@ base.foundElements = found.slice(0, 60)
     
 
     return {
-      symbol: ELEMENT_SYMBOL_FROM_NAME[key]?.toUpperCase() || key.substring(0, 2).toUpperCase(),
+      symbol: formatElementSymbol(ELEMENT_SYMBOL_FROM_NAME[key] || key.substring(0, 2)),
       name: formatElementName(r.element).replace(/\s*\([^)]+\)\s*$/, ""),
       valueStyle: {
         backgroundColor: colors.bg,
@@ -1212,10 +1224,15 @@ base.foundElements = found.slice(0, 60)
       .sort((a, b) => b.ppmValue - a.ppmValue)
       .slice(0, 8)
       .map((r): PreciousMetalGraphItem => {
-        const key = r.element.trim().toLowerCase();
+        const lookupKeys = getElementLookupKeys(r.element);
+        const key =
+          lookupKeys.find((item) => ELEMENT_NAME_MAP[item] || ELEMENT_SYMBOL_FROM_NAME[item]) ||
+          lookupKeys[0] ||
+          r.element.trim().toLowerCase();
+        const symbol = ELEMENT_SYMBOL_FROM_NAME[key] || (ELEMENT_NAME_MAP[key] ? key : key.substring(0, 2));
         return {
-          name: ELEMENT_NAME_MAP[key] || r.element,
-          symbol: ELEMENT_SYMBOL_FROM_NAME[key]?.toUpperCase() || key.substring(0, 2).toUpperCase(),
+          name: ELEMENT_NAME_MAP[key] || formatElementName(r.element).replace(/\s*\([^)]+\)\s*$/, ""),
+          symbol: formatElementSymbol(symbol),
           ppm: Number(r.ppmValue.toFixed(6)),
           color: (ELEMENT_COLOR_MAP[key] ?? ELEMENT_COLOR_MAP.default).bg,
         };
@@ -1583,7 +1600,7 @@ export const ELEMENT_COLOR_MAP: Record<string, { bg: string; text: string }> = {
   la: { bg: "#F2CF91", text: "#F2CF91" },
   pa: { bg: "#AF6666", text: "#AF6666" },
   ra: { bg: "#FED095", text: "#FED095" },
-  ac: { bg: "#70ABFA", text: "#70ABFA" },
+  ac: { bg: "#B4C2D6", text: "#B4C2D6" },
   ag: { bg: "#808083", text: "#808083" },
   y: { bg: "#D6A091", text: "#D6A091" },
   te: { bg: "#AB4543", text: "#AB4543" },

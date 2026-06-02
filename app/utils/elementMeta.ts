@@ -202,7 +202,7 @@ export const ELEMENT_COLOR_MAP: Record<string, { bg: string; text: string }> = {
   la: { bg: "#F2CF91", text: "#F2CF91" },
   pa: { bg: "#AF6666", text: "#AF6666" },
   ra: { bg: "#FED095", text: "#FED095" },
-  ac: { bg: "#70ABFA", text: "#70ABFA" },
+  ac: { bg: "#B4C2D6", text: "#B4C2D6" },
   ag: { bg: "#808083", text: "#808083" },
   y: { bg: "#D6A091", text: "#D6A091" },
   te: { bg: "#AB4543", text: "#AB4543" },
@@ -266,6 +266,15 @@ export function getElementColors(input: string): { backgroundColor: string; colo
   return { backgroundColor: colors.bg, color: colors.text };
 }
 
+export function formatElementSymbol(input: string): string {
+  const key = normalizeKey(input);
+  const symbol = ELEMENT_NAME_MAP[key] ? key : ELEMENT_SYMBOL_FROM_NAME[key] || key;
+
+  return symbol.length <= 2
+    ? symbol.charAt(0).toUpperCase() + symbol.slice(1)
+    : input;
+}
+
 export function getElementClassName(input: string): string {
   const key = normalizeKey(input);
 
@@ -286,12 +295,11 @@ export function getElementClassName(input: string): string {
 export function formatElementName(input: string): string {
   const key = normalizeKey(input);
   if (ELEMENT_NAME_MAP[key]) {
-    return `${ELEMENT_NAME_MAP[key]} (${key.toUpperCase()})`;
+    return `${ELEMENT_NAME_MAP[key]} (${formatElementSymbol(key)})`;
   }
   if (ELEMENT_SYMBOL_FROM_NAME[key]) {
     const symbol = ELEMENT_SYMBOL_FROM_NAME[key];
-    return `${ELEMENT_NAME_MAP[symbol]} (${symbol.toUpperCase()})`;
+    return `${ELEMENT_NAME_MAP[symbol]} (${formatElementSymbol(symbol)})`;
   }
   return input;
 }
-

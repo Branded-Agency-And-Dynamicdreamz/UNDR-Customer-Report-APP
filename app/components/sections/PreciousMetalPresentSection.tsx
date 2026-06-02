@@ -21,7 +21,7 @@ const PreciousMetalPresentSection = ({
   premiumUnlockHref,
   appUrl = '',
 }: PreciousMetalPresentSectionProps) => {
-  const canShowPreciousMetalsChart = items.length > 0 && items.every((item) => Number(item.ppm) > 0);
+  const canShowPreciousMetalsChart = items.some((item) => Number(item.ppm) > 0);
 
   return (
     <section

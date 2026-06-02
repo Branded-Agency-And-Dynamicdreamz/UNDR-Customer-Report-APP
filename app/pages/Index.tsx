@@ -77,7 +77,7 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
   }));
   const canShowPreciousMetalsChart =
     report.preciousMetalPresent.items.length > 0 &&
-    report.preciousMetalPresent.items.every((item) => Number(item.ppm) > 0);
+    report.preciousMetalPresent.items.some((item) => Number(item.ppm) > 0);
 
   return (
     <div>

@@ -43,6 +43,7 @@ const FoundElementsListSection = ({ elements, appUrl = '' }: FoundElementsListSe
                   type="button"
                   data-element-blurb-trigger
                   data-element-symbol={el.symbol}
+                  data-element-color={el.valueStyle?.color}
                   aria-label={`Read more about ${el.name}`}
                 >
                   <span className="element_view_icon" aria-hidden="true">
