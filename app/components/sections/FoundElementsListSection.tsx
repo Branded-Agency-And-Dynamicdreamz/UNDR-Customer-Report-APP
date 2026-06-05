@@ -30,7 +30,7 @@ const FoundElementsListSection = ({ elements, appUrl = '' }: FoundElementsListSe
             <div className="element_item_row" key={i}>
               <div className="element_col_info">
                 <span className={`element_symbol_box ${el.bgClass}`}  style={{ backgroundColor: el.valueStyle?.backgroundColor }}
->{el.symbol}</span>
+>{el.symbol ? el.symbol.charAt(0).toUpperCase() + el.symbol.slice(1).toLowerCase() : ""}</span>
                 <h4 className={`element_name_text ${el.colorClass}`}  style={{ color: el.valueStyle?.color }}>{el.name}</h4>
               </div>
               <div className="element_col_data">
