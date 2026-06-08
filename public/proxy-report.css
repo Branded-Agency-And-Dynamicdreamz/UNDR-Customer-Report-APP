@@ -3131,7 +3131,7 @@ p {
 
 .earth_element_breakdown_section .rare_earth_zero_state_content {
     position: relative;
-    width: min(100%, 1040px);
+    width: 100%;
     margin: 0 auto 96px;
     padding: 0 18px 32px;
     overflow: hidden;
@@ -3146,9 +3146,10 @@ p {
 .earth_element_breakdown_section .rare_earth_zero_value {
     color: #f6b600;
     font-size: 210px;
-    font-weight: 800;
+    font-weight: 500;
     line-height: 0.9;
     letter-spacing: 0;
+    font-family: 'Obviously', Arial, sans-serif;
 }
 
 .earth_element_breakdown_section .rare_earth_zero_unit {
@@ -3156,16 +3157,22 @@ p {
     font-size: 82px;
     font-weight: 500;
     line-height: 1;
+    font-family: 'Obviously', Arial, sans-serif;
 }
 
 .earth_element_breakdown_section .rare_earth_zero_state_content h3 {
     color: #a52420;
     font-size: 50px;
-    font-weight: 800;
+    font-weight: 500;
     line-height: 1.12;
-    margin: 20px 0;
+    margin: 30px 0px 20px;
+    border-bottom: 3px solid #8b8b8b;
+    padding-bottom: 20px;
 }
 
+.rare_earth_breakdown_section {
+    position: relative;
+}
 .earth_element_breakdown_section .rare_earth_zero_rule {
     width: calc(100% - 84px);
     height: 2px;
@@ -3205,6 +3212,7 @@ p {
 
 .earth_element_breakdown_section .rare_earth_zero_copy p {
     margin: 0 0 18px;
+    font-size: 25px;
 }
 
 .earth_element_breakdown_section .rare_earth_zero_copy p:last-child {
@@ -3222,14 +3230,14 @@ p {
 
 .earth_element_breakdown_section .rare_earth_zero_sparkle.large {
     top: 18px;
-    right: -92px;
+    right: -30px;
     width: 210px;
     height: 210px;
 }
 
 .earth_element_breakdown_section .rare_earth_zero_sparkle.small {
-    top: -44px;
-    right: -24px;
+    top: -84px;
+    right: -50px;
     width: 104px;
     height: 104px;
 }

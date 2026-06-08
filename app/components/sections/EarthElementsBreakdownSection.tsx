@@ -35,6 +35,7 @@ const EarthElementsBreakdownSection = ({
   <img src={`${appUrl}/images/REEB-icon.svg`} className="rare_earth_breakdown_icon" alt="Icon" />
 
       </div>
+      <div className="rare_earth_breakdown_section">
       <div className="container">
         {!locked && hasDetectedRareEarthElements ? (
           <div className="text_center_header">
@@ -80,12 +81,14 @@ const EarthElementsBreakdownSection = ({
                 <p>And don't trade in your shovel just yet--the next scoop could tell a different story.</p>
               </div>
             </div>
-            <span className="rare_earth_zero_sparkle large" aria-hidden="true" />
-            <span className="rare_earth_zero_sparkle small" aria-hidden="true" />
+            
           </div>
         ) : (
           <div id="chart_wrapper" className="chart_wrapper"></div>
         )}
+      </div>
+      <span className="rare_earth_zero_sparkle large" aria-hidden="true" />
+      <span className="rare_earth_zero_sparkle small" aria-hidden="true" />
       </div>
     </section>
   );
