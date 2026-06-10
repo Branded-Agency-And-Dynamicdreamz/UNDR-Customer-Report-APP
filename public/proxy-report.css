@@ -5286,127 +5286,112 @@ p {
     width: fit-content;
 }
 
-/*  */
+.customer_dashboard_section .bottom_part .kit_item:last-child {
+    margin-bottom: 0;
+}
 
-/* .customer_dashboard_section .kit_item {
-    padding: 20px;
+.customer_dashboard_section .kit_item {
+    display: grid;
+    gap: 15px;
+    background: #fff;
     border: 1px solid rgba(15, 23, 42, 0.1);
     border-radius: 18px;
-    background: #fff;
-    display: grid;
-    gap: 12px;
+    margin-bottom: 20px;
+    padding: 20px;
 }
 
 .customer_dashboard_section .kit_top_part {
     display: flex;
-    justify-content: space-between;
-    gap: 12px;
     flex-wrap: wrap;
     align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
 }
 
 .customer_dashboard_section .kit_label {
-    margin: 0 0 6px;
-    font-size: 12px;
-    letter-spacing: 0.12em;
+    font-size: 13px;
+    color: #555555;
+    margin: 0 0 5px 0;
     text-transform: uppercase;
-    color: #6b7280;
 }
 
 .customer_dashboard_section .kit_number {
-    margin: 0;
+    font-weight: 600;
     font-size: 22px;
-    line-height: 1.2;
+    line-height: 32px;
+    color: #8B2323;
 }
 
 .customer_dashboard_section .kit_status {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 12px;
+    font-weight: 600;
+    font-size: 13px;
     border-radius: 999px;
-    background: #f3f4f6;
-    color: #4b5563;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
+    padding: 6px 12px;
     text-transform: uppercase;
 }
 
 .customer_dashboard_section .kit_middle_part {
     display: grid;
-    gap: 6px;
-    color: #4b5563;
-    font-size: 14px;
+    gap: 5px;
+}
+
+.customer_dashboard_section .kit_order_number {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 26px;
+    color: #3F443A;
 }
 
 .customer_dashboard_section .kit_order_number strong {
+    font-weight: 600;
     color: #111827;
 }
 
+.customer_dashboard_section .kit_register_date {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 26px;
+    color: #3F443A;
+}
+
 .customer_dashboard_section .kit_register_date strong {
+    font-weight: 600;
     color: #111827;
 }
 
 .customer_dashboard_section .kit_bottom_part {
     display: flex;
-    gap: 12px;
     flex-wrap: wrap;
+    gap: 12px;
 }
 
 .customer_dashboard_section .kit_register_new_btn {
-    display: inline-flex;
+    font-weight: 600;
+    font-size: 15px;
+    color: #111827;
+    border: 1px solid rgba(15, 23, 42, 0.14);
+    border-radius: 999px;
+    padding: 10px 22px;
+    text-decoration: none;
+    min-height: 50px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 44px;
-    padding: 0 18px;
-    border-radius: 999px;
-    border: 1px solid rgba(15, 23, 42, 0.14);
-    color: #111827;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
+    width: fit-content;
 }
 
 .customer_dashboard_section .kit_report_pending_btn {
-    display: inline-flex;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 999px;
+    padding: 10px 22px;
+    text-decoration: none;
+    min-height: 50px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 44px;
-    padding: 0 18px;
-    border-radius: 999px;
-    background: #e5e7eb;
-    color: #6b7280;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    pointer-events: none;
-} */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    width: fit-content;
+}
 
 @media (max-width: 1199px) {
     .customer_dashboard_section .top_sub_title {
@@ -5440,6 +5425,31 @@ p {
     }
 
     .customer_dashboard_section .bottom_btn {
+        padding: 10px 20px;
+        min-height: 45px;
+    }
+
+    .customer_dashboard_section .kit_number {
+        font-size: 20px;
+        line-height: 30px;
+    }
+
+    .customer_dashboard_section .kit_order_number {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .customer_dashboard_section .kit_register_date {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .customer_dashboard_section .kit_bottom_part {
+        gap: 10px;
+    }
+
+    .customer_dashboard_section .kit_register_new_btn,
+    .customer_dashboard_section .kit_report_pending_btn {
         padding: 10px 20px;
         min-height: 45px;
     }
@@ -5483,6 +5493,17 @@ p {
         padding: 10px 18px;
         min-height: 40px;
     }
+
+    .customer_dashboard_section .kit_number {
+        font-size: 18px;
+        line-height: 26px;
+    }
+
+    .customer_dashboard_section .kit_register_new_btn,
+    .customer_dashboard_section .kit_report_pending_btn {
+        padding: 10px 18px;
+        min-height: 40px;
+    }
 }
 
 @media (max-width: 767px) {
@@ -5500,5 +5521,9 @@ p {
     .customer_dashboard_section .bottom_para {
         font-size: 16px;
         line-height: 24px;
+    }
+
+    .customer_dashboard_section .kit_item {
+        padding: 15px;
     }
 }
