@@ -1,1 +1,1 @@
-/bin/bash: where: command not found
+/usr/bin/bash: line 1: where: command not found
