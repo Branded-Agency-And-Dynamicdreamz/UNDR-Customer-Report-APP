@@ -219,6 +219,7 @@ function renderGuestSection(state: DashboardState) {
 
 function renderDashboardTemplate(state: DashboardState) {
 	return `
+<link rel="stylesheet" href="/proxy-report.css" />
 <div style="background:radial-gradient(circle at top left, rgba(255,244,214,0.8), transparent 34%), linear-gradient(180deg, #fcfbf8 0%, #f7f4ee 100%); min-height:100vh;">
 	<div style="max-width:980px;margin:0 auto;padding:48px 20px 72px;color:#111827;display:grid;gap:26px;">
 		${state.loggedInCustomerId ? renderLoggedInSection(state) : renderGuestSection(state)}
