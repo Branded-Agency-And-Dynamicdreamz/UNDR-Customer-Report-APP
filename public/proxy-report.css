@@ -5180,3 +5180,10 @@ p {
         display: none;
     }
 }
+
+/* Customer Dashboard Section CSS */
+
+.customer_dashboard_section {
+    display: grid;
+    gap: 22px;
+}

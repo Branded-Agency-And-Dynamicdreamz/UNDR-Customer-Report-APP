@@ -132,9 +132,9 @@ function renderLoggedInSection(state: DashboardState) {
 				.join("")
 		: `
 			<div class="bottom_box" style="padding:24px;border:1px dashed rgba(15,23,42,0.18);border-radius:18px;background:rgba(255,255,255,0.72);">
-				<h3 class="bottom_heading" style="margin:0 0 8px;font-size:22px;">No kits registered yet</h3>
-				<p class="bottom_para" style="margin:0 0 16px;color:#4b5563;line-height:1.6;">We could not find any kits linked to your customer account yet.</p>
-				<a class="bottom_btn" href="/apps/undr/submit" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border-radius:999px;background:#111827;color:#fff;font-size:14px;font-weight:600;text-decoration:none;">Register New Kit</a>
+				<h3 class="bottom_heading" style="margin:0 0 8px;font-size:22px;letter-spacing: 0;">No kits registered yet</h3>
+				<p class="bottom_para" style="margin:0 0 16px;color:#4b5563;line-height:1.6;letter-spacing: 0;">We could not find any kits linked to your customer account yet.</p>
+				<a class="bottom_btn" href="/apps/undr/submit" style="display:inline-flex;align-items:center;justify-content:center;padding:10px 20px;border-radius:999px;background:#111827;color:#fff;font-size:14px;font-weight:600;text-decoration:none;letter-spacing: 0;">Register New Kit</a>
 			</div>
 		`;
 
@@ -142,12 +142,12 @@ function renderLoggedInSection(state: DashboardState) {
 		<section class="customer_dashboard_section" style="display:grid;gap:22px;">
 			<div class="top_part" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-start;">
 				<div class="top_column top_left_column">
-					<p class="top_sub_title" style="margin:0 0 8px;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#6b7280;">Customer Dashboard</p>
-					<h1 class="top_heading" style="margin:0 0 10px;font-size:clamp(32px,5vw,48px);line-height:1.05;">Your registered kits</h1>
-					<p class="top_para" style="margin:0;color:#4b5563;font-size:16px;line-height:1.7;max-width:620px;">Review kits linked to your customer account and open any report that is ready.</p>
+					<p class="top_sub_title" style="margin:0 0 8px;font-size:12px;letter-spacing:0;text-transform:uppercase;color:#6b7280;">Customer Dashboard</p>
+					<h1 class="top_heading" style="margin:0 0 20px;font-size: 48px;line-height:58px;letter-spacing: 0;">Your registered kits</h1>
+					<p class="top_para" style="margin:0;color:#4b5563;font-size:16px;line-height:1.7;max-width:620px;letter-spacing: 0;">Review kits linked to your customer account and open any report that is ready.</p>
 				</div>
 				<div class="top_column top_right_column">
-					<a class="top_btn" href="/apps/undr/submit" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;background:#111827;color:#fff;font-size:15px;font-weight:700;text-decoration:none;">Register New Kit</a>
+					<a class="top_btn" href="/apps/undr/submit" style="display:inline-flex;align-items:center;justify-content:center;padding:10px 22px;border-radius:999px;background:#111827;color:#fff;font-size:15px;font-weight:700;text-decoration:none;letter-spacing: 0;">Register New Kit</a>
 				</div>
 			</div>
 			<div class="bottom_part" style="display:grid;gap:16px;">${registrationsMarkup}</div>
