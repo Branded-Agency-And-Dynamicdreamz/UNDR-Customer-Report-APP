@@ -40,7 +40,7 @@
 
       var value = document.createElement("span");
       value.className = "element_bar_value";
-      value.innerText = item.ppm != null && item.ppm !== "" ? item.ppm : "";
+      value.innerText = item.ppm != null && item.ppm !== "" ? item.ppm.replace('ppm',' ppm') : "";
 
       bar.appendChild(name);
       bar.appendChild(value);
@@ -97,7 +97,33 @@
       var accentColor = String(elementColor || "").trim();
       modal.style.setProperty("--element-accent", accentColor || "#8b2323");
       title.textContent = blurb.name || key;
-      symbol.textContent = (blurb.symbol || key) + " · Atomic no. " + (blurb.atomicNumber || "");
+      // Render the eyebrow with the element symbol wrapped in a span so it can be styled separately.
+      // Use innerHTML but ensure we escape any user-provided values to avoid XSS.
+      var rawSymbol = String(blurb.symbol || key);
+      var rawAtomic = String(blurb.atomicNumber || "");
+      function escapeHtml(str) {
+        return String(str).replace(/[&<>"'`=\/]/g, function (s) {
+          return ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;',
+            '`': '&#x60;',
+            '=': '&#x3D;',
+            '/': '&#x2F;'
+          })[s];
+        });
+      }
+
+      var escapedSymbol = escapeHtml(rawSymbol);
+      var escapedAtomic = escapeHtml(rawAtomic);
+      // Only wrap the leading chemical symbol (letters) in a span. If symbol contains extra text,
+      // we take the first token (up to whitespace or punctuation).
+      var firstTokenMatch = escapedSymbol.match(/^([A-Za-z]{1,3})/);
+      var leading = firstTokenMatch ? firstTokenMatch[1] : escapedSymbol;
+      var rest = escapedSymbol.slice(leading.length);
+      symbol.innerHTML = '<span class="element_blurb_symbol_lead">' + leading + '</span>' + rest + ' · Atomic no. ' + escapedAtomic;
       content.innerHTML = "";
 
       (blurb.sections || []).forEach(function (section) {
@@ -107,15 +133,51 @@
         var heading = document.createElement("h4");
         heading.textContent = section.title || "";
 
-        var paragraph = document.createElement("p");
-        paragraph.textContent = section.body || "";
-
-        item.appendChild(heading);
-        item.appendChild(paragraph);
+  // Render section body. For "Famous Comparisons" we split sentences into
+  // separate paragraphs so each sentence shows as its own <p> on the frontend.
+  var bodyHtml = section.body || "";
+  item.appendChild(heading);
+  try {
+    if (section.title && /famous comparisons/i.test(String(section.title))) {
+      // Split on sentence endings (.!?), keeping the punctuation with the sentence.
+      var sentences = String(bodyHtml).split(/(?<=[.!?])\s+/);
+      sentences.forEach(function (s) {
+        var p = document.createElement("p");
+        p.innerHTML = s.trim();
+        item.appendChild(p);
+      });
+    } else {
+      var paragraph = document.createElement("p");
+      // Render section body as HTML so links added in the element blurbs data will work.
+      // Note: the blurb data comes from a local source file (app/lib/element-blurbs.ts).
+      paragraph.innerHTML = bodyHtml;
+      item.appendChild(paragraph);
+    }
+  } catch (err) {
+    // Fallback to single paragraph if splitting fails for any reason
+    var paragraph = document.createElement("p");
+    paragraph.innerHTML = bodyHtml;
+    item.appendChild(paragraph);
+  }
         content.appendChild(item);
       });
-
       modal.classList.add("is_open");
+      // Ensure the modal content is scrolled to the top each time we open it.
+      // Do this after the modal becomes visible so the browser can apply layout
+      // and the scrollTop assignment takes effect.
+      try {
+        if (content && typeof content.scrollTop !== 'undefined') {
+          requestAnimationFrame(function () {
+            try {
+              content.scrollTop = 0;
+            } catch (err) {
+              // ignore
+            }
+          });
+        }
+      } catch (e) {
+        // ignore if scroll reset fails
+      }
       modal.setAttribute("aria-hidden", "false");
       document.body.classList.add("element_blurb_modal_open");
     }
@@ -132,6 +194,41 @@
     closeButtons.forEach(function (button) {
       button.addEventListener("click", closeModal);
     });
+
+      // If a link inside the blurb content points to an in-page anchor (e.g. "#add_resources_section"),
+      // close the modal and then navigate/scroll to that section.
+      if (content) {
+        content.addEventListener('click', function (evt) {
+          try {
+            var anchor = evt.target.closest ? evt.target.closest('a') : null;
+            if (!anchor) return;
+            var href = anchor.getAttribute('href') || '';
+            if (href.charAt(0) === '#') {
+              evt.preventDefault();
+              var targetId = href.slice(1);
+              closeModal();
+              // Wait a short moment for modal close animations to run, then scroll to target smoothly.
+              setTimeout(function () {
+                var target = document.getElementById(targetId);
+                if (target) {
+                  try {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    // update the URL hash without adding a new history entry
+                    history.replaceState(null, '', '#' + targetId);
+                  } catch (e) {
+                    location.hash = href;
+                  }
+                } else {
+                  // fallback: set hash so browser jumps
+                  location.hash = href;
+                }
+              }, 160);
+            }
+          } catch (err) {
+            // ignore errors from event handler
+          }
+        });
+      }
 
     document.addEventListener("keydown", function (event) {
       if (event.key === "Escape" && modal.classList.contains("is_open")) {
@@ -188,7 +285,7 @@
 
       var ppmValue = document.createElement("span");
       ppmValue.className = "ppm_value";
-      ppmValue.textContent = ppm + "ppm";
+      ppmValue.textContent = ppm + " ppm";
       body.appendChild(ppmValue);
 
       var labelContainer = document.createElement("div");
@@ -368,7 +465,7 @@
     if (!data.length) return;
     var minPpm = d3.min(data, function (item) { return item.ppm; }) || 2;
     var maxPpm = d3.max(data, function (item) { return item.ppm; }) || 31;
-    var radiusScale = d3.scaleSqrt().domain([minPpm, maxPpm]).range([isMobile ? 75 : 70, isMobile ? 150 : 140]);
+    var radiusScale = d3.scaleSqrt().domain([minPpm, maxPpm]).range([isMobile ? 45 : 40, isMobile ? 120 : 110]);
     function truncateLabel(text, maxChars) {
       if (!text || text.length <= maxChars) return text;
       return text.slice(0, Math.max(1, maxChars - 3)) + "...";

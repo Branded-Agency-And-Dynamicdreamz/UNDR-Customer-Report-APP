@@ -65,7 +65,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Usually not. Fluorine is common in most soils at modest levels. Very high concentrations (above about 500–1,000 ppm) have sometimes been associated with mineral-rich rock formations that naturally contain fluorine or phosphorus. In rare cases, those minerals are mined for industrial fluorine compounds, but typical soil levels don't signal anything commercially interesting. Further testing [hyperlink] is an option when levels are well above normal."
+        "body": "Usually not. Fluorine is common in most soils at modest levels. Very high concentrations (above about 500–1,000 ppm) have sometimes been associated with mineral-rich rock formations that naturally contain fluorine or phosphorus. In rare cases, those minerals are mined for industrial fluorine compounds, but typical soil levels don't signal anything commercially interesting. Further testing is an option when levels are far above the normal range. Click here for additional resources."
       },
       {
         "title": "Is it toxic?",
@@ -96,8 +96,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Fluorine compounds had been known for centuries, but the element itself wasn't isolated until 1886 by the French chemist Henri Moissan."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's fluorine is above 500 ppm, your soil sample is in the neighborhood of Iceland's volcanic highlands—steam rising from hot springs across black lava fields, the air sharp with sulfur, geothermal earth so hot that locals bake traditional rye bread by burying the dough underground and letting the ground do the work. Below 200 ppm, your sample's levels carry only faint traces of fluorine—similar to the deep tropical earth of the Amazon Basin, where warm rain falls through a dense green canopy, and most of the fluorine has been gently washed away over centuries of rainfall, leaving behind the rich, dark soil that grows wild açaí palms and some of the most biodiverse plant life on the planet."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's fluorine is above 500 ppm, your soil sample is in the neighborhood of Iceland's volcanic highlands—steam rising from hot springs across black lava fields, the air sharp with sulfur, geothermal earth so hot that locals bake traditional rye bread by burying the dough underground and letting the ground do the work. Below 200 ppm, your sample's levels carry only faint traces of fluorine—similar to the deep tropical earth of the Amazon Basin, where warm rain falls through a dense green canopy, and most of the fluorine has been gently washed away over centuries of rainfall, leaving behind the rich, dark soil that grows wild açaí palms and some of the most biodiverse plant life on the planet."
       }
     ]
   },
@@ -112,7 +112,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Usually not. Sodium is extremely common in most soils. Very high levels (above about 20,000–30,000 ppm) have historically been associated with salty sediments, evaporite deposits, or ancient lakebeds. In some regions, those deposits are mined for salt, soda ash, or other industrial minerals—but typical backyard sodium levels don't signal anything commercially interesting. Further testing [hyperlink] is an option when levels are far above normal."
+        "body": "Usually not. Sodium is extremely common in most soils. Very high levels (above about 20,000–30,000 ppm) have historically been associated with salty sediments, evaporite deposits, or ancient lakebeds. In some regions, those deposits are mined for salt, soda ash, or other industrial minerals—but typical backyard sodium levels don't signal anything commercially interesting. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -143,8 +143,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Sodium compounds have been part of human life for thousands of years, but the pure metal wasn't isolated until 1807 by Sir Humphry Davy using electrolysis."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's sodium is above 40,000 ppm, your soil sample is in the territory of the Dead Sea in Israel and Jordan—blinding white salt crusts stretching to the horizon, mineral-heavy earth where almost nothing can take root, one of the most extreme soil environments on the planet. Below 5,000 ppm, your sample's sodium levels are modest like the tropical lowlands of Malaysia—lush green stretches everywhere, the soil washed clean by decades of heavy downpours, the same rain-rinsed earth that grows towering coconut palms and the oil palms that produce much of the world's palm oil."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's sodium is above 40,000 ppm, your soil sample is in the territory of the Dead Sea in Israel and Jordan—blinding white salt crusts stretching to the horizon, mineral-heavy earth where almost nothing can take root, one of the most extreme soil environments on the planet. Below 5,000 ppm, your sample's sodium levels are modest like the tropical lowlands of Malaysia—lush green stretches everywhere, the soil washed clean by decades of heavy downpours, the same rain-rinsed earth that grows towering coconut palms and the oil palms that produce much of the world's palm oil."
       }
     ]
   },
@@ -159,7 +159,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Usually not. Magnesium is extremely common in most soils, especially those derived from limestone or volcanic material. Very high concentrations (above about 50,000–100,000 ppm) have historically been associated with magnesium-rich rocks that are sometimes mined for industrial minerals—but that's far above what most backyard soil contains. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Usually not. Magnesium is extremely common in most soils, especially those derived from limestone or volcanic material. Very high concentrations (above about 50,000–100,000 ppm) have historically been associated with magnesium-rich rocks that are sometimes mined for industrial minerals—but that's far above what most backyard soil contains. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -190,8 +190,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Magnesium compounds were found in mineral springs for centuries before the metal itself was first isolated in 1808 by Sir Humphry Davy through electrolysis."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's magnesium is above 50,000 ppm, your soil sample is in the range of the magnesium levels of the Dolomite Mountains in northern Italy—pale limestone cliffs towering above green valleys, rock built from magnesium-rich dolomite stone, mineral-dense ground where the region's Lagrein wine grapes root deep into magnesium-heavy soil. Below 10,000 ppm, your sample's magnesium levels are in the range of southern Spain—sandy soil stretching between rows of silver-leafed olive trees, the same chalky earth that grows marcona almonds and the grapes behind the region's famous fino sherry."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's magnesium is above 50,000 ppm, your soil sample is in the range of the magnesium levels of the Dolomite Mountains in northern Italy—pale limestone cliffs towering above green valleys, rock built from magnesium-rich dolomite stone, mineral-dense ground where the region's Lagrein wine grapes root deep into magnesium-heavy soil. Below 10,000 ppm, your sample's magnesium levels are in the range of southern Spain—sandy soil stretching between rows of silver-leafed olive trees, the same chalky earth that grows marcona almonds and the grapes behind the region's famous fino sherry."
       }
     ]
   },
@@ -206,7 +206,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Usually not. Aluminum is extremely common in clay minerals and most rocks, so nearly every soil already contains large amounts. Very high concentrations (above about 150,000–200,000 ppm) have historically been associated with aluminum-rich ore formations—but typical backyard levels are well below that. Further testing [hyperlink] is an option when levels are far above the normal range."
+        "body": "Usually not. Aluminum is extremely common in clay minerals and most rocks, so nearly every soil already contains large amounts. Very high concentrations (above about 150,000–200,000 ppm) have historically been associated with aluminum-rich ore formations—but typical backyard levels are well below that. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -237,8 +237,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Aluminum compounds had been known for centuries, but the pure metal wasn't isolated until 1825 by the Danish chemist Hans Christian Ørsted, with further refinement by Friedrich Wöhler shortly after."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's aluminum is above 120,000 ppm, your soil sample is in the range of Guinea in West Africa—deep red earth so vivid it stains everything it touches, carved by tropical rains into rolling hills, some of the richest bauxite deposits on the planet, the same iron-and-aluminum-heavy soil that grows the region's coffee and oil palms. Below 60,000 ppm, your sample's aluminum levels are on the lighter side, like the English countryside, where green fields stretch, and clay-rich soil clings to everything—the same heavy earth that produces English barley and the hops behind the country's famous cask ales."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's aluminum is above 120,000 ppm, your soil sample is in the range of Guinea in West Africa—deep red earth so vivid it stains everything it touches, carved by tropical rains into rolling hills, some of the richest bauxite deposits on the planet, the same iron-and-aluminum-heavy soil that grows the region's coffee and oil palms. Below 60,000 ppm, your sample's aluminum levels are on the lighter side, like the English countryside, where green fields stretch, and clay-rich soil clings to everything—the same heavy earth that produces English barley and the hops behind the country's famous cask ales."
       }
     ]
   },
@@ -253,7 +253,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Usually not. Silicon is extremely abundant—it's the backbone of most sand, quartz, and common minerals in rocks and soil. Only very pure silica deposits (above about 900,000 ppm silicon dioxide) are mined for things like glassmaking, electronics, or solar panels, and those deposits are a far cry from typical backyard soil. Further testing [hyperlink] is an option for the rare case where levels suggest unusual purity."
+        "body": "Usually not. Silicon is extremely abundant—it's the backbone of most sand, quartz, and common minerals in rocks and soil. Only very pure silica deposits (above about 900,000 ppm silicon dioxide) are mined for things like glassmaking, electronics, or solar panels, and those deposits are a far cry from typical backyard soil. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -284,8 +284,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Silicon compounds like sand and quartz have been known since ancient times, but the element itself wasn't isolated until 1824 by the Swedish chemist Jöns Jacob Berzelius."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's silicon is above 300,000 ppm, your soil sample is in the territory of the Sahara Desert—golden dunes, quartz-rich sand stretching in every direction, a landscape so mineral-dominant that almost nothing grows. Below 200,000 ppm, your sample's silicon levels are in the range of the hillsides of Sicily—dark, mineral-rich volcanic soil tucked between ancient stone ruins and dramatic coastal cliffs, a mix of elements sharing the stage rather than any one mineral dominating, the same fertile earth that grows the island's famous blood oranges and the grapes behind its bold Nero d'Avola wines."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's silicon is above 300,000 ppm, your soil sample is in the territory of the Sahara Desert—golden dunes, quartz-rich sand stretching in every direction, a landscape so mineral-dominant that almost nothing grows. Below 200,000 ppm, your sample's silicon levels are in the range of the hillsides of Sicily—dark, mineral-rich volcanic soil tucked between ancient stone ruins and dramatic coastal cliffs, a mix of elements sharing the stage rather than any one mineral dominating, the same fertile earth that grows the island's famous blood oranges and the grapes behind its bold Nero d'Avola wines."
       }
     ]
   },
@@ -300,7 +300,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Generally, no. Phosphorus is present in most soils at moderate levels because it comes from natural minerals and decaying organic matter. However, unusually high concentrations—above about 3,000 ppm—can sometimes indicate phosphate-rich rock formations, which are mined in some regions to produce agricultural fertilizers. Other times, high levels simply indicate overuse of fertilizer. Further testing [hyperlink] is an option when levels are that far above normal."
+        "body": "Generally, no. Phosphorus is present in most soils at moderate levels because it comes from natural minerals and decaying organic matter. However, unusually high concentrations—above about 3,000 ppm—can sometimes indicate phosphate-rich rock formations, which are mined in some regions to produce agricultural fertilizers. Other times, high levels simply indicate overuse of fertilizer. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -331,8 +331,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Phosphorus was discovered in 1669 by German alchemist Hennig Brand, making it one of the first elements to be isolated by a known individual."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's phosphorus is above 1,500 ppm, your soil sample is in the company of Japan's volcanic foothills near Mt. Fuji—mineral-rich slopes where steam drifts through cedar forests, hot springs dot the mountainside, and the volcanic earth below produces prized wasabi and some of Japan's most celebrated green tea. If your sample's phosphorus is below 300 ppm, your soil sample resembles the vast natural grasslands of the Eurasian steppe in Kazakhstan—golden plains, sparse grazing land where the tough native grasses sustain livestock but yield little else."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's phosphorus is above 1,500 ppm, your soil sample is in the company of Japan's volcanic foothills near Mt. Fuji—mineral-rich slopes where steam drifts through cedar forests, hot springs dot the mountainside, and the volcanic earth below produces prized wasabi and some of Japan's most celebrated green tea. If your sample's phosphorus is below 300 ppm, your soil sample resembles the vast natural grasslands of the Eurasian steppe in Kazakhstan—golden plains, sparse grazing land where the tough native grasses sustain livestock but yield little else."
       }
     ]
   },
@@ -347,7 +347,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Generally, no. Sulfur is fairly common in rocks and sediments, especially in areas shaped by ancient seas or volcanic activity. However, very high concentrations—above about 10,000–20,000 ppm—can sometimes indicate sulfur-rich mineral deposits or mineral layers left behind by evaporated water, which may be associated with mining regions. Further testing [hyperlink] is an option when levels are that far above normal."
+        "body": "Generally, no. Sulfur is fairly common in rocks and sediments, especially in areas shaped by ancient seas or volcanic activity. However, very high concentrations—above about 10,000–20,000 ppm—can sometimes indicate sulfur-rich mineral deposits or mineral layers left behind by evaporated water, which may be associated with mining regions. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -378,8 +378,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Sulfur has been known since ancient times, occurring naturally in bright yellow deposits near volcanoes and used by early civilizations in medicines and fumigation."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's sulfur is above 2,000 ppm, your soil sample is in the company of Kawah Ijen in Indonesia—a volcanic crater where bright yellow sulfur crusts form around steaming vents, turquoise acid lakes glow against black rock, and the surrounding volcanic soil produces some of the world's smoothest coffee on nearby Java. If your sample's sulfur is below 300 ppm, your soil sample resembles the rolling agricultural plains of Poland—patchwork fields, dark soil, the same steady earth that grows Poland's famous rye and the potatoes that end up in its crisp vodka."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's sulfur is above 2,000 ppm, your soil sample is in the company of Kawah Ijen in Indonesia—a volcanic crater where bright yellow sulfur crusts form around steaming vents, turquoise acid lakes glow against black rock, and the surrounding volcanic soil produces some of the world's smoothest coffee on nearby Java. If your sample's sulfur is below 300 ppm, your soil sample resembles the rolling agricultural plains of Poland—patchwork fields, dark soil, the same steady earth that grows Poland's famous rye and the potatoes that end up in its crisp vodka."
       }
     ]
   },
@@ -394,7 +394,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Probably not, but high chloride levels (above 10,000 ppm) can indicate old salt flats or mineral layers left behind by evaporated water. In rare cases—especially in desert regions or dried lakebeds—those formations can be commercially significant. If levels are unusually high, it could point to an interesting geologic story, and further testing [hyperlink] is an option some landowners consider."
+        "body": "Probably not, but high chloride levels (above 10,000 ppm) can indicate old salt flats or mineral layers left behind by evaporated water. In rare cases—especially in desert regions or dried lakebeds—those formations can be commercially significant. If levels are unusually high, it could point to an interesting geologic story, and further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -425,8 +425,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Chlorine was first isolated by Carl Wilhelm Scheele in 1774, though it wasn't confirmed as its own element until Sir Humphry Davy settled the matter in 1810."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's chlorine is between 200 and 500 ppm, your soil sample is in the company of Lisbon, Portugal—coastal hillsides, the same mineral-laced soil that nourishes the country's famous olive groves and cork oak forests. If your sample's chlorine is above 500 ppm, your soil sample is in the neighborhood of the Dead Sea in Israel and Jordan—blindingly white salt crusts stretching to the horizon, mineral-heavy earth where almost nothing grows, one of the most extreme soil environments on the planet. At 150 to 200 ppm, your sample's chlorine levels sit right about where you'd find the farmland of Northern France—green fields rolling toward the coast, the same lightly mineral soil that produces Normandy's famous Camembert and golden cidre. Below 150 ppm, your sample's chlorine levels are modest and well-balanced—like Ukraine's famous black earth (chernozem), dark and rich, some of the most naturally fertile soil on the planet, the kind of earth that grows wheat and sunflowers with almost no help."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's chlorine is between 200 and 500 ppm, your soil sample is in the company of Lisbon, Portugal—coastal hillsides, the same mineral-laced soil that nourishes the country's famous olive groves and cork oak forests. If your sample's chlorine is above 500 ppm, your soil sample is in the neighborhood of the Dead Sea in Israel and Jordan—blindingly white salt crusts stretching to the horizon, mineral-heavy earth where almost nothing grows, one of the most extreme soil environments on the planet. At 150 to 200 ppm, your sample's chlorine levels sit right about where you'd find the farmland of Northern France—green fields rolling toward the coast, the same lightly mineral soil that produces Normandy's famous Camembert and golden cidre. Below 150 ppm, your sample's chlorine levels are modest and well-balanced—like Ukraine's famous black earth (chernozem), dark and rich, some of the most naturally fertile soil on the planet, the kind of earth that grows wheat and sunflowers with almost no help."
       }
     ]
   },
@@ -441,7 +441,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "It's possible, though rare. Soils above 50,000 ppm have historically been associated with potassium-bearing rock or old lakebeds. Most soils fall between 5,000 and 35,000 ppm, and further testing [hyperlink] is something some homeowners could consider when levels fall outside that range."
+        "body": "It's possible, though rare. Soils above 50,000 ppm have historically been associated with potassium-bearing rock or old lakebeds. Most soils fall between 5,000 and 35,000 ppm, and further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -472,8 +472,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Potassium was first isolated in 1807 by Sir Humphry Davy through electrolysis of potash (a type of wood ash used for soap-making), making it the first metal ever isolated using electricity."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's potassium is above 30,000 ppm, your soil sample is in the range of the potassium levels of the Nile Delta in Egypt—lush green farmland stretching along a wide, slow-moving river, the soil dark and heavy with centuries of rich sediment. Between 20,000 and 30,000 ppm, your soil sample's potassium level is in the range of the volcanic farmlands of Java, Indonesia—terraced hillsides thick with tropical growth, the soil dark and steaming after a rain, mineral-rich from centuries of eruptions, the same volcanic earth that produces some of the smoothest, strongest coffee on the planet. Between 12,000 and 20,000 ppm, your sample's levels land in the same sweet spot as the potassium levels of Tuscany, Italy—golden hillsides dotted with cypress trees and stone farmhouses, the mineral-balanced earth that produces Sangiovese grapes and the bold Chianti wine they become. Below 12,000 ppm, your sample's potassium levels are on the modest side—similar to the levels of the Scottish Highlands, where wide-open moorland stretches to the horizon and heather and hardy grasses hold their own in lean, peaty soil, the same deep peat that gives Highland single malt Scotch its famous smoky character."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's potassium is above 30,000 ppm, your soil sample is in the range of the potassium levels of the Nile Delta in Egypt—lush green farmland stretching along a wide, slow-moving river, the soil dark and heavy with centuries of rich sediment. Between 20,000 and 30,000 ppm, your soil sample's potassium level is in the range of the volcanic farmlands of Java, Indonesia—terraced hillsides thick with tropical growth, the soil dark and steaming after a rain, mineral-rich from centuries of eruptions, the same volcanic earth that produces some of the smoothest, strongest coffee on the planet. Between 12,000 and 20,000 ppm, your sample's levels land in the same sweet spot as the potassium levels of Tuscany, Italy—golden hillsides dotted with cypress trees and stone farmhouses, the mineral-balanced earth that produces Sangiovese grapes and the bold Chianti wine they become. Below 12,000 ppm, your sample's potassium levels are on the modest side—similar to the levels of the Scottish Highlands, where wide-open moorland stretches to the horizon and heather and hardy grasses hold their own in lean, peaty soil, the same deep peat that gives Highland single malt Scotch its famous smoky character."
       }
     ]
   },
@@ -488,7 +488,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "In some cases. Most soils range from about 500 to 40,000 ppm calcium. Levels far above that—above 100,000 ppm (10%)—can indicate limestone or chalk formations nearby, which are sometimes commercially mined. Further testing [hyperlink] is an option when levels fall that far outside the typical range."
+        "body": "In some cases. Most soils range from about 500 to 40,000 ppm calcium. Levels far above that—above 100,000 ppm (10%)—can indicate limestone or chalk formations nearby, which are sometimes commercially mined. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -519,8 +519,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Calcium was isolated in 1808 by Sir Humphry Davy using electrolysis, though people had been using calcium compounds like lime and plaster since ancient Egypt."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's calcium is above 40,000 ppm, your soil sample is in the company of the lime-rich farmlands of Southern France—sun-drenched Provençal fields stretching between ancient stone villages, pale chalky soil that produces some of the world's most fragrant lavender and the grapes behind the region's famous rosé. If your sample's calcium is between 20,000 and 40,000 ppm, your soil sample resembles the gleaming White Cliffs near Dover, England—towering chalk faces rising above the English Channel, green pastureland rolling away from the edge, the same calcium-rich earth that sustains Kent's famous hop fields and apple orchards. At 5,000 to 20,000 ppm, your sample's levels sit right about where you'd find the fertile valleys of northern Italy—neat rows of vineyards climbing terraced hillsides, morning fog settling over the Po River plain, the mineral-balanced soil that produces Barolo wine and Arborio rice. Below 5,000 ppm, your sample's levels are light—like the sandy coastal soils of northern Germany, windswept dunes giving way to flat farmland, salt air blowing in from the North Sea, lean earth where hardy rye and sea buckthorn are among the few crops that thrive."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's calcium is above 40,000 ppm, your soil sample is in the company of the lime-rich farmlands of Southern France—sun-drenched Provençal fields stretching between ancient stone villages, pale chalky soil that produces some of the world's most fragrant lavender and the grapes behind the region's famous rosé. If your sample's calcium is between 20,000 and 40,000 ppm, your soil sample resembles the gleaming White Cliffs near Dover, England—towering chalk faces rising above the English Channel, green pastureland rolling away from the edge, the same calcium-rich earth that sustains Kent's famous hop fields and apple orchards. At 5,000 to 20,000 ppm, your sample's levels sit right about where you'd find the fertile valleys of northern Italy—neat rows of vineyards climbing terraced hillsides, morning fog settling over the Po River plain, the mineral-balanced soil that produces Barolo wine and Arborio rice. Below 5,000 ppm, your sample's levels are light—like the sandy coastal soils of northern Germany, windswept dunes giving way to flat farmland, salt air blowing in from the North Sea, lean earth where hardy rye and sea buckthorn are among the few crops that thrive."
       }
     ]
   },
@@ -535,7 +535,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, though only at unusually high levels. Typical soils contain around 10–30 ppm scandium. Concentrations above 200 ppm could indicate rare-earth mineralization that has historically been associated with extraction activity. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly, though only at unusually high levels. Typical soils contain around 10–30 ppm scandium. Concentrations above 200 ppm could indicate rare-earth mineralization that has historically been associated with extraction activity. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -578,7 +578,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly. Most soils contain 1,000–9,000 ppm titanium. Readings above 30,000 ppm—roughly triple the typical range—can indicate heavy mineral sands that carry titanium-rich deposits. Further testing [hyperlink] is an option when levels are that far above normal."
+        "body": "Possibly. Most soils contain 1,000–9,000 ppm titanium. Readings above 30,000 ppm—roughly triple the typical range—can indicate heavy mineral sands that carry titanium-rich deposits. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -609,8 +609,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Titanium was discovered in Cornwall, England, in 1791 by William Gregor, and later confirmed and named by Martin Heinrich Klaproth."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's titanium is above 30,000 ppm, your soil sample is in the company of Iceland's volcanic southern coast—jet-black sand dunes stretching toward glaciers, the ground shimmering with mineral-rich basalt, earth so young and raw that almost nothing grows on it yet. If your sample's titanium is between 10,000 and 30,000 ppm, your soil sample resembles the lush tropical soils of Brazil—red-orange earth rich with trace minerals, the same volcanic-origin soil that produces some of the world's finest coffee and sugarcane. Below 10,000 ppm, your sample's titanium levels are quiet and balanced—like the fertile loess plains of eastern Poland, soft golden soil deposited by ancient winds, flat farmland stretching to the horizon, the kind of steady earth that's been growing wheat and rye for generations. If your sample's iron is above 30,000 ppm and titanium is above 5,000 ppm, that iron-titanium combination puts your soil sample in the neighborhood of Mount Etna in Sicily—vivid volcanic earth striped red and black with iron and titanium oxides, terraced vineyards climbing the slopes, the same fierce mineral soil that gives Etna's wines their distinctive smoky character. If your sample's iron is below 20,000 ppm and titanium is below 5,000 ppm, those levels are mild—like the rolling foothills of the Carpathian Mountains in Romania, forested ridges fading into pastoral valleys, wildflower meadows, gentle soil where plum orchards produce the fruit behind the region's famous homemade brandy."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's titanium is above 30,000 ppm, your soil sample is in the company of Iceland's volcanic southern coast—jet-black sand dunes stretching toward glaciers, the ground shimmering with mineral-rich basalt, earth so young and raw that almost nothing grows on it yet. If your sample's titanium is between 10,000 and 30,000 ppm, your soil sample resembles the lush tropical soils of Brazil—red-orange earth rich with trace minerals, the same volcanic-origin soil that produces some of the world's finest coffee and sugarcane. Below 10,000 ppm, your sample's titanium levels are quiet and balanced—like the fertile loess plains of eastern Poland, soft golden soil deposited by ancient winds, flat farmland stretching to the horizon, the kind of steady earth that's been growing wheat and rye for generations. If your sample's iron is above 30,000 ppm and titanium is above 5,000 ppm, that iron-titanium combination puts your soil sample in the neighborhood of Mount Etna in Sicily—vivid volcanic earth striped red and black with iron and titanium oxides, terraced vineyards climbing the slopes, the same fierce mineral soil that gives Etna's wines their distinctive smoky character. If your sample's iron is below 20,000 ppm and titanium is below 5,000 ppm, those levels are mild—like the rolling foothills of the Carpathian Mountains in Romania, forested ridges fading into pastoral valleys, wildflower meadows, gentle soil where plum orchards produce the fruit behind the region's famous homemade brandy."
       }
     ]
   },
@@ -625,7 +625,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Sometimes. Most soils have vanadium levels below 100 ppm, but readings above 500 ppm can indicate volcanic or mineral-rich formations that have historically been associated with mining activity. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Sometimes. Most soils have vanadium levels below 100 ppm, but readings above 500 ppm can indicate volcanic or mineral-rich formations that have historically been associated with mining activity. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -656,8 +656,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Vanadium was first discovered in 1801 by Andrés Manuel del Río in Mexico, but his claim was dismissed—it was rediscovered in 1830 by Nils Sefström in Sweden."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's vanadium is above 500 ppm, your soil sample is in the company of South Africa's Bushveld Complex—one of the richest mineral regions on Earth, vast scrubland, red-brown ore-packed earth, the same iron-rich soil that sustains the tough native grasses grazed by the region's livestock. If your sample's vanadium is below 200 ppm, your soil sample's levels are modest—like the Scottish Highlands, hills rolling toward cold lochs, peat bogs famous for producing rich, smoky single malt Scotch."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's vanadium is above 500 ppm, your soil sample is in the company of South Africa's Bushveld Complex—one of the richest mineral regions on Earth, vast scrubland, red-brown ore-packed earth, the same iron-rich soil that sustains the tough native grasses grazed by the region's livestock. If your sample's vanadium is below 200 ppm, your soil sample's levels are modest—like the Scottish Highlands, hills rolling toward cold lochs, peat bogs famous for producing rich, smoky single malt Scotch."
       }
     ]
   },
@@ -672,11 +672,11 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Unlikely at typical levels — chromium in soil is generally considered a contaminant concern rather than a recoverable resource, and the toxicity risks associated with Cr(VI) make elevated concentrations a liability in most cases. That said, at extremely high concentrations — above 100,000 ppm — chromium can be associated with chromite ore deposits, which do have industrial value. However, what that means for your land is beyond what this sample can tell you. See [hyperlink] for more information and resources."
+        "body": "Unlikely at typical levels — chromium in soil is generally considered a contaminant concern rather than a recoverable resource, and the toxicity risks associated with Cr(VI) make elevated concentrations a liability in most cases. That said, at extremely high concentrations — above 100,000 ppm — chromium can be associated with chromite ore deposits, which do have industrial value. However, what that means for your land is beyond what this sample can tell you. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
-        "body": "It depends on the form. Chromium comes in two main varieties: Cr(III), which is common in soils and actually an essential nutrient in small amounts, and Cr(VI)—hexavalent chromium—which is the form linked to serious health concerns including cancer and organ damage. Naturally, less than 1% of soil chromium exists as Cr(VI), and it's most commonly associated with industrial activity rather than natural deposits. At concentrations above 200–300 ppm, particularly near areas with industrial history, Cr(VI) is worth being aware of—[hyperlink] has more resources if you want to dig deeper."
+        "body": "It depends on the form. Chromium comes in two main varieties: Cr(III), which is common in soils and actually an essential nutrient in small amounts, and Cr(VI)—hexavalent chromium—which is the form linked to serious health concerns including cancer and organ damage. Naturally, less than 1% of soil chromium exists as Cr(VI), and it's most commonly associated with industrial activity rather than natural deposits. At concentrations above 200–300 ppm, particularly near areas with industrial history, Cr(VI) is worth being aware of has more resources if you want to dig deeper.Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -715,7 +715,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Unlikely, but not impossible. Most soils hold 500–3,000 ppm manganese. Readings above 10,000 ppm can indicate manganese-rich deposits or layers that have historically been mined in certain regions. Further testing [hyperlink] is an option when levels are that far above normal."
+        "body": "Unlikely, but not impossible. Most soils hold 500–3,000 ppm manganese. Readings above 10,000 ppm can indicate manganese-rich deposits or layers that have historically been mined in certain regions. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -746,8 +746,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Manganese was first recognized as an element in 1774 when Johan Gottlieb Gahn isolated it from the mineral pyrolusite."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's manganese is above 3,000 ppm, your soil sample is in the company of the deep mineral-rich plains of Madhya Pradesh, India—red-brown earth between forested hills, ancient mining country where ore deposits run close to the surface, the same nutrient-dense soil that produces the region's famous wheat and soybeans. If your sample's manganese is below 500 ppm, your soil sample resembles the pale desert sands of Western Australia—sun-bleached dunes, sparse scrubland, lean earth where only the hardiest native plants take root."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's manganese is above 3,000 ppm, your soil sample is in the company of the deep mineral-rich plains of Madhya Pradesh, India—red-brown earth between forested hills, ancient mining country where ore deposits run close to the surface, the same nutrient-dense soil that produces the region's famous wheat and soybeans. If your sample's manganese is below 500 ppm, your soil sample resembles the pale desert sands of Western Australia—sun-bleached dunes, sparse scrubland, lean earth where only the hardiest native plants take root."
       }
     ]
   },
@@ -762,7 +762,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, in uncommon cases. Soils above 80,000 ppm (8%) total iron have historically been associated with iron-rich geologic formations. Most backyard soils range from 10,000–40,000 ppm, and further testing [hyperlink] is something some homeowners could consider when levels climb well above that range."
+        "body": "Possibly, in uncommon cases. Soils above 80,000 ppm (8%) total iron have historically been associated with iron-rich geologic formations. Most backyard soils range from 10,000–40,000 ppm, and further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -793,8 +793,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Iron has been used by humans for thousands of years—ancient civilizations smelted it from ore, and even earlier, people fashioned tools and jewelry from meteoric iron that fell from space."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's iron is between 20,000 and 35,000 ppm, your soil sample is in the range of central Brazil's red clay country—vivid soil, dirt roads that stain everything rust-red, the same iron-rich earth that produces Brazil's famous coffee and sugarcane. Above 35,000 ppm, your soil sample's iron level is in the league of Australia's Pilbara region—sun-scorched plains blazing red-orange, ancient rock formations jutting from the earth, the ground so iron-rich it's been mined for decades, harsh land where only the toughest native spinifex grass takes root. Between 8,000 and 15,000 ppm, your sample's iron levels are right about where you'd find the agricultural heartland of northern France—soft green fields, centuries-old stone farmhouses, the same mineral soil that produces Normandy's famous Camembert and the apples behind its golden cidre. If your sample's iron is above 30,000 ppm and titanium is above 5,000 ppm, your soil sample's combination is in the vivid range of Mount Etna in Sicily—steep hillsides of black volcanic soil streaked with rust-red, citrus groves clinging to the slopes, the same fierce mineral earth that grows sweet blood oranges as well as the grapes behind bold Etna Rosso wines. If your sample's iron is below 20,000 ppm and titanium is below 5,000 ppm, your soil sample is on the gentler end, similar to the Carpathian foothills of Romania—the mineral variety beneath the surface showing up in subtle browns and grays rather than dramatic reds, pastoral soil where maize and orchard fruit have grown for generations."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's iron is between 20,000 and 35,000 ppm, your soil sample is in the range of central Brazil's red clay country—vivid soil, dirt roads that stain everything rust-red, the same iron-rich earth that produces Brazil's famous coffee and sugarcane. Above 35,000 ppm, your soil sample's iron level is in the league of Australia's Pilbara region—sun-scorched plains blazing red-orange, ancient rock formations jutting from the earth, the ground so iron-rich it's been mined for decades, harsh land where only the toughest native spinifex grass takes root. Between 8,000 and 15,000 ppm, your sample's iron levels are right about where you'd find the agricultural heartland of northern France—soft green fields, centuries-old stone farmhouses, the same mineral soil that produces Normandy's famous Camembert and the apples behind its golden cidre. If your sample's iron is above 30,000 ppm and titanium is above 5,000 ppm, your soil sample's combination is in the vivid range of Mount Etna in Sicily—steep hillsides of black volcanic soil streaked with rust-red, citrus groves clinging to the slopes, the same fierce mineral earth that grows sweet blood oranges as well as the grapes behind bold Etna Rosso wines. If your sample's iron is below 20,000 ppm and titanium is below 5,000 ppm, your soil sample is on the gentler end, similar to the Carpathian foothills of Romania—the mineral variety beneath the surface showing up in subtle browns and grays rather than dramatic reds, pastoral soil where maize and orchard fruit have grown for generations."
       }
     ]
   },
@@ -809,7 +809,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Unlikely, but not impossible. Normal soils range from about 1 to 40 ppm. If soil exceeds 500 ppm, it may reflect naturally concentrated cobalt—sometimes a sign of cobalt-rich rock below the surface. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Unlikely, but not impossible. Normal soils range from about 1 to 40 ppm. If soil exceeds 500 ppm, it may reflect naturally concentrated cobalt—sometimes a sign of cobalt-rich rock below the surface. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -840,8 +840,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Cobalt was isolated in 1735 by Swedish chemist Georg Brandt, who proved that the mysterious blue color in glass came from a new element—not bismuth or copper, as most believed."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's cobalt is above 50 ppm, your soil sample is in the company of Zambia's Copperbelt—wide savanna stretching over ancient mineral veins, red-orange earth rich with copper and cobalt, open-pit mines carved into the plateau, the same mineral-heavy soil that grows maize and groundnuts across the surrounding farmland. If your sample's cobalt is below 25 ppm, your soil sample's levels are mild—like the coastal soils of Scotland, soft green hillsides meeting rocky shoreline, the peaty, acidic earth that shapes the region's famous single malt Scotch."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's cobalt is above 50 ppm, your soil sample is in the company of Zambia's Copperbelt—wide savanna stretching over ancient mineral veins, red-orange earth rich with copper and cobalt, open-pit mines carved into the plateau, the same mineral-heavy soil that grows maize and groundnuts across the surrounding farmland. If your sample's cobalt is below 25 ppm, your soil sample's levels are mild—like the coastal soils of Scotland, soft green hillsides meeting rocky shoreline, the peaty, acidic earth that shapes the region's famous single malt Scotch."
       }
     ]
   },
@@ -856,7 +856,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly. Typical soil levels run 20–100 ppm, so readings above 1,000–2,000 ppm are well above normal and could indicate mineral-bearing rock or old volcanic deposits. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Possibly. Typical soil levels run 20–100 ppm, so readings above 1,000–2,000 ppm are well above normal and could indicate mineral-bearing rock or old volcanic deposits. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -887,8 +887,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Nickel was discovered in 1751 by Axel Fredrik Cronstedt, who isolated it from a reddish ore that frustrated miners had nicknamed \"kupfernickel\"—literally \"copper demon\"—because it looked like copper but wasn't."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's nickel is above 250 ppm, your soil sample is in the company of Sulawesi, Indonesia—volcanic island earth enriched by deep mantle processes, dense tropical forest draped over mineral-rich ridgelines, the same volcanic soil that produces some of the world's most distinctive coffee and cacao. If your sample's nickel is below 25 ppm, your soil sample's levels are quiet—like the farmlands of Denmark, flat green fields, the steady earth that produces root vegetables and Danish barley (much of which ends up in the country's famous lager)."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's nickel is above 250 ppm, your soil sample is in the company of Sulawesi, Indonesia—volcanic island earth enriched by deep mantle processes, dense tropical forest draped over mineral-rich ridgelines, the same volcanic soil that produces some of the world's most distinctive coffee and cacao. If your sample's nickel is below 25 ppm, your soil sample's levels are quiet—like the farmlands of Denmark, flat green fields, the steady earth that produces root vegetables and Danish barley (much of which ends up in the country's famous lager)."
       }
     ]
   },
@@ -903,7 +903,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Sometimes. Normal soils contain about 10–100 ppm copper. Readings above 1,000 ppm are well above typical and can indicate copper-rich rock formations—sometimes accompanied by blue or green mineral discoloration in the surrounding geology. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Sometimes. Normal soils contain about 10–100 ppm copper. Readings above 1,000 ppm are well above typical and can indicate copper-rich rock formations—sometimes accompanied by blue or green mineral discoloration in the surrounding geology. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -934,8 +934,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Copper has been known since antiquity—its name comes from the Latin cyprium, meaning \"metal from Cyprus,\" which was once a major copper source."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's copper is above 300 ppm, your soil sample is in the company of Chile's Atacama Desert—rust-colored mountains rising above salt flats, veins of copper running through ancient rock, arid land where the mineral-rich runoff feeds the vineyards of the nearby Elqui Valley. If your sample's copper is between 150 and 300 ppm, your soil sample resembles the highland soils of Greece—hillsides dotted with olive groves and wild thyme, rocky slopes where ancient miners once extracted copper for early tools, the same thin, mineral-rich earth that produces some of the world's oldest olive oil. Below 25 ppm, your sample's copper levels are sparse like the deep Sahara Desert—mineral-poor sand shaped by wind rather than water, earth too lean without minerals like copper to support much beyond the hardiest desert scrub. If your sample's copper is above 200 ppm and zinc is above 150 ppm, that copper-zinc combination puts your soil sample in the neighborhood of the elevated Andean soils of Peru—terraced mountainsides, lush green valleys, the same high-altitude earth that's been growing quinoa and potatoes for thousands of years."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's copper is above 300 ppm, your soil sample is in the company of Chile's Atacama Desert—rust-colored mountains rising above salt flats, veins of copper running through ancient rock, arid land where the mineral-rich runoff feeds the vineyards of the nearby Elqui Valley. If your sample's copper is between 150 and 300 ppm, your soil sample resembles the highland soils of Greece—hillsides dotted with olive groves and wild thyme, rocky slopes where ancient miners once extracted copper for early tools, the same thin, mineral-rich earth that produces some of the world's oldest olive oil. Below 25 ppm, your sample's copper levels are sparse like the deep Sahara Desert—mineral-poor sand shaped by wind rather than water, earth too lean without minerals like copper to support much beyond the hardiest desert scrub. If your sample's copper is above 200 ppm and zinc is above 150 ppm, that copper-zinc combination puts your soil sample in the neighborhood of the elevated Andean soils of Peru—terraced mountainsides, lush green valleys, the same high-altitude earth that's been growing quinoa and potatoes for thousands of years."
       }
     ]
   },
@@ -950,7 +950,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly. Most soils contain 30–300 ppm zinc. Readings above 5,000 ppm are unusually high and may indicate zinc-rich rock formations or a geologic history of mineral concentration. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Possibly. Most soils contain 30–300 ppm zinc. Readings above 5,000 ppm are unusually high and may indicate zinc-rich rock formations or a geologic history of mineral concentration. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -981,8 +981,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Brass (a copper-zinc alloy) was used in ancient times, but pure zinc wasn't isolated until 1746 by Andreas Marggraf in Germany."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into any of these famous ranges? If your sample's zinc is above 200 ppm, your soil sample is in the company of the fertile plains of northern India—golden fields between river deltas, alluvial soil darkened by monsoon rains, the same nutrient-dense earth that produces the region's famous basmati rice and wheat. If your sample's zinc is below 50 ppm, your soil sample resembles the sandy soils of Finland—birch forests rising above pale, glacially scraped earth, lean soil where hardy rye and wild berries are among the few things that flourish. If your sample's copper is above 200 ppm and zinc is above 150 ppm, that copper-zinc combination puts your soil sample in the neighborhood of the elevated Andean soils of Peru—terraced mountainsides, lush green valleys, the same high-altitude earth that's been growing quinoa and potatoes for thousands of years."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's zinc is above 200 ppm, your soil sample is in the company of the fertile plains of northern India—golden fields between river deltas, alluvial soil darkened by monsoon rains, the same nutrient-dense earth that produces the region's famous basmati rice and wheat. If your sample's zinc is below 50 ppm, your soil sample resembles the sandy soils of Finland—birch forests rising above pale, glacially scraped earth, lean soil where hardy rye and wild berries are among the few things that flourish. If your sample's copper is above 200 ppm and zinc is above 150 ppm, that copper-zinc combination puts your soil sample in the neighborhood of the elevated Andean soils of Peru—terraced mountainsides, lush green valleys, the same high-altitude earth that's been growing quinoa and potatoes for thousands of years."
       }
     ]
   },
@@ -997,7 +997,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Potentially. Typical soils contain just 5–20 ppm gallium, which is far too low for extraction. If levels exceed about 50–100 ppm, it could suggest aluminum- or zinc-rich deposits nearby, since gallium is often recovered as a byproduct from those materials. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Potentially. Typical soils contain just 5–20 ppm gallium, which is far too low for extraction. If levels exceed about 50–100 ppm, it could suggest aluminum- or zinc-rich deposits nearby, since gallium is often recovered as a byproduct from those materials. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -1028,8 +1028,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Gallium was discovered in 1875 by French chemist Paul-Émile Lecoq de Boisbaudran—one of the first elements predicted by Mendeleev's periodic table (he called it \"eka-aluminum\") before it was actually found."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into this famous range? If your sample's gallium is above 30 ppm, your soil sample is in the range of the red bauxite hills of Jamaica—deep rust-colored earth carved into rolling ridges by tropical rain, lush green vegetation, the same aluminum-rich soil that produces Jamaica's world-famous Blue Mountain coffee."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's gallium is above 30 ppm, your soil sample is in the range of the red bauxite hills of Jamaica—deep rust-colored earth carved into rolling ridges by tropical rain, lush green vegetation, the same aluminum-rich soil that produces Jamaica's world-famous Blue Mountain coffee."
       }
     ]
   },
@@ -1044,7 +1044,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possible, but only under very specific circumstances. Most soils contain just 1–5 ppm germanium. If levels reach 50–100 ppm or more, it could indicate nearby zinc, copper, or coal deposits where germanium sometimes occurs as a byproduct. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Possible, but only under very specific circumstances. Most soils contain just 1–5 ppm germanium. If levels reach 50–100 ppm or more, it could indicate nearby zinc, copper, or coal deposits where germanium sometimes occurs as a byproduct. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -1075,8 +1075,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Germanium was discovered in 1886 by Clemens Winkler, who named it after his homeland of Germany—it was one of the first elements Mendeleev had predicted on his periodic table before anyone had found it."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into this famous range? If your sample's germanium is above 5 ppm, your soil sample is in the range of Japan's volcanic hot-spring country—steam rising from mineral-rich earth, terraced hillsides lush with green, geothermal waters depositing rare trace elements as they cool, the same soil that produces Japan's prized short-grain rice and delicate matcha tea."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's germanium is above 5 ppm, your soil sample is in the range of Japan's volcanic hot-spring country—steam rising from mineral-rich earth, terraced hillsides lush with green, geothermal waters depositing rare trace elements as they cool, the same soil that produces Japan's prized short-grain rice and delicate matcha tea."
       }
     ]
   },
@@ -1095,7 +1095,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes—arsenic is one of the most well-known heavy metal concerns in soil. Natural background levels are typically below 15 ppm. Notably, the U.S. Environmental Protection Agency (EPA) sets its screening level at 0.14 ppm—below what's found in many natural soils. That doesn't mean most soil is dangerous; it means arsenic is an element regulators take seriously even at low levels—[hyperlink] has more on what that means. Long-term exposure through dust or groundwater to arsenic has been linked to health concerns."
+        "body": "Yes—arsenic is one of the most well-known heavy metal concerns in soil. Natural background levels are typically below 15 ppm. Notably, the U.S. Environmental Protection Agency (EPA) sets its screening level at 0.14 ppm—below what's found in many natural soils. That doesn't mean most soil is dangerous; it means arsenic is an element regulators take seriously even at low levels has more on what that means. Long-term exposure through dust or groundwater to arsenic has been linked to health concerns. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -1165,8 +1165,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Selenium was discovered in 1817 by Swedish chemist Jöns Jakob Berzelius while analyzing chemicals from a sulfuric acid plant."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into this famous range? If your sample's selenium is above 3 ppm, your soil sample is in the range of China's Enshi Basin—mountain valleys in central Hubei province, dark mineral-rich earth that's among the most selenium-concentrated in the world, the same soil that produces the region's prized selenium-rich tea and high-mineral rice."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's selenium is above 3 ppm, your soil sample is in the range of China's Enshi Basin—mountain valleys in central Hubei province, dark mineral-rich earth that's among the most selenium-concentrated in the world, the same soil that produces the region's prized selenium-rich tea and high-mineral rice."
       }
     ]
   },
@@ -1181,7 +1181,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Potentially, in certain geological settings. Typical soils contain just 1–5 ppm bromine—far too low for practical recovery. Bromine becomes economically interesting when concentrations exceed about 100 ppm in brines or mineral layers left behind by evaporated water. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Potentially, in certain geological settings. Typical soils contain just 1–5 ppm bromine—far too low for practical recovery. Bromine becomes economically interesting when concentrations exceed about 100 ppm in brines or mineral layers left behind by evaporated water. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -1212,8 +1212,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Bromine was discovered in 1826 by French chemist Antoine Balard while studying salt marsh brines."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into this famous range? If your sample's bromine is above 200 ppm, your soil sample is in the range of Bolivia's Salar de Uyuni—the world's largest salt flat, a blinding white expanse stretching to the horizon, mineral crusts cracking underfoot in geometric patterns, ancient lakebed earth so saturated with salts that nothing grows on its surface."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's bromine is above 200 ppm, your soil sample is in the range of Bolivia's Salar de Uyuni—the world's largest salt flat, a blinding white expanse stretching to the horizon, mineral crusts cracking underfoot in geometric patterns, ancient lakebed earth so saturated with salts that nothing grows on its surface."
       }
     ]
   },
@@ -1228,7 +1228,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Rarely. Most soils contain 30–100 ppm rubidium, which isn't commercially interesting. Soils above 500–1,000 ppm could indicate nearby rubidium- or lithium-rich rock formations. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Rarely. Most soils contain 30–100 ppm rubidium, which isn't commercially interesting. Soils above 500–1,000 ppm could indicate nearby rubidium- or lithium-rich rock formations. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -1271,7 +1271,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, though it's uncommon. Normal soils hold around 100–400 ppm strontium. If levels exceed 1,000 ppm, it could indicate ancient marine layers that have historically been associated with strontium-bearing mineral formations. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Possibly, though it's uncommon. Normal soils hold around 100–400 ppm strontium. If levels exceed 1,000 ppm, it could indicate ancient marine layers that have historically been associated with strontium-bearing mineral formations. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -1302,8 +1302,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Strontium was discovered in 1790 by Adair Crawford and William Cruickshank in minerals from the Scottish Highlands."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into this famous range? If your sample's strontium is above 300 ppm, your soil sample is in the range of the coral shores of the Caribbean—white sand built from centuries of crushed shells and reef, limestone bluffs, mineral-rich coastal earth where coconut palms and sugarcane thrive in the calcium- and strontium-heavy ground."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's strontium is above 300 ppm, your soil sample is in the range of the coral shores of the Caribbean—white sand built from centuries of crushed shells and reef, limestone bluffs, mineral-rich coastal earth where coconut palms and sugarcane thrive in the calcium- and strontium-heavy ground."
       }
     ]
   },
@@ -1318,7 +1318,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, if levels are exceptionally high. Normal soils contain about 20–50 ppm yttrium. Readings above 300 ppm could indicate rare-earth-rich clays or heavy mineral deposits. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly, if levels are exceptionally high. Normal soils contain about 20–50 ppm yttrium. Readings above 300 ppm could indicate rare-earth-rich clays or heavy mineral deposits. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -1361,7 +1361,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly. Most soils contain 100–300 ppm zirconium. Levels above 1,000 ppm can indicate heavy mineral sands rich in zircon, which is sometimes mined for industrial use. Zircon crystals are also occasionally valued as natural gemstones. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Possibly. Most soils contain 100–300 ppm zirconium. Levels above 1,000 ppm can indicate heavy mineral sands rich in zircon, which is sometimes mined for industrial use. Zircon crystals are also occasionally valued as natural gemstones. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -1392,8 +1392,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Zirconium was first identified in 1789 by German chemist Martin Heinrich Klaproth while analyzing the gemstone zircon."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into this famous range? If your sample's zirconium is above 300 ppm, your soil sample is in the range of the golden beaches of Western Australia—sun-bleached sand glittering with tiny zircon crystals, mineral-heavy coastal earth where hardy native scrub and salt-tolerant grasses hold the dunes together."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your sample's zirconium is above 300 ppm, your soil sample is in the range of the golden beaches of Western Australia—sun-bleached sand glittering with tiny zircon crystals, mineral-heavy coastal earth where hardy native scrub and salt-tolerant grasses hold the dunes together."
       }
     ]
   },
@@ -1408,7 +1408,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Potentially, but only at high concentrations. Typical soils contain less than 50 ppm niobium. If levels exceed 200–500 ppm, it may indicate the presence of niobium-tantalum minerals, which are sometimes mined when concentrated enough. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Potentially, but only at high concentrations. Typical soils contain less than 50 ppm niobium. If levels exceed 200–500 ppm, it may indicate the presence of niobium-tantalum minerals, which are sometimes mined when concentrated enough. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -1451,7 +1451,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, if levels are unusually high. Most soils contain less than 2 ppm molybdenum. Readings above 10–20 ppm could indicate molybdenum-rich rock formations—the main source of industrial molybdenum used in steel and alloys. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Possibly, if levels are unusually high. Most soils contain less than 2 ppm molybdenum. Readings above 10–20 ppm could indicate molybdenum-rich rock formations—the main source of industrial molybdenum used in steel and alloys. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -1537,7 +1537,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly. Ruthenium is normally undetectable in soils (typical levels are well below 0.01 ppm), so readings of 5–10 ppm or higher are unusual and have historically been associated with platinum-group mineralization—the same geological systems that produce platinum and palladium. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly. Ruthenium is normally undetectable in soils (typical levels are well below 0.01 ppm), so readings of 5–10 ppm or higher are unusual and have historically been associated with platinum-group mineralization—the same geological systems that produce platinum and palladium. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>."
       },
       {
         "title": "Is it toxic?",
@@ -1580,7 +1580,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly. Rhodium is vanishingly rare in soils (typical levels are well below 0.01 ppm), so finding it at 5–10 ppm or higher is unusual and has historically been associated with platinum-group metal (PGM) mineralization, the same geological systems that yield platinum, palladium, and ruthenium. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly. Rhodium is vanishingly rare in soils (typical levels are well below 0.01 ppm), so finding it at 5–10 ppm or higher is unusual and has historically been associated with platinum-group metal (PGM) mineralization, the same geological systems that yield platinum, palladium, and ruthenium. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -1623,7 +1623,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly. Palladium is essentially absent from soils under natural conditions (typical levels are below 0.01 ppm), so detecting it at 5–10 ppm or higher is rare and has historically been associated with platinum-group metal (PGM) mineralization. Palladium often occurs alongside platinum, rhodium, and ruthenium. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly. Palladium is essentially absent from soils under natural conditions (typical levels are below 0.01 ppm), so detecting it at 5–10 ppm or higher is rare and has historically been associated with platinum-group metal (PGM) mineralization. Palladium often occurs alongside platinum, rhodium, and ruthenium. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -1666,7 +1666,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly. Silver at 10–20 ppm is above typical background levels (normally under 1 ppm), and historically, elevated silver readings have been associated with proximity to precious-metal geology. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly. Silver at 10–20 ppm is above typical background levels (normally under 1 ppm), and historically, elevated silver readings have been associated with proximity to precious-metal geology. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -1713,7 +1713,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes, and worth taking seriously. Most soils naturally contain less than 1 ppm cadmium—above about 3 ppm, it's considered contaminated. Long-term exposure through dust or food grown in contaminated soil has been linked to kidney damage, bone weakening, and cancer. Cadmium is one of the heavy metals regulators pay close attention to—[hyperlink] has more resources if you want to dig deeper."
+        "body": "Yes, and worth taking seriously. Most soils naturally contain less than 1 ppm cadmium—above about 3 ppm, it's considered contaminated. Long-term exposure through dust or food grown in contaminated soil has been linked to kidney damage, bone weakening, and cancer. Cadmium is one of the heavy metals regulators pay close attention to has more resources if you want to dig deeper. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -1752,7 +1752,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, but only in unusual circumstances. Typical soils contain less than 1 ppm indium. Readings above 10–20 ppm could signal zinc or tin ore nearby—indium often occurs in those deposits and is sometimes recovered as a byproduct. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Possibly, but only in unusual circumstances. Typical soils contain less than 1 ppm indium. Readings above 10–20 ppm could signal zinc or tin ore nearby—indium often occurs in those deposits and is sometimes recovered as a byproduct. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -1795,7 +1795,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, if levels are unusually high. Normal soils contain less than 5 ppm tin. Readings above 50–100 ppm could indicate nearby tin-bearing formations—regions like Cornwall, England and parts of Nevada have historically been associated with tin mining. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Possibly, if levels are unusually high. Normal soils contain less than 5 ppm tin. Readings above 50–100 ppm could indicate nearby tin-bearing formations—regions like Cornwall, England and parts of Nevada have historically been associated with tin mining. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -1842,7 +1842,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes, at elevated levels. Most soils naturally contain less than 1 ppm antimony—above about 20 ppm, chronic exposure through ingestion or dust can affect the liver, lungs, and heart. Antimony is one of the elements environmental agencies keep an eye on—[hyperlink] has more resources if you want to dig deeper."
+        "body": "Yes, at elevated levels. Most soils naturally contain less than 1 ppm antimony—above about 20 ppm, chronic exposure through ingestion or dust can affect the liver, lungs, and heart. Antimony is one of the elements environmental agencies keep an eye on has more resources if you want to dig deeper.Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -1885,7 +1885,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Worth noting at elevated levels. Tellurium isn't highly toxic at natural soil levels (generally below 1 ppm), but prolonged exposure above about 10 ppm has been linked to fatigue, nausea, and the garlic-like breath odor the element is known for—[hyperlink] has more resources if you want to dig deeper."
+        "body": "Worth noting at elevated levels. Tellurium isn't highly toxic at natural soil levels (generally below 1 ppm), but prolonged exposure above about 10 ppm has been linked to fatigue, nausea, and the garlic-like breath odor the element is known for has more resources if you want to dig deeper. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -1924,7 +1924,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Unlikely, but not impossible. Normal soils contain less than 5 ppm iodine. Levels above 20–50 ppm could indicate brine-rich layers or ancient marine sediments, which have historically been associated with iodine extraction for industrial and pharmaceutical use. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Unlikely, but not impossible. Normal soils contain less than 5 ppm iodine. Levels above 20–50 ppm could indicate brine-rich layers or ancient marine sediments, which have historically been associated with iodine extraction for industrial and pharmaceutical use. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -1967,7 +1967,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Rarely. Normal soils have less than 10 ppm cesium. Levels above 100 ppm may indicate cesium-rich mineral formations that have historically been associated with industrial extraction. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Rarely. Normal soils have less than 10 ppm cesium. Levels above 100 ppm may indicate cesium-rich mineral formations that have historically been associated with industrial extraction. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2010,7 +2010,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Occasionally. Normal soils range from 200–1,500 ppm barium. Readings above 5,000 ppm could suggest barite deposits, which have historically been mined for industrial use. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Occasionally. Normal soils range from 200–1,500 ppm barium. Readings above 5,000 ppm could suggest barite deposits, which have historically been mined for industrial use. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2041,8 +2041,8 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
         "body": "Barium compounds were known for centuries, but the element itself was first isolated in 1808 by Sir Humphry Davy using electrolysis. The name comes from the Greek word barys, meaning \"heavy,\" because barium minerals are unusually dense."
       },
       {
-        "title": "Famous Comparisons",
-        "body": "Do your results fall into this famous range? If your soil sample's barium is above 500 ppm, it is in the range of the barium levels of Morocco's Atlas Mountains—rugged highland terrain, pale rocky slopes rich with barite deposits, dense mineral-heavy ground carved by ancient rivers."
+        "title": "Famous Comparisons: Do your results fall into any of these famous ranges?",
+        "body": "If your soil sample's barium is above 500 ppm, it is in the range of the barium levels of Morocco's Atlas Mountains—rugged highland terrain, pale rocky slopes rich with barite deposits, dense mineral-heavy ground carved by ancient rivers."
       }
     ]
   },
@@ -2057,7 +2057,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Average soils contain about 20–80 ppm lanthanum. Values above 500 ppm may indicate rare-earth-bearing minerals that have historically been associated with extraction activity. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Average soils contain about 20–80 ppm lanthanum. Values above 500 ppm may indicate rare-earth-bearing minerals that have historically been associated with extraction activity. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2100,7 +2100,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly. Most soils contain 10–100 ppm cerium. Concentrations above 500 ppm may indicate rare-earth-rich minerals that have historically been associated with extraction activity. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly. Most soils contain 10–100 ppm cerium. Concentrations above 500 ppm may indicate rare-earth-rich minerals that have historically been associated with extraction activity. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2143,7 +2143,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, though it's uncommon. Typical soils contain about 1–20 ppm praseodymium. Levels above 300 ppm could indicate rare-earth-bearing clays or mineral sands. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly, though it's uncommon. Typical soils contain about 1–20 ppm praseodymium. Levels above 300 ppm could indicate rare-earth-bearing clays or mineral sands. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2186,7 +2186,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly. Normal soils contain 10–80 ppm neodymium. Concentrations above 400 ppm could indicate rare-earth-rich clays. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly. Normal soils contain 10–80 ppm neodymium. Concentrations above 400 ppm could indicate rare-earth-rich clays. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2272,7 +2272,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, though only at unusually high levels. Normal soils contain around 2–10 ppm samarium. Concentrations above 300 ppm could indicate rare-earth-rich clays or mineral sands. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly, though only at unusually high levels. Normal soils contain around 2–10 ppm samarium. Concentrations above 300 ppm could indicate rare-earth-rich clays or mineral sands. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2315,7 +2315,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, but only if concentrations are unusually high. Most soils contain 1–3 ppm europium. Readings above 200 ppm could indicate rare-earth-enriched deposits. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly, but only if concentrations are unusually high. Most soils contain 1–3 ppm europium. Readings above 200 ppm could indicate rare-earth-enriched deposits. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2358,7 +2358,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, but only if concentrations are much higher than normal. Average soils contain about 1–10 ppm gadolinium. Readings above 300 ppm could indicate rare-earth-rich deposits. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly, but only if concentrations are much higher than normal. Average soils contain about 1–10 ppm gadolinium. Readings above 300 ppm could indicate rare-earth-rich deposits. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2401,7 +2401,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, but only at unusually high concentrations. Normal soils contain around 1–2 ppm terbium. Values above 200 ppm could indicate rare-earth-rich clays or mineral sands. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly, but only at unusually high concentrations. Normal soils contain around 1–2 ppm terbium. Values above 200 ppm could indicate rare-earth-rich clays or mineral sands. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2444,7 +2444,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly. Normal soils contain around 1–6 ppm dysprosium. Levels above 250 ppm could indicate rare-earth-rich mineral sands or clays. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly. Normal soils contain around 1–6 ppm dysprosium. Levels above 250 ppm could indicate rare-earth-rich mineral sands or clays. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2487,7 +2487,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, though it's rare. Normal soils contain around 1–3 ppm holmium. Concentrations above 200 ppm could indicate rare-earth-bearing minerals. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly, though it's rare. Normal soils contain around 1–3 ppm holmium. Concentrations above 200 ppm could indicate rare-earth-bearing minerals. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2530,7 +2530,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, though only at much higher than normal levels. Typical soils contain 1–4 ppm erbium. Readings above 250 ppm could indicate rare-earth-rich deposits. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly, though only at much higher than normal levels. Typical soils contain 1–4 ppm erbium. Readings above 250 ppm could indicate rare-earth-rich deposits. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2573,7 +2573,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, though it's one of the rarest and most expensive rare earths. Normal soils contain about 0.3–0.5 ppm thulium. Concentrations above 150 ppm may indicate rare-earth-rich clays or mineral sands. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly, though it's one of the rarest and most expensive rare earths. Normal soils contain about 0.3–0.5 ppm thulium. Concentrations above 150 ppm may indicate rare-earth-rich clays or mineral sands. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2616,7 +2616,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly. Normal soils contain about 1–3 ppm ytterbium. Concentrations above 200 ppm could indicate rare-earth-rich mineral sands. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly. Normal soils contain about 1–3 ppm ytterbium. Concentrations above 200 ppm could indicate rare-earth-rich mineral sands. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2659,7 +2659,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, though only at unusually high concentrations. Normal soils contain around 0.5–1 ppm lutetium. Readings above 150 ppm could indicate rare-earth-rich mineralization. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly, though only at unusually high concentrations. Normal soils contain around 0.5–1 ppm lutetium. Readings above 150 ppm could indicate rare-earth-rich mineralization. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2702,7 +2702,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, if levels are high enough. Normal soils contain less than 5 ppm hafnium. Concentrations above 50–100 ppm may indicate zircon-rich sands, which are sometimes mined for both zirconium and hafnium. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Possibly, if levels are high enough. Normal soils contain less than 5 ppm hafnium. Concentrations above 50–100 ppm may indicate zircon-rich sands, which are sometimes mined for both zirconium and hafnium. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2745,7 +2745,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Potentially. Normal soils contain less than 5 ppm tantalum. Readings above 50–100 ppm can indicate tantalum-bearing minerals, which have historically been associated with mining activity. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Potentially. Normal soils contain less than 5 ppm tantalum. Readings above 50–100 ppm can indicate tantalum-bearing minerals, which have historically been associated with mining activity. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2788,7 +2788,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly. Typical soils contain less than 5 ppm tungsten. Concentrations above 50–100 ppm could indicate tungsten-bearing mineral formations that have historically been associated with mining activity. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Possibly. Typical soils contain less than 5 ppm tungsten. Concentrations above 50–100 ppm could indicate tungsten-bearing mineral formations that have historically been associated with mining activity. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2831,7 +2831,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly, though only at unusually high concentrations. Natural soils typically contain less than 1 ppb rhenium, so any detectable levels are noteworthy and could indicate copper or molybdenum mineralization nearby. Further testing [hyperlink] is an option when levels are detectable."
+        "body": "Possibly, though only at unusually high concentrations. Natural soils typically contain less than 1 ppb rhenium, so any detectable levels are noteworthy and could indicate copper or molybdenum mineralization nearby. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2874,7 +2874,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly. Natural soils rarely show measurable osmium (typical levels are below 0.005 ppm). Detecting it at 5–10 ppm or higher is unusual and has historically been associated with platinum-group metal (PGM) mineralization—osmium often occurs alongside iridium, platinum, and ruthenium. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly. Natural soils rarely show measurable osmium (typical levels are below 0.005 ppm). Detecting it at 5–10 ppm or higher is unusual and has historically been associated with platinum-group metal (PGM) mineralization—osmium often occurs alongside iridium, platinum, and ruthenium. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2917,7 +2917,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly. Natural soils rarely contain measurable iridium (typical levels are below 0.005 ppm). Detecting it at 5–10 ppm or higher is rare and has historically been associated with platinum-group metal (PGM) mineralization, often alongside osmium, platinum, and ruthenium. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly. Natural soils rarely contain measurable iridium (typical levels are below 0.005 ppm). Detecting it at 5–10 ppm or higher is rare and has historically been associated with platinum-group metal (PGM) mineralization, often alongside osmium, platinum, and ruthenium. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -2960,7 +2960,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Possibly. Platinum is extremely rare in natural soils (typical levels are below 0.01 ppm). Detecting it at 5–10 ppm or higher is unusual and has historically been associated with platinum-group metal (PGM) mineralization. Platinum typically occurs alongside palladium, iridium, and osmium. However, what it means for your specific land is a question for a professional. See [hyperlink] for more information."
+        "body": "Possibly. Platinum is extremely rare in natural soils (typical levels are below 0.01 ppm). Detecting it at 5–10 ppm or higher is unusual and has historically been associated with platinum-group metal (PGM) mineralization. Platinum typically occurs alongside palladium, iridium, and osmium. However, what it means for your specific land is a question for a professional. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -3003,7 +3003,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Potentially. The typical background level is under 0.01 ppm, and historically, readings over 5 ppm have been associated with natural mineral deposits from eroded gold veins or nearby bedrock. Most people only conduct targeted sampling, panning in nearby drainages, or small-scale exploration to determine whether recoverable gold is present if their soil detection levels are above 5 ppm. See [hyperlink] for more."
+        "body": "Potentially. The typical background level is under 0.01 ppm, and historically, readings over 5 ppm have been associated with natural mineral deposits from eroded gold veins or nearby bedrock. Most people only conduct targeted sampling, panning in nearby drainages, or small-scale exploration to determine whether recoverable gold is present if their soil detection levels are above 5 ppm. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -3050,7 +3050,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes, and one of the most well-known toxicity concerns in soil science. Most soils naturally contain less than 0.05 ppm mercury. Above about 0.3 ppm, soil is generally considered contaminated, and long-term exposure has been linked to neurological damage, memory loss, and developmental issues—especially from methylmercury, a form that builds up in the food chain. The U.S. Environmental Protection Agency (EPA) sets its residential soil screening level at 23 ppm. Mercury is an element regulators take seriously at almost any elevation—[hyperlink] has more resources if you want to dig deeper."
+        "body": "Yes, and one of the most well-known toxicity concerns in soil science. Most soils naturally contain less than 0.05 ppm mercury. Above about 0.3 ppm, soil is generally considered contaminated, and long-term exposure has been linked to neurological damage, memory loss, and developmental issues—especially from methylmercury, a form that builds up in the food chain. The U.S. Environmental Protection Agency (EPA) sets its residential soil screening level at 23 ppm. Mercury is an element regulators take seriously at almost any elevation has more resources if you want to dig deeper.Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -3093,7 +3093,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes, and one of the more toxic metals in soil. Most soils naturally contain less than 0.1 ppm thallium—above about 1 ppm, it's considered contaminated. Chronic exposure has been linked to hair loss, nerve damage, and cardiovascular problems, with health risks increasing sharply above 5 ppm. Thallium is an element regulators take seriously—[hyperlink] has more resources if you want to dig deeper."
+        "body": "Yes, and one of the more toxic metals in soil. Most soils naturally contain less than 0.1 ppm thallium—above about 1 ppm, it's considered contaminated. Chronic exposure has been linked to hair loss, nerve damage, and cardiovascular problems, with health risks increasing sharply above 5 ppm. Thallium is an element regulators take seriously has more resources if you want to dig deeper.Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -3136,7 +3136,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes—lead is one of the most well-known heavy metal concerns for human health, particularly for children and pregnant women, where developing brains are especially sensitive to its effects. It can also affect the nervous system and kidneys. Natural background levels are usually under 20 ppm. The U.S. Environmental Protection Agency (EPA) flags soils above 80–100 ppm as unsafe for play areas or gardens, and soils above 400 ppm require mitigation before human exposure—[hyperlink] has more on what that means."
+        "body": "Yes—lead is one of the most well-known heavy metal concerns for human health, particularly for children and pregnant women, where developing brains are especially sensitive to its effects. It can also affect the nervous system and kidneys. Natural background levels are usually under 20 ppm. The U.S. Environmental Protection Agency (EPA) flags soils above 80–100 ppm as unsafe for play areas or gardens, and soils above 400 ppm require mitigation before human exposure has more on what that means. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -3175,7 +3175,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Potentially, though it's rare. Normal soils contain less than 1 ppm bismuth. Levels above 10–20 ppm may indicate mineralization associated with lead, copper, or tungsten ores. Further testing [hyperlink] is an option when levels are that elevated."
+        "body": "Potentially, though it's rare. Normal soils contain less than 1 ppm bismuth. Levels above 10–20 ppm may indicate mineralization associated with lead, copper, or tungsten ores. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -3234,7 +3234,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Environmental considerations",
-        "body": "Any measurable polonium in a soil sample suggests nearby uranium or thorium decay. It decays quickly, so persistent detection could indicate an active radiological source—[hyperlink] has more resources for situations like these."
+        "body": "Any measurable polonium in a soil sample suggests nearby uranium or thorium decay. It decays quickly, so persistent detection could indicate an active radiological source has more resources for situations like these.Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Uses",
@@ -3308,7 +3308,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes. Radium emits alpha particles that can cause cancer if inhaled or ingested. Natural soil levels are usually less than 0.5 pCi/g (about 0.02 ppm). Levels above 5 pCi/g are the kind that regulatory agencies flag for residential settings—[hyperlink] has more resources if you want to dig deeper."
+        "body": "Yes. Radium emits alpha particles that can cause cancer if inhaled or ingested. Natural soil levels are usually less than 0.5 pCi/g (about 0.02 ppm). Levels above 5 pCi/g are the kind that regulatory agencies flag for residential settings has more resources if you want to dig deeper. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -3351,7 +3351,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes. Actinium is highly radioactive and can cause radiation poisoning if ingested or inhaled. Natural soil levels are vanishingly small, though—typically less than 0.00001 ppm, far below any realistic danger—[hyperlink] has more resources if you want to dig deeper."
+        "body": "Yes. Actinium is highly radioactive and can cause radiation poisoning if ingested or inhaled. Natural soil levels are vanishingly small, though—typically less than 0.00001 ppm, far below any realistic danger has more resources if you want to dig deeper. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -3394,7 +3394,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes, though less acutely than many radioactive elements. Thorium is a suspected carcinogen, and long-term exposure through inhalation or ingestion can increase cancer risk. Most soils naturally contain 5–10 ppm, and background levels below 10 ppm generally pose no known health concern. Above that range, thorium is an element worth paying attention to—[hyperlink] has more resources if you want to dig deeper."
+        "body": "Yes, though less acutely than many radioactive elements. Thorium is a suspected carcinogen, and long-term exposure through inhalation or ingestion can increase cancer risk. Most soils naturally contain 5–10 ppm, and background levels below 10 ppm generally pose no known health concern. Above that range, thorium is an element worth paying attention to has more resources if you want to dig deeper. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -3480,7 +3480,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes, both chemically and radiologically. Most soils naturally contain 1–3 ppm uranium. Above about 30 ppm, levels are considered elevated, and long-term exposure through dust inhalation or ingestion has been linked to kidney damage and increased cancer risk. Above 100 ppm, uranium is the kind of reading that gets serious regulatory attention. Uranium is an element worth understanding thoroughly—[hyperlink] has more resources if you want to dig deeper."
+        "body": "Yes, both chemically and radiologically. Most soils naturally contain 1–3 ppm uranium. Above about 30 ppm, levels are considered elevated, and long-term exposure through dust inhalation or ingestion has been linked to kidney damage and increased cancer risk. Above 100 ppm, uranium is the kind of reading that gets serious regulatory attention. Uranium is an element worth understanding thoroughly  has more resources if you want to dig deeper.Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Impact on water quality",

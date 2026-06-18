@@ -38,10 +38,11 @@ const ChartRow = ({ row, maxVal }: { row: ChartRowData; maxVal: number }) => {
           <div className="segment safe_level" style={{ width: safeW + '%' }}></div>
           <div className="segment marginal_level" style={{ width: margW + '%' }}></div>
           <div className="segment unsafe_level" style={{ width: unsafeW + '%' }}></div>
-          <div className="user_marker" style={{ left: `calc(${userPos}% - 4px)` }}></div>
+          {/* <div className="user_marker" style={{ left: `calc(${userPos}% - 4px)` }}></div> */}
+          <div className="user_marker" style={{ left: `calc(${userPos}% + 6px)` }}></div>
         </div>
       </div>
-      <div className="value_col">{row.displayVal}</div>
+      <div className="value_col">{row.displayVal.replace('ppm',' ppm')}</div>
     </div>
   );
 };

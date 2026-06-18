@@ -48,7 +48,7 @@ const ChartRow = ({ row, maxVal }: { row: ChartRowData; maxVal: number }) => {
           <div className="user_marker" style={{ left: `calc(${userPos}% - 4px)` }}></div>
         </div>
       </div>
-      <div className="value_col">{row.displayVal}</div>
+      <div className="value_col">{row.displayVal.replace('ppm',' ppm')}</div>
     </div>
   );
 };
@@ -134,7 +134,7 @@ Thresholds</div>
         <div className="report_details_section">
           <div className="dive_deeper_wrap">
             <p className="dive_text">Dive deeper below</p>
-            <div className="dive_arrow"><DiveArrow /></div>
+            <div className="dive_arrow"><a href="#what_unique_section" className="dive_arrow_link"><DiveArrow /></a></div>
           </div>
         </div>
       </div>

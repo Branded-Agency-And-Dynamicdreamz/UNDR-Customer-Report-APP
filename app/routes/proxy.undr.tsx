@@ -137,7 +137,7 @@ function renderLoggedInSection(state: DashboardState) {
 		: `
 			<div class="bottom_box">
 				<h3 class="bottom_heading">No kits registered yet</h3>
-				<p class="bottom_para">We could not find any kits linked to your customer account yet.</p>
+				<p class="bottom_para">We couldn’t find any kits linked to your account.</p>
 				<a class="bottom_btn" href="/apps/undr/submit">Register New Kit</a>
 			</div>
 		`;
@@ -148,7 +148,7 @@ function renderLoggedInSection(state: DashboardState) {
 				<div class="top_column top_left_column">
 					<p class="top_sub_title">Customer Dashboard</p>
 					<h1 class="top_heading">Your registered kits</h1>
-					<p class="top_para">Review kits linked to your customer account and open any report that is ready.</p>
+					<p class="top_para">Review kits linked to your account and open any report that is ready.</p>
 				</div>
 				<div class="top_column top_right_column">
 					<a class="top_btn" href="/apps/undr/submit">Register New Kit</a>

@@ -708,6 +708,15 @@ p {
     font-size: 28px;
 }
 
+.dive_arrow_link {
+    display: inline-block;
+    transition: all .3s ease;
+}
+
+.dive_arrow_link:hover {
+    transform: translateY(-5px);
+}
+
 .report_details_section .dive_arrow svg {
     display: block;
     width: 49px;
@@ -945,7 +954,7 @@ p {
     line-height: 30px;
     color: #A0A0A0;
     margin-bottom: 10px;
-    max-width: 45%;
+    max-width: 60%;
 }
 
 .elemental_breakdown_section .detailed_summary_btn {
@@ -1431,7 +1440,8 @@ p {
     font-family: 'Obviously', Arial, sans-serif;
     font-size: 14px;
     color: #93979a;
-    width: 20px;
+    /* width: 20px; */
+    width: 30px;
     text-align: center;
     letter-spacing: 0;
 }
@@ -3055,7 +3065,8 @@ p {
     max-width: none;
     height: auto;
     filter: blur(5px);
-    opacity: 0.68;
+    /* opacity: 0.68; */
+    opacity: 0.18;
     transform: translate(-50%, -50%) scale(1.08);
 }
 
@@ -3210,6 +3221,7 @@ p {
     font-size: 27px;
     font-weight: 400;
     line-height: 1.15;
+    display: none;
 }
 
 .earth_element_breakdown_section .rare_earth_zero_copy p {
@@ -3502,7 +3514,8 @@ p {
     font-weight: 300;
     font-size: 32px;
     line-height: 42px;
-    color: #D8816C;
+    /* color: #D8816C; */
+    color: #e5b567;
 }
 
 @media (max-width: 1199px) {
@@ -3916,6 +3929,11 @@ p {
     text-transform: uppercase;
 }
 
+/* Style for the leading chemical symbol when wrapped in a span */
+.element_blurb_eyebrow .element_blurb_symbol_lead {
+    text-transform: none; /* keep original case for symbol */
+}
+
 .element_blurb_title {
     margin: 0 52px 22px 0;
     color: var(--element-accent, #8b2323);
@@ -3974,6 +3992,11 @@ p {
     line-height: 1.58;
     font-weight: 500;
     letter-spacing: 0;
+    margin-bottom: 7px;
+}
+
+.element_blurb_section p:last-child {
+    margin-bottom: 0;
 }
 
 @media (max-width: 767px) {

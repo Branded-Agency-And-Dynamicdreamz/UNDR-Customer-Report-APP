@@ -87,7 +87,7 @@ const PreciousMetalPresentSection = ({
             <div className="report_details_section">
               <div className="dive_deeper_wrap">
                 <p className="dive_text">More below</p>
-                <div className="dive_arrow"><DiveArrow /></div>
+                <div className="dive_arrow"><a href="#reeb_section" className="dive_arrow_link"><DiveArrow /></a></div>
               </div>
 
             </div>

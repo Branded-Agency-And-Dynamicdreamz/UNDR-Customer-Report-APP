@@ -4,7 +4,7 @@ type PreciousMetalsBreakdownSectionProps = {
 
 const PreciousMetalsBreakdownSection = ({ appUrl = '' }: PreciousMetalsBreakdownSectionProps) => {
   return (
-    <section className="break heavy_metal_breakdown_section precious_metal_breakdown_section">
+    <section id="pmb_section" className="break heavy_metal_breakdown_section precious_metal_breakdown_section">
       <div className="container">
         <div className="heavy_metal_inner_wrapper">
           <div className="heavy_metal_content_left">

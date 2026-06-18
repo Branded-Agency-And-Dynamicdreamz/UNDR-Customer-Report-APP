@@ -210,7 +210,11 @@ const ReportDetailsSection = ({
 
         <div className="dive_deeper_wrap">
           <p className="dive_text">Dive deeper below</p>
-          <div className="dive_arrow"><DiveArrow /></div>
+          <div className="dive_arrow">
+            <a href="#total_element_breakdown_section" className="dive_arrow_link">
+              <DiveArrow />
+            </a>
+          </div>
         </div>
       </div>
   

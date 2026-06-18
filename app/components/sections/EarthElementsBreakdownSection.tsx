@@ -23,7 +23,7 @@ const EarthElementsBreakdownSection = ({
   const hasDetectedRareEarthElements = items.some((item) => Number(item.ppm) > 0);
 
   return (
-    <section className={`earth_element_breakdown_section${locked ? ' locked' : ''}${!locked && !hasDetectedRareEarthElements ? ' zero_state' : ''}`}>
+    <section id="reeb_section" className={`earth_element_breakdown_section${locked ? ' locked' : ''}${!locked && !hasDetectedRareEarthElements ? ' zero_state' : ''}`}>
       <div className="earth_element_header_band">
         <div className="container">
           <div className="earth_element_header_inner">
@@ -68,7 +68,7 @@ const EarthElementsBreakdownSection = ({
               <span className="rare_earth_zero_value">0</span>
               <span className="rare_earth_zero_unit">ppm</span>
             </div>
-            <h3>Rare Earth elements not detected</h3>
+            <h3>Rare earth elements not detected</h3>
             <div className="rare_earth_zero_rule" />
             <div className="rare_earth_zero_bottom">
               <div className="rare_earth_zero_bars" aria-hidden="true">

@@ -1,6 +1,6 @@
 const ElementalBreakdownSection = () => {
   return (
-    <section className="elemental_breakdown_section">
+    <section id="total_element_breakdown_section" className="elemental_breakdown_section">
       <div className="container">
         <div className="element_breakdown_wrapper">
           <div className="report_left_content">
