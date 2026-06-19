@@ -1014,10 +1014,11 @@ base.foundElements = found.slice(0, 60)
   }
 
   const soilFeatureCardClasses = ["iron_card", "potas_card", "sodium_card"];
-  const soilFeatureCalculations = Object.entries(UNIQUE_SOIL_RESULT_BY_SYMBOL)
-    .map(([element, rawResult]) => {
-      const elementKey = element.trim().toLowerCase();
-      const resultPpm = Number(rawResult) * 10000;
+  // Compute soil feature differences from the actual report rows (dynamic)
+  const soilFeatureCalculations = allElements
+    .map((r) => {
+      const elementKey = String(r.element || "").trim().toLowerCase();
+      const resultPpm = Number(r.ppmValue);
       const averagePpm = getElementAveragePpm(elementKey);
       const standardDeviationPpm = getElementStandardDeviationPpm(elementKey);
 
@@ -1036,8 +1037,8 @@ base.foundElements = found.slice(0, 60)
 
       const standardDeviationDistance = (resultPpm - averagePpm) / standardDeviationPpm;
       return {
-        element,
-        rawResult,
+        element: elementKey,
+        rawResult: resultPpm,
         resultPpm,
         averagePpm,
         standardDeviationPpm,
