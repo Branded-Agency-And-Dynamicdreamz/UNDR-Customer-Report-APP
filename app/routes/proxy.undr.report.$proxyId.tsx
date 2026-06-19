@@ -245,8 +245,24 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   if (registration?.report?.status === "report_generated" || registration?.report?.status === "uploaded") {
     
     if (registration.report.rows && registration.report.rows.length > 0) {
+      // Merge any stored detection limits from report.rawPayload into the rows
+      const rawPayload = (registration.report as any).rawPayload as Record<string, unknown> | null;
+      const detectionLimits: Record<string, number> = (rawPayload && typeof rawPayload === "object" && (rawPayload as any).detectionLimits)
+        ? (rawPayload as any).detectionLimits
+        : {};
+
+      const mergedRows = (registration.report.rows as any[]).map((r) => ({
+        element: String(r.element || "").trim(),
+        rawValue: Number(r.rawValue || 0),
+        ppmValue: Number(r.ppmValue || 0),
+        unit: String(r.unit || "ppm"),
+        category: String(r.category || "").trim().toLowerCase(),
+        detectionLimitPercent:
+          detectionLimits[String(r.element || "").trim().toLowerCase()] ?? undefined,
+      }));
+
       report = buildReportDataFromRows(                                                                                                       
-        registration.report.rows as Parameters<typeof buildReportDataFromRows>[0],
+        mergedRows as Parameters<typeof buildReportDataFromRows>[0],
         customerName,
         kitRegistrationNumber,
       );

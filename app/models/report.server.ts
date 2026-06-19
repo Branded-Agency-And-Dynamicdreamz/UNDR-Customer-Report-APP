@@ -18,6 +18,7 @@ export type ParsedReportRow = {
   ppmValue: number;
   unit: string;
   category: string;
+  detectionLimitPercent?: number;
 };
 
 const UNIQUE_SOIL_RESULT_BY_SYMBOL: Record<string, number> = {
@@ -640,6 +641,23 @@ export function extractReportRows(
       const rawValue = Number.parseFloat(rawStr);
       const ppmValue = Number.isFinite(rawValue) ? rawValue * 10000 : Number.NaN;
       const unit = findCol(row, "unit", "units") ?? "ppm";
+      // Try to locate a detection limit column (various header normalizations)
+      let detectionLimitRaw: string | null = null;
+      for (const k of Object.keys(row)) {
+        const nk = k.toLowerCase();
+        if (nk.includes("det") && nk.includes("limit")) {
+          detectionLimitRaw = row[k] || null;
+          break;
+        }
+      }
+      let detectionLimitPercent: number | undefined = undefined;
+      if (detectionLimitRaw != null && detectionLimitRaw !== "") {
+        const num = Number(String(detectionLimitRaw).replace('%', '').trim());
+        if (Number.isFinite(num)) {
+          // CSV detection limit appears to be in mass% (e.g. 0.01937 meaning 0.01937%)
+          detectionLimitPercent = num;
+        }
+      }
       const detectedCategory =
         findCol(row, "category", "type", "group", "class_") ?? "";
       const category = detectedCategory || inferCategoryFromElement(String(element));
@@ -650,6 +668,7 @@ export function extractReportRows(
         ppmValue,
         unit: String(unit).trim(),
         category: String(category).trim().toLowerCase(),
+        detectionLimitPercent,
       };
     })
     .filter((r) => r.element !== "");
@@ -925,12 +944,23 @@ base.foundElements = found.slice(0, 60)
     const key = r.element.toLowerCase();
     const colors = ELEMENT_COLOR_MAP[key] ?? ELEMENT_COLOR_MAP.default;
 
-    const mapped: FoundElementItem = {
+      // Determine standard deviation ppm: prefer detection limit from the row when available
+      let standardDeviationPpm: number | null = null;
+      if (r.detectionLimitPercent != null && Number.isFinite(r.detectionLimitPercent)) {
+        // Formula: (detection limit % as given in CSV) * 10,000 ppm * 3
+        // detectionLimitPercent in CSV is expressed as mass% (e.g. 0.01937), so compute:
+        // std_ppm = detectionLimitPercent / 100 * 10000 * 3 === detectionLimitPercent * 300
+        standardDeviationPpm = r.detectionLimitPercent * 300;
+      } else {
+        standardDeviationPpm = getElementStandardDeviationPpm(r.element) as number | null;
+      }
+
+      const mapped: FoundElementItem = {
       symbol: formatElementSymbol(ELEMENT_SYMBOL_FROM_NAME[key] || key.substring(0, 2)),
       name: formatElementName(r.element).replace(/\s*\([^)]+\)\s*$/, ""),
       // ppm: r.ppmValue.toFixed(2),
-      ppm: Math.floor(r.ppmValue).toString().slice(0, 2) +"ppm",
-      margin: formatElementMargin(r.element),
+      ppm: Math.floor(r.ppmValue).toString().slice(0, 2) + "ppm",
+      margin: standardDeviationPpm == null ? "± 0 ppm" : `± ${Number.isFinite(standardDeviationPpm) ? Number(standardDeviationPpm.toFixed(2)) : standardDeviationPpm} ppm`,
       valueStyle: {
         backgroundColor: colors.bg,
         color: colors.text,
@@ -1688,6 +1718,14 @@ export async function upsertReport(
 ) {
   const existing = await prisma.report.findUnique({ where: { registrationId } });
 
+  // Build a compact map of detection limits (elementKey -> detectionLimitPercent)
+  const detectionLimits: Record<string, number> = {};
+  for (const r of rows) {
+    if (r.detectionLimitPercent != null && Number.isFinite(r.detectionLimitPercent)) {
+      detectionLimits[String(r.element).trim().toLowerCase()] = r.detectionLimitPercent;
+    }
+  }
+
   if (existing) {
     // Replace rows and report data
     await prisma.reportRow.deleteMany({ where: { reportId: existing.id } });
@@ -1697,10 +1735,18 @@ export async function upsertReport(
         csvFileName,
         status: "report_generated",
         updatedAt: new Date(),
+        rawPayload: Object.keys(detectionLimits).length ? { detectionLimits } : null,
       },
     });
     await prisma.reportRow.createMany({
-      data: rows.map((r) => ({ ...r, reportId: existing.id })),
+      data: rows.map((r) => ({
+        element: r.element,
+        rawValue: r.rawValue,
+        ppmValue: r.ppmValue,
+        unit: r.unit,
+        category: r.category,
+        reportId: existing.id,
+      })),
     });
     return prisma.report.findUnique({
       where: { id: existing.id },
@@ -1713,8 +1759,17 @@ export async function upsertReport(
       registrationId,
       csvFileName,
       status: "report_generated",
+      rawPayload: Object.keys(detectionLimits).length ? { detectionLimits } : null,
       rows: {
-        createMany: { data: rows.map((r) => ({ ...r })) },
+        createMany: {
+          data: rows.map((r) => ({
+            element: r.element,
+            rawValue: r.rawValue,
+            ppmValue: r.ppmValue,
+            unit: r.unit,
+            category: r.category,
+          })),
+        },
       },
     },
     include: { rows: true },
