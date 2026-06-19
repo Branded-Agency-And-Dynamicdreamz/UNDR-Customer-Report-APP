@@ -1341,6 +1341,15 @@ base.foundElements = found.slice(0, 60)
         displayVal: `${petroleumPpm.toFixed(2)}ppm`,
       },
     ];
+
+    // Quick-look text: show "[Contaminant type] detected at [Number] ppm" or "Not detected" when 0 ppm
+    const petroleumDisplay = Number.isInteger(petroleumPpm)
+      ? String(Math.round(petroleumPpm))
+      : petroleumPpm.toFixed(2);
+    base.reportDetails.oilIndicator.petroleum =
+      petroleumPpm > 0
+        ? `${petroleumRow.element} detected at ${petroleumDisplay} ppm`
+        : "Not detected";
   }
 
   return base;
