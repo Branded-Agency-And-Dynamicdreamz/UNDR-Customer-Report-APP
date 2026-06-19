@@ -474,36 +474,56 @@
       var rawName = String(item.name || "").trim();
       var match = rawName.match(/^(.*?)(?:\s*\(([A-Za-z0-9]{1,3})\))?$/);
       var fullName = match && match[1] ? match[1].trim() : rawName;
-      var symbol = match && match[2] ? match[2].trim().toUpperCase() : "";
+      // Format the chemical symbol as Title Case (e.g., 'Nd') instead of all-caps 'ND'
+      var rawSymbol = match && match[2] ? match[2].trim() : "";
+      var symbol = "";
+      if (rawSymbol) {
+        symbol = rawSymbol.charAt(0).toUpperCase() + rawSymbol.slice(1).toLowerCase();
+      }
       var radius = radiusScale(item.ppm);
 
-      if (radius <= (isMobile ? 65 : 58)) {
-        return {
-          name: symbol || truncateLabel(fullName, 4),
-          nameFont: isMobile ? "20px" : "16px",
-          ppmFont: isMobile ? "36px" : "28px",
-        };
+      // Defaults when there's no explicit chemical symbol
+      if (!symbol) {
+        if (radius <= (isMobile ? 65 : 58)) {
+          return { symbol: truncateLabel(fullName, 4), symbolFont: isMobile ? "18px" : "14px", rest: "", restFont: "", ppmFont: isMobile ? "36px" : "28px" };
+        }
+        if (radius <= (isMobile ? 82 : 74)) {
+          return { symbol: truncateLabel(fullName, 6), symbolFont: isMobile ? "14px" : "10px", rest: "", restFont: "", ppmFont: isMobile ? "38px" : "30px" };
+        }
+        if (radius <= (isMobile ? 100 : 90)) {
+          return { symbol: truncateLabel(fullName, 10), symbolFont: isMobile ? "16px" : "12px", rest: "", restFont: "", ppmFont: isMobile ? "40px" : "32px" };
+        }
+        return { symbol: fullName, symbolFont: isMobile ? "20px" : "16px", rest: "", restFont: "", ppmFont: isMobile ? "44px" : "36px" };
       }
 
+      // When a chemical symbol is available, render it prominently and show the full name smaller when space allows.
+      if (radius <= (isMobile ? 65 : 58)) {
+        return { symbol: symbol, symbolFont: isMobile ? "28px" : "22px", rest: "", restFont: "", ppmFont: isMobile ? "36px" : "28px" };
+      }
       if (radius <= (isMobile ? 82 : 74)) {
         return {
-          name: truncateLabel(fullName, symbol ? 6 : 8) + (symbol ? "(" + symbol + ")" : ""),
-          nameFont: isMobile ? "16px" : "12px",
+          symbol: symbol,
+          symbolFont: isMobile ? "24px" : "18px",
+          rest: "(" + truncateLabel(fullName, 6).toLowerCase() + ")",
+          restFont: isMobile ? "12px" : "10px",
           ppmFont: isMobile ? "38px" : "30px",
         };
       }
-
       if (radius <= (isMobile ? 100 : 90)) {
         return {
-          name: truncateLabel(fullName, 10) + (symbol ? " (" + symbol + ")" : ""),
-          nameFont: isMobile ? "18px" : "14px",
+          symbol: symbol,
+          symbolFont: isMobile ? "28px" : "22px",
+          rest: "(" + truncateLabel(fullName, 10).toLowerCase() + ")",
+          restFont: isMobile ? "14px" : "12px",
           ppmFont: isMobile ? "40px" : "32px",
         };
       }
 
       return {
-        name: rawName,
-        nameFont: isMobile ? "22px" : "18px",
+        symbol: symbol,
+        symbolFont: isMobile ? "34px" : "26px",
+        rest: "(" + fullName.toLowerCase() + ")",
+        restFont: isMobile ? "16px" : "14px",
         ppmFont: isMobile ? "44px" : "36px",
       };
     }
@@ -545,11 +565,21 @@
       .style("font-family", "'Obviously', Arial, sans-serif")
       .style("pointer-events", "none");
 
+    // Render the symbol (or short name) first in a larger font, and optionally render the full name (rest)
+    // Render symbol and full name on the same line: symbol (larger) then a small gap then rest (smaller)
     text.append("tspan")
       .attr("x", 0)
       .attr("dy", "-0.6em")
-      .style("font-size", function (item) { return getCircleLabelParts(item).nameFont; })
-      .text(function (item) { return getCircleLabelParts(item).name; });
+      .style("font-size", function (item) { return getCircleLabelParts(item).symbolFont; })
+      .style("font-weight", "700")
+      .text(function (item) { return getCircleLabelParts(item).symbol; });
+
+    text.append("tspan")
+      // keep on same line, no vertical offset
+      .attr("dy", "0")
+      .style("font-size", function (item) { return getCircleLabelParts(item).restFont || (isMobile ? "14px" : "12px"); })
+      .style("font-weight", "600")
+      .text(function (item) { return getCircleLabelParts(item).rest || ""; });
 
     text.append("tspan")
       .attr("x", 0)
