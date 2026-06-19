@@ -76,11 +76,11 @@ export const UNLOCK_OFFERS: Record<UnlockModule, UnlockOffer> = {
   },
 };
 
-const FINDASH_15_SHOP = "findash-shipping-2.myshopify.com";
+const FINDASH_15_SHOP = "findash-shipping-1.myshopify.com";
 
 const FINDASH_15_VARIANT_IDS: Record<UnlockModule, string> = {
   precious_metals: "47653663375523",
-  rare_earth: "47378854019211",
+  rare_earth: "43682757378107",
   crude_oil: "47653663441059",
   petroleum: "47653663473827",
   heavy_metals: "47653663506595",

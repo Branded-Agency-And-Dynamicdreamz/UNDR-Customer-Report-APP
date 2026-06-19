@@ -12,9 +12,12 @@ function buildCartUrl(input: {
   module: string;
   reportPackage: string;
 }) {
-  const url = new URL(`/cart/${input.variantId}:1`, `https://${input.shop}`);
-  // Use standard Shopify cart query params for line item properties so they
-  // are persisted on the created order as `line_items[].properties`.
+  // Use the /cart/add style query parameters which uses `id` + `quantity`
+  // instead of embedding the quantity in the path. This avoids Shopify
+  // rejecting `properties` in some store configurations.
+  const url = new URL(`/cart/add`, `https://${input.shop}`);
+  url.searchParams.set("id", input.variantId);
+  url.searchParams.set("quantity", "1");
   url.searchParams.set("properties[_undr_kit]", input.kitRegistrationNumber);
   url.searchParams.set("properties[_undr_registration_id]", input.registrationId);
   url.searchParams.set("properties[_undr_unlock]", input.module);
