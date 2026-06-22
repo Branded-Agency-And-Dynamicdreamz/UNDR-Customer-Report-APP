@@ -103,11 +103,12 @@ function renderLoggedInSection(state: DashboardState) {
 		? state.registrations
 				.map((registration) => {
 								const status = registration.report?.status;
-										const reportReady = status === "report_generated" || status === "uploaded";
-										let statusLabel = reportReady ? "Report ready" : "Pending";
-										let actionLabel = reportReady ? "View report" : "Report pending";
-										let actionHref = reportReady ? buildReportPath(registration.kitRegistrationNumber) : "#";
-										let actionEnabled = reportReady;
+								const reportLinkEnabled = registration.report?.reportLinkEnabled !== false;
+								const reportReady = status === "report_generated" || status === "uploaded";
+								let statusLabel = reportReady ? "Report ready" : "Pending";
+								let actionLabel = reportReady ? "View report" : "Report pending";
+								let actionHref = reportReady && reportLinkEnabled ? buildReportPath(registration.kitRegistrationNumber) : "#";
+								let actionEnabled = reportReady && reportLinkEnabled;
 
 										if (status === 'kit_generated') {
 											statusLabel = 'Registration pending';
@@ -150,6 +151,7 @@ function renderLoggedInSection(state: DashboardState) {
 							<div class="kit_bottom_part">
 								<a class="kit_report_pending_btn" href="${actionHref}" ${actionEnabled && actionHref !== '#' ? 'target="_blank" rel="noopener noreferrer"' : ''} style="background:${actionEnabled ? "#111827" : "#e5e7eb"};color:${actionEnabled ? "#fff" : "#6b7280"};pointer-events:${actionEnabled ? "auto" : "none"};">${escapeHtml(actionLabel)}
 								</a>
+								${reportReady && !reportLinkEnabled ? `<div style="margin-top:10px;color:#b91c1c;font-size:13px;">Report access is disabled by the store.</div>` : ''}
 							</div>
 
 						</article>

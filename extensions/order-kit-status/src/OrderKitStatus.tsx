@@ -196,6 +196,18 @@ export default extension(TARGET, async (root, api) => {
     }
   }
 
+  // Prevent double-rendering: if this extension is fired more than once for
+  // the same order+line item, skip subsequent renders. Use a global set so
+  // that multiple bundle loads still only render once per order line.
+  try {
+    const globalKey = `undr:order:${orderId}:line:${foundKey}`;
+    const rendered = (globalThis as any).__undr_rendered_set ||= new Set<string>();
+    if (rendered.has(globalKey)) return;
+    rendered.add(globalKey);
+  } catch (e) {
+    // ignore if globals aren't available
+  }
+
   root.appendChild(root.createComponent(Divider, {}));
   const row = root.createComponent(InlineStack, { spacing: 'base', blockAlignment: 'center' });
   row.appendChild(labeledText(root, 'Kit number', kitNumber, true));
