@@ -5,11 +5,10 @@ import {
   AdminBlock,
   BlockStack,
   Image,
-  Link,
   Box,
   Text,
   Button,
-  TextField,
+  
   InlineStack,
 
 } from '@shopify/ui-extensions-react/admin';
@@ -46,13 +45,10 @@ function App() {
   const [customerEmail, setCustomerEmail] = useState('');
   const [kitMap, setKitMap] = useState<KitMap>({});
   const [qrMap, setQrMap] = useState<{ [id: string]: string }>({});
-  const [qrLoading, setQrLoading] = useState<{ [id: string]: boolean }>({});
-  const [qrErrors, setQrErrors] = useState<{ [id: string]: string }>({});
   const [orderSaveLoading, setOrderSaveLoading] = useState(false);
   const [orderSaveError, setOrderSaveError] = useState('');
   const [savedMap, setSavedMap] = useState<{ [id: string]: boolean }>({});
-  const [generatedMap, setGeneratedMap] = useState<{ [id: string]: boolean }>({});
-  const [loading, setLoading] = useState<{ [id: string]: boolean }>({});
+  
   const [errors, setErrors] = useState<{ [id: string]: string }>({});
   const [checking, setChecking] = useState(true);
   const [debugMsg, setDebugMsg] = useState('');
@@ -137,13 +133,78 @@ function App() {
           const kitRes = await fetch(
             `${base}/order-kit?orderId=${encodeURIComponent(orderId)}`
           ).catch(() => null);
-          if (kitRes?.ok) {
-            const r = await kitRes.json().catch(() => null);
-            if (r?.kitMap) setKitMap(r.kitMap);
-            if (r?.kitMap) {
-              const initialSaved: { [id: string]: boolean } = {};
-              Object.keys(r.kitMap).forEach(k => { initialSaved[k] = true; });
-              setSavedMap(prev => ({ ...prev, ...initialSaved }));
+            if (kitRes?.ok) {
+              const r = await kitRes.json().catch(() => null);
+              // Map server-side kitMap keys (which may be numeric ids or other
+              // formats) to the GraphQL line item ids used in this UI. We try
+              // exact match first, then numeric-suffix match.
+              if (r?.kitMap) {
+                const newKitMap: { [liId: string]: string } = {};
+                const serverMap: { [k: string]: string } = r.kitMap || {};
+                // build helper index by numeric suffix
+                const suffixIndex: { [s: string]: string } = {};
+                Object.keys(serverMap).forEach(k => {
+                  const m = String(k).match(/(\d+)$/);
+                  if (m) suffixIndex[m[1]] = serverMap[k];
+                });
+                // for each resolved line item, attempt to find its kit
+                for (const li of resolvedItems) {
+                  const exact = serverMap[li.id];
+                  if (exact) {
+                    newKitMap[li.id] = exact;
+                    continue;
+                  }
+                  const liNum = String(li.id).match(/(\d+)$/)?.[1];
+                  if (liNum && suffixIndex[liNum]) {
+                    newKitMap[li.id] = suffixIndex[liNum];
+                  }
+                }
+                setKitMap(prev => ({ ...prev, ...newKitMap }));
+                const initialSaved: { [id: string]: boolean } = {};
+                Object.keys(newKitMap).forEach(k => { initialSaved[k] = true; });
+                setSavedMap(prev => ({ ...prev, ...initialSaved }));
+              }
+            // Do NOT auto-create kits here. Kits should be created by the order-created
+            // webhook. If a kit is missing, we'll fetch the latest map when needed
+            // (e.g. when generating a QR) instead of creating a new kit from the client.
+            // Ensure the UI shows QR immediately for any existing kit numbers by
+            // generating a local QR URL and updating state; persist to server
+            // asynchronously but do not block rendering.
+            try {
+              if (r?.kitMap) {
+                // build server map and suffix index again for QR mapping
+                const serverMap: { [k: string]: string } = r.kitMap || {};
+                const suffixIndex: { [s: string]: string } = {};
+                Object.keys(serverMap).forEach(k => {
+                  const m = String(k).match(/(\d+)$/);
+                  if (m) suffixIndex[m[1]] = serverMap[k];
+                });
+                for (const li of resolvedItems) {
+                  let kit = serverMap[li.id];
+                  if (!kit) {
+                    const liNum = String(li.id).match(/(\d+)$/)?.[1];
+                    if (liNum) kit = suffixIndex[liNum];
+                  }
+                  if (kit && !qrMap[li.id]) {
+                    const link = `https://undrco.com/apps/undr/submit?kit=${encodeURIComponent(kit)}`;
+                    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(link)}&t=${Date.now()}`;
+                    setQrMap(prev => ({ ...prev, [li.id]: qrUrl }));
+                    (async () => {
+                      try {
+                        await fetch(`${base}/order-kit-qr`.replace(/\/apps\/undr\/apps\/undr/, '/apps/undr'), {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ orderId, qrUrl, lineItemId: kit }),
+                        });
+                      } catch (e) {
+                        // ignore persist errors
+                      }
+                    })();
+                  }
+                }
+              }
+            } catch (e) {
+              // ignore
             }
           }
 
@@ -153,6 +214,36 @@ function App() {
               const jr = await qrRes.json().catch(() => null);
               if (jr?.qrMap) {
                 setQrMap(prev => ({ ...prev, ...jr.qrMap }));
+              }
+              // If there are kits for items but missing QR entries, generate QR images
+              // and persist them (do NOT create kits here).
+              try {
+                const existingQrMap: { [k: string]: string } = jr?.qrMap || {};
+                const existingKitMap: { [k: string]: string } = (typeof r !== 'undefined' && r?.kitMap) || {};
+                for (const li of resolvedItems) {
+                  if (existingKitMap[li.id] && !existingQrMap[li.id]) {
+                    const finalNumber = existingKitMap[li.id];
+                    const link = `https://undrco.com/apps/undr/submit?kit=${encodeURIComponent(finalNumber)}`;
+                    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(link)}&t=${Date.now()}`;
+                    const postRes = await fetch(`${base}/order-kit-qr`.replace(/\/apps\/undr\/apps\/undr/, '/apps/undr'), {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ orderId, qrUrl, lineItemId: li.id }),
+                    }).catch(() => null);
+                    const postJson = postRes?.ok ? await postRes.json().catch(() => null) : null;
+                    if (postJson?.qrMap && typeof postJson.qrMap === 'object') {
+                      const safeMap: { [k: string]: string } = {};
+                      Object.keys(postJson.qrMap).forEach(k => { if (resolvedItems.find(x => x.id === k)) safeMap[k] = postJson.qrMap[k]; });
+                      if (Object.keys(safeMap).length) setQrMap(prev => ({ ...prev, ...safeMap }));
+                    } else if (postJson?.lineItemId) {
+                      setQrMap(prev => ({ ...prev, [postJson.lineItemId]: postJson.qrUrl || qrUrl }));
+                    } else {
+                      setQrMap(prev => ({ ...prev, [li.id]: qrUrl }));
+                    }
+                  }
+                }
+              } catch (e) {
+                // ignore QR generation errors
               }
             }
           } catch (err) {
@@ -173,75 +264,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId]);
 
-  async function handleGenerate(item: LineItem) {
-    setLoading(prev => ({ ...prev, [item.id]: true }));
-    setErrors(prev => ({ ...prev, [item.id]: '' }));
-    try {
-      // Generate a local 10-digit registration number only — do not auto-save to backend.
-      // Pass the line item id as a seed so generated numbers are unique per item.
-      const registrationNumber = generateKitNumber(orderNumber || '', item.id);
-
-      // Set the kit map locally so it can be reviewed, then persisted via Save.
-      setKitMap(prev => ({ ...prev, [item.id]: registrationNumber }));
-      // Mark this item as generated (disables Generate button) but not yet saved.
-      setGeneratedMap(prev => ({ ...prev, [item.id]: true }));
-      setSavedMap(prev => ({ ...prev, [item.id]: false }));
-    } catch (err: any) {
-      setErrors(prev => ({
-        ...prev,
-        [item.id]: err?.message || 'Error generating kit.',
-      }));
-    } finally {
-      setLoading(prev => ({ ...prev, [item.id]: false }));
-    }
-  }
-
-  async function handleGenerateQr(item: LineItem, explicitKitNumber?: string) {
-    setQrLoading(prev => ({ ...prev, [item.id]: true }));
-    setQrErrors(prev => ({ ...prev, [item.id]: '' }));
-    try {
-      const kitNumber = explicitKitNumber || kitMap[item.id];
-      if (!kitNumber) throw new Error('No kit number available to generate QR.');
-      // QR should open the public registration page with the kit prefilled
-      const link = `https://undrco.com/apps/undr/submit?kit=${encodeURIComponent(kitNumber)}`;
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(link)}&t=${Date.now()}`;
-      const base = proxyBase || (typeof window !== 'undefined' && (window.location.origin || `${window.location.protocol}//${window.location.hostname}`)) || '';
-      const res = await fetch(`${base}/apps/undr/order-kit-qr`.replace(/\/apps\/undr\/apps\/undr/, '/apps/undr'), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId, qrUrl, lineItemId: item.id }),
-      }).catch(() => null);
-
-      const body = res ? await res.json().catch(() => null) : null;
-      if (!res || !res.ok) {
-        throw new Error((body as any)?.error || 'Failed to persist QR. Generate kit first.');
-      }
-
-      // Prefer server-provided mapping if available, but only merge keys safely.
-      if (body?.qrMap && typeof body.qrMap === 'object') {
-        // only merge entries corresponding to known line item ids present in this order
-        const safeMap: { [k: string]: string } = {};
-        Object.keys(body.qrMap).forEach(k => {
-          if (lineItems.find(li => li.id === k)) safeMap[k] = body.qrMap[k];
-        });
-        if (Object.keys(safeMap).length) {
-          setQrMap(prev => ({ ...prev, ...safeMap }));
-        } else {
-          // fallback: set only the current item
-          setQrMap(prev => ({ ...prev, [item.id]: qrUrl }));
-        }
-      } else if (body?.lineItemId) {
-        setQrMap(prev => ({ ...prev, [body.lineItemId]: body.qrUrl || qrUrl }));
-      } else {
-        // fallback: set only the current item
-        setQrMap(prev => ({ ...prev, [item.id]: qrUrl }));
-      }
-    } catch (err: any) {
-      setQrErrors(prev => ({ ...prev, [item.id]: err?.message || 'Error generating QR.' }));
-    } finally {
-      setQrLoading(prev => ({ ...prev, [item.id]: false }));
-    }
-  }
+  
 
 
 
@@ -307,6 +330,72 @@ function App() {
     }
   }
 
+  async function handlePrint(item: LineItem) {
+    console.log('[Print] button clicked for item', item.id);
+    try {
+      const kit = kitMap[item.id] || '';
+      const qr = qrMap[item.id] || '';
+      const payload = {
+        orderId: orderId || '',
+        orderNumber: orderNumber || '',
+        kitNumber: kit,
+        productTitle: item.title || '',
+        variant: item.variant?.title || '',
+        variantNo: item.variant?.sku || '',
+        quantity: String(item.quantity || ''),
+        customerName: customerName || '',
+        customerEmail: customerEmail || '',
+        qrUrl: qr || '',
+      };
+
+      // Build query string
+      const qs = new URLSearchParams(payload as Record<string, string>).toString();
+      const target = (proxyBase || '') + '/print-qr?' + qs;
+      console.log('[Print] target URL', target);
+
+      // Try Shopify navigation API first
+      try {
+        const nav = api?.navigation;
+        if (nav && typeof nav.navigate === 'function') {
+          console.log('[Print] attempting api.navigation.navigate', target);
+          try {
+            nav.navigate(target);
+            console.log('[Print] api.navigation.navigate succeeded');
+            return;
+          } catch (e) {
+            console.error('[Print] api.navigation.navigate threw', e);
+          }
+        } else {
+          console.log('[Print] api.navigation.navigate not available');
+        }
+      } catch (e) {
+        console.error('[Print] error checking api.navigation', e);
+      }
+
+      // Fallback: try opening a new window and writing content (may be blocked)
+      try {
+        console.log('[Print] attempting window.open', target);
+        const w = (typeof window !== 'undefined' && window.open(target, '_blank')) || null;
+        console.log('[Print] window.open returned', w);
+        if (!w) throw new Error('Popup blocked or window.open returned null');
+        // Note: do not document.write heavy content here — the hosted page will call print.
+        try {
+          w.focus && w.focus();
+          console.log('[Print] window.focus succeeded');
+        } catch (e) {
+          console.warn('[Print] window.focus failed', e);
+        }
+        return;
+      } catch (e: any) {
+        console.error('[Print] window.open/document.write fallback failed', e);
+        setDebugMsg('Print failed: ' + (e?.message || String(e)));
+      }
+    } catch (err: any) {
+      console.error('[Print] unexpected error', err);
+      setDebugMsg('Print failed: ' + (err?.message || String(err)));
+    }
+  }
+
   if (checking) {
     return (
       <AdminBlock title="Kit Registration">
@@ -367,63 +456,23 @@ function App() {
                 )}
               </BlockStack>
 
-              <Box style={{ marginLeft: 'auto', minWidth: 220 }}>
-                <Text tone="subdued">Kit registration number</Text>
-                <InlineStack gap="xsmall" blockAlignment="center">
-                  <Box style={{ flex: 1 }}>
-                    <TextField
-                      value={kitMap[item.id] ?? ''}
-                      readOnly
-                      labelHidden
-                      onChange={() => { }}
-                    />
+                  <Box style={{ marginLeft: 'auto', minWidth: 220 }}>
+                    <Text tone="subdued">Actions</Text>
+                    <InlineStack gap="xsmall" blockAlignment="center">
+                      {/* Auto-generate and persist kits on load; hide manual generate UI */}
+                      {qrMap[item.id] ? (
+                        <Button
+                          onPress={() => handlePrint(item)}
+                        >
+                          Print
+                        </Button>
+                      ) : (
+                        <Button disabled style={{ opacity: 0.6 }}>
+                          Preparing…
+                        </Button>
+                      )}
+                    </InlineStack>
                   </Box>
-                  <Button
-                    onPress={() => handleGenerate(item)}
-                    disabled={loading[item.id] || !!kitMap[item.id] || generatedMap[item.id]}
-                  >
-                    {loading[item.id]
-                      ? 'Generating…'
-                      : kitMap[item.id]
-                        ? 'Generated'
-                        : generatedMap[item.id]
-                          ? 'Generated'
-                          : 'Generate'}
-                  </Button>
-                  {qrMap[item.id] ? (
-                    <Button
-                      onPress={() => {
-                        const nav = api?.navigation;
-                        const finalUrl = qrMap[item.id];
-                        try {
-                          if (nav && typeof nav.navigate === 'function') {
-                            nav.navigate(finalUrl);
-                            return;
-                          }
-                        } catch (e: any) {
-                          setDebugMsg('Navigation failed: ' + (e?.message || String(e)));
-                        }
-                        try {
-                          if (typeof window !== 'undefined') window.open(finalUrl, '_blank');
-                        } catch (e: any) {
-                          setDebugMsg('Window open failed: ' + (e?.message || String(e)));
-                        }
-                      }}
-                      style={{ marginLeft: 8 }}
-                    >
-                      View QR
-                    </Button>
-                  ) : (
-                    <Button
-                      onPress={() => handleGenerateQr(item, kitMap[item.id])}
-                      disabled={qrLoading[item.id] || !kitMap[item.id]}
-                      style={{ marginLeft: 8 }}
-                    >
-                      {qrLoading[item.id] ? 'Generating QR…' : 'Generate QR'}
-                    </Button>
-                  )}
-                </InlineStack>
-              </Box>
             </InlineStack>
 
             {/* Kit field moved beside product title */}
@@ -434,9 +483,7 @@ function App() {
               <Text tone="critical">{errors[item.id]}</Text>
             )}
 
-            {qrErrors[item.id] && (
-              <Text tone="critical">{qrErrors[item.id]}</Text>
-            )}
+            
 
             {/* QR view is shown beside the registration field; no duplicate button here. */}
 

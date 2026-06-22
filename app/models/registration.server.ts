@@ -328,15 +328,27 @@ export async function setQrForLineItem(params: {
   // Persist QR at the order level: only update existing registrations for
   // this shopify order. If there are no registrations (i.e. no kit yet),
   // return null so the caller can surface an error.
-  const any = await prisma.registration.findFirst({ where: { shopifyOrderId: orderId } });
+  const numeric = normalizeNumericShopifyId(orderId) ?? orderId;
+  const withoutHash = String(orderId).replace(/^#/, '');
+
+  const whereClause: any = {
+    OR: [
+      { shopifyOrderId: orderId },
+      { shopifyOrderId: numeric },
+      { orderNumber: { equals: orderId, mode: 'insensitive' as const } },
+      { orderNumber: { equals: withoutHash, mode: 'insensitive' as const } },
+    ],
+  };
+
+  const any = await prisma.registration.findFirst({ where: whereClause });
   if (!any) return null;
 
   await prisma.registration.updateMany({
-    where: { shopifyOrderId: orderId },
+    where: whereClause,
     data: { qrUrl },
   });
 
-  return prisma.registration.findFirst({ where: { shopifyOrderId: orderId } });
+  return prisma.registration.findFirst({ where: whereClause });
 }
 
 export async function upsertKitForLineItem(params: {
@@ -351,10 +363,25 @@ export async function upsertKitForLineItem(params: {
   customerEmail?: string;
 }) {
   const { shop, orderId, orderNumber, lineItemId, registrationNumber } = params;
-  const kitRegistrationNumber = generateKitNumber(registrationNumber);
+  // If caller provided a final 10-digit kit number, respect it. Otherwise
+  // generate deterministically from the orderNumber and lineItemId so
+  // client-side generation and server-side generation match.
+  let kitRegistrationNumber: string;
+  if (registrationNumber && /^\d{10}$/.test(String(registrationNumber))) {
+    kitRegistrationNumber = String(registrationNumber);
+  } else {
+    kitRegistrationNumber = generateKitNumber(orderNumber || "", String(lineItemId || ""));
+  }
 
+  const numericOrderId = normalizeNumericShopifyId(orderId) ?? null;
   const existing = await prisma.registration.findFirst({
-    where: { shopifyOrderId: orderId, lineItemId },
+    where: {
+      lineItemId,
+      OR: [
+        { shopifyOrderId: orderId },
+        ...(numericOrderId ? [{ shopifyOrderId: numericOrderId }] : []),
+      ],
+    },
   });
 
   if (existing) {
