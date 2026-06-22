@@ -1244,6 +1244,7 @@ base.foundElements = found.slice(0, 60)
   // --- Precious Metals
   if (preciousRows.length > 0) {
     base.reportDetails.preciousMetals = preciousRows
+      .filter((r) => Number.isFinite(r.ppmValue) && r.ppmValue > 0)
       .sort((a, b) => b.ppmValue - a.ppmValue)
       .slice(0, 3)
       .map((r): MetalCardItem => ({
@@ -1253,7 +1254,7 @@ base.foundElements = found.slice(0, 60)
       }));
 
     base.preciousMetalPresent.items = preciousRows
-      // .filter((r) => r.ppmValue > 0)
+      .filter((r) => Number.isFinite(r.ppmValue) && r.ppmValue > 0)
       .sort((a, b) => b.ppmValue - a.ppmValue)
       .slice(0, 8)
       .map((r): PreciousMetalGraphItem => {
