@@ -3,7 +3,8 @@ import { useActionData, useFetcher, useLoaderData, useNavigation } from "react-r
 import { useEffect, useMemo, useRef, useState } from "react";
 import { authenticate } from "../shopify.server";
 import { isReportPackage } from "../lib/report-packages";
-import { buildReportPath } from "../lib/report-url";
+import { buildReportPath, encodeReportProxyId } from "../lib/report-url";
+import { generateReportPreviewToken } from "../lib/report-preview-token";
 import {
   getRegistrationById,
   updateRegistrationQuickViewPackageById,
@@ -32,7 +33,13 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   if (registration.shop !== session.shop) {
     throw new Response("Forbidden", { status: 403 });
   }
-  return { registration, shopDomain: session.shop };
+  // Signed token so the store owner can open the report link even when the
+  // public report link is disabled. Generated over the encoded proxy id, which
+  // is what the proxy route receives as params.proxyId.
+  const reportPreviewToken = generateReportPreviewToken(
+    encodeReportProxyId(registration.kitRegistrationNumber),
+  );
+  return { registration, shopDomain: session.shop, reportPreviewToken };
 };
 
 // ── Action ────────────────────────────────────────────────────────────────────
@@ -313,7 +320,7 @@ function buildPetroleumPpmValues(rows: Array<{ element: string; ppmValue: number
 }
 
 export default function RegistrationDetail() {
-  const { registration, shopDomain } = useLoaderData<LoaderData>();
+  const { registration, shopDomain, reportPreviewToken } = useLoaderData<LoaderData>();
   const actionData = useActionData<ActionData>();
   const manualPetroleumFetcher = useFetcher<ActionData>();
   const reportRowFetcher = useFetcher<ActionData>();
@@ -488,6 +495,8 @@ export default function RegistrationDetail() {
     ? `https://${normalizedShopDomain}`
     : appUrl.replace(/\/$/, "");
   const reportUrl = `${reportBaseUrl}${reportPath}`;
+  // Owner-only preview link: works even when the public report link is disabled.
+  const reportPreviewUrl = `${reportUrl}?preview=${encodeURIComponent(reportPreviewToken)}`;
 
   const [reportLinkEnabled, setReportLinkEnabled] = useState(false);
   const [reportLinkError, setReportLinkError] = useState<string | null>(null);
@@ -677,6 +686,20 @@ export default function RegistrationDetail() {
           >
             {reportUrl}
           </a>
+
+          <div style={{ marginTop: "10px" }}>
+            <a
+              href={reportPreviewUrl}
+              target="_blank"
+              rel="noreferrer"
+              style={{ fontSize: "13px", color: "#2563eb", fontWeight: 600, cursor: "pointer" }}
+            >
+              Preview as store owner →
+            </a>
+            <div style={{ marginTop: "4px", fontSize: "12px", color: "#9ca3af" }}>
+              Opens the report even when the public link is disabled. Do not share this preview URL — it bypasses access checks.
+            </div>
+          </div>
 
           {!reportLinkEnabled && (
             <div style={{ marginTop: "8px", color: "#b91c1c", fontSize: "13px" }}>

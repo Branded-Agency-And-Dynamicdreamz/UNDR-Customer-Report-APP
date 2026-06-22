@@ -16,6 +16,7 @@ import IndexPage from "../pages/Index";
 import { authenticate } from "../shopify.server";
 import { isUnlockModule } from "../lib/report-packages";
 import { decodeReportProxyId } from "../lib/report-url";
+import { verifyReportPreviewToken } from "../lib/report-preview-token";
 
 const REPORT_PACKAGES = ["treasure_base", "treasure_plus", "hs_base", "hs_plus", "premium"] as const;
 
@@ -216,7 +217,15 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const rawLoggedInCustomerId = resolveLoggedInCustomerId(url);
   const loggedInCustomerId = normalizeShopifyCustomerId(rawLoggedInCustomerId);
 
-  if (!loggedInCustomerId && !admin) {
+  // `admin` from appProxy is the shop's admin API client — it is present for
+  // EVERY storefront visitor on a valid proxy request, so it cannot identify
+  // the store owner. The store owner is identified instead by a signed preview
+  // token, which only the embedded admin app can generate (HMAC over the proxy
+  // id using the app secret). A valid token === the store owner.
+  void admin;
+  const isAdminPreview = verifyReportPreviewToken(proxyId, url.searchParams.get("preview"));
+
+  if (!loggedInCustomerId && !isAdminPreview) {
     return customerLoginRedirectResponse(proxyId);
   }
 
@@ -232,12 +241,13 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
     return liquid(renderReportNotFoundPage(), { layout: !embed });
   }
 
-  // If the admin has disabled the public report link, deny access for non-admin requests.
+  // If the store owner has disabled the public report link, only the owner
+  // (valid preview token) may view it — customers/anonymous are denied.
   const regLevel = (registration as any).reportLinkEnabled;
   const repLevel = (registration as any).report && (registration as any).report.reportLinkEnabled;
   const linkEnabled = !(regLevel === false || repLevel === false);
 
-  if (!admin && linkEnabled === false) {
+  if (!isAdminPreview && linkEnabled === false) {
     const resp = await liquid(renderReportDisabledPage(), { layout: !embed });
     return new Response(typeof resp === "string" ? resp : await resp.text(), {
       headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" },
@@ -246,7 +256,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   const reportCustomerId = normalizeShopifyCustomerId(registration.shopifyCustomerId);
 
-  if (!reportCustomerId || (!admin && loggedInCustomerId !== reportCustomerId)) {
+  if (!reportCustomerId || (!isAdminPreview && loggedInCustomerId !== reportCustomerId)) {
     return liquid(renderReportAccessDeniedPage(), { layout: !embed });
   }
 
