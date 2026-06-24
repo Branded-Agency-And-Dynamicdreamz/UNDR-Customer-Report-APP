@@ -42,83 +42,91 @@ function getLoggedInCustomerId(url: URL): string | null {
 function renderStep2Section(form: RegistrationFormState, errors?: RegistrationFormErrors) {
 	const escapeHtml = (value: string) => String(value || '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 
-	const depthOptions = ['surface','3 inches','6 inches','9 inches','1 foot','2+feet'];
-	const propertyOptions = ['residential','undeveloped','urban','industrial'];
-	const landUseOptions = ['garden','farm','lawn','forest','pasture','idle','unknown'];
-	const reasonOptions = ['curiosity','potential financial gain','health and safety concerns','environmental concerns','just for fun','other'];
+	const depthOptions = ['surface', '3 inches', '6 inches', '9 inches', '1 foot', '2+feet'];
+	const propertyOptions = ['residential', 'undeveloped', 'urban', 'industrial'];
+	const landUseOptions = ['garden', 'farm', 'lawn', 'forest', 'pasture', 'idle', 'unknown'];
+	const reasonOptions = ['curiosity', 'potential financial gain', 'health and safety concerns', 'environmental concerns', 'just for fun', 'other'];
 
 	return `
-	<div style="max-width:600px;margin:18px auto;padding:20px;border:1px solid rgba(15,23,42,0.08);border-radius:12px;background:#ffffff;">
-		<h2 style="margin:0 0 12px;font-size:18px;font-weight:700;">Additional details</h2>
-		<form method="post" style="display:grid;gap:12px;">
-				<input type="hidden" name="step" value="2" />
-				<input type="hidden" name="final" value="1" />
-				<!-- Carry Step 1 values so final submission includes required fields -->
-				<input type="hidden" name="name" value="${escapeHtml(String((form as any).name || ''))}" />
-				<input type="hidden" name="email" value="${escapeHtml(String((form as any).email || ''))}" />
-				<input type="hidden" name="phone" value="${escapeHtml(String((form as any).phone || ''))}" />
-				<input type="hidden" name="orderNumber" value="${escapeHtml(String((form as any).orderNumber || ''))}" />
-				<input type="hidden" name="kitRegistrationNumber" value="${escapeHtml(String((form as any).kitRegistrationNumber || ''))}" />
-				<input type="hidden" name="agreeTerms" value="${(form as any).agreedToTerms ? '1' : ''}" />
-				<input type="hidden" name="smsConsent" value="${(form as any).smsConsent ? '1' : ''}" />
+	<div style="display: grid; gap: 16px; max-width: 600px; padding: 28px; border: 1px solid rgba(15, 23, 42, 0.12);
+	border-radius: 20px; background: #fffdf8;">
+		<h2 style="font-family: 'Anonymous Pro', monospace; font-weight:700; font-size:18px; line-height: 26px; color: #111827; margin:0; text-align:center; letter-spacing: 0.06rem;">Additional details</h2>
+		<form method="post" style="display:grid; gap:16px;">
+			<input type="hidden" name="step" value="2" />
 			<input type="hidden" name="final" value="1" />
-			<label style="display:grid;gap:6px;">
-				<span style="font-weight:600;">Address</span>
-				<input name="address" value="${escapeHtml(String((form as any).address || ''))}" style="min-height:40px;padding:8px;border:1px solid rgba(15,23,42,0.12);border-radius:8px;" />
+			<!-- Carry Step 1 values so final submission includes required fields -->
+			<input type="hidden" name="name" value="${escapeHtml(String((form as any).name || ''))}" />
+			<input type="hidden" name="email" value="${escapeHtml(String((form as any).email || ''))}" />
+			<input type="hidden" name="phone" value="${escapeHtml(String((form as any).phone || ''))}" />
+			<input type="hidden" name="orderNumber" value="${escapeHtml(String((form as any).orderNumber || ''))}" />
+			<input type="hidden" name="kitRegistrationNumber" value="${escapeHtml(String((form as any).kitRegistrationNumber || ''))}" />
+			<input type="hidden" name="agreeTerms" value="${(form as any).agreedToTerms ? '1' : ''}" />
+			<input type="hidden" name="smsConsent" value="${(form as any).smsConsent ? '1' : ''}" />
+			<input type="hidden" name="final" value="1" />
+
+			<label style="display:grid; gap:5px;">
+				<span style="font-family: 'Anonymous Pro', monospace; font-weight: 600; font-size: 14px; line-height: 20px; color: #111827; letter-spacing: 0.06rem;">Address</span>
+				<input name="address" value="${escapeHtml(String((form as any).address || ''))}" 
+				style="min-height: 44px; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(15, 23, 42, 0.2); font-size: 15px; box-sizing: border-box; width: 100%;" />
 				${errors?.address ? `<div style="color:#b42318;font-size:13px;">${escapeHtml(errors.address)}</div>` : ''}
 			</label>
 
-			<label style="display:grid;gap:6px;">
-				<span style="font-weight:600;">Depth of sample</span>
-				<select name="depth" style="min-height:40px;padding:8px;border:1px solid rgba(15,23,42,0.12);border-radius:8px;">
+			<label style="display:grid; gap:5px;">
+				<span style="font-family: 'Anonymous Pro', monospace; font-weight: 600; font-size: 14px; line-height: 20px; color: #111827; letter-spacing: 0.06rem;">Depth of sample</span>
+				<select name="depth" style="min-height: 44px; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(15, 23, 42, 0.2); font-size: 15px; box-sizing: border-box; width: 100%; background: #FFFFFF; appearance: none; -webkit-appearance: none; -moz-appearance: none; padding-right: 35px;
+				background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; font-family: 'Anonymous Pro', monospace; font-weight: 600; font-size: 14px; line-height: 20px; color: #111827; letter-spacing: 0.06rem; ">
 					<option value="">Select depth</option>
-					${depthOptions.map(o=>`<option value="${escapeHtml(o)}" ${ (String((form as any).depth || '')===o ? 'selected' : '') }>${escapeHtml(o)}</option>`).join('')}
+					${depthOptions.map(o => `<option value="${escapeHtml(o)}" ${(String((form as any).depth || '') === o ? 'selected' : '')}>${escapeHtml(o)}</option>`).join('')}
 				</select>
 				${errors?.depth ? `<div style="color:#b42318;font-size:13px;">${escapeHtml(errors.depth)}</div>` : ''}
 			</label>
 
-			<label style="display:grid;gap:6px;">
-				<span style="font-weight:600;">Property type</span>
-				<select name="propertyType" style="min-height:40px;padding:8px;border:1px solid rgba(15,23,42,0.12);border-radius:8px;">
+			<label style="display:grid; gap:5px;">
+				<span style="font-family: 'Anonymous Pro', monospace; font-weight: 600; font-size: 14px; line-height: 20px; color: #111827; letter-spacing: 0.06rem;">Property type</span>
+				<select name="propertyType" style="min-height: 44px; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(15, 23, 42, 0.2); font-size: 15px; box-sizing: border-box; width: 100%; background: #FFFFFF; appearance: none; -webkit-appearance: none; -moz-appearance: none; padding-right: 35px;
+				background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; font-family: 'Anonymous Pro', monospace; font-weight: 600; font-size: 14px; line-height: 20px; color: #111827; letter-spacing: 0.06rem; ">
 					<option value="">Select property type</option>
-					${propertyOptions.map(o=>`<option value="${escapeHtml(o)}" ${ (String((form as any).propertyType || '')===o ? 'selected' : '') }>${escapeHtml(o)}</option>`).join('')}
+					${propertyOptions.map(o => `<option value="${escapeHtml(o)}" ${(String((form as any).propertyType || '') === o ? 'selected' : '')}>${escapeHtml(o)}</option>`).join('')}
 				</select>
 				${errors?.propertyType ? `<div style="color:#b42318;font-size:13px;">${escapeHtml(errors.propertyType)}</div>` : ''}
 			</label>
 
-			<label style="display:grid;gap:6px;">
-				<span style="font-weight:600;">Land use (optional)</span>
-				<select name="landUse" style="min-height:40px;padding:8px;border:1px solid rgba(15,23,42,0.12);border-radius:8px;">
+			<label style="display:grid; gap:5px;">
+				<span style="font-family: 'Anonymous Pro', monospace; font-weight: 600; font-size: 14px; line-height: 20px; color: #111827; letter-spacing: 0.06rem;">Land use (optional)</span>
+				<select name="landUse" style="min-height: 44px; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(15, 23, 42, 0.2); font-size: 15px; box-sizing: border-box; width: 100%; background: #FFFFFF; appearance: none; -webkit-appearance: none; -moz-appearance: none; padding-right: 35px;
+				background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; font-family: 'Anonymous Pro', monospace; font-weight: 600; font-size: 14px; line-height: 20px; color: #111827; letter-spacing: 0.06rem; ">
 					<option value="">Select land use</option>
-					${landUseOptions.map(o=>`<option value="${escapeHtml(o)}" ${ (String((form as any).landUse || '')===o ? 'selected' : '') }>${escapeHtml(o)}</option>`).join('')}
+					${landUseOptions.map(o => `<option value="${escapeHtml(o)}" ${(String((form as any).landUse || '') === o ? 'selected' : '')}>${escapeHtml(o)}</option>`).join('')}
 				</select>
 			</label>
 
-			<label style="display:grid;gap:6px;">
-				<span style="font-weight:600;">Approx. Acreage of property (optional)</span>
-				<input name="acreage" type="number" step="0.01" value="${escapeHtml(String((form as any).acreage || ''))}" style="min-height:40px;padding:8px;border:1px solid rgba(15,23,42,0.12);border-radius:8px;" />
+			<label style="display:grid; gap:5px;">
+				<span style="font-family: 'Anonymous Pro', monospace; font-weight: 600; font-size: 14px; line-height: 20px; color: #111827; letter-spacing: 0.06rem;">Approx. Acreage of property (optional)</span>
+				<input name="acreage" type="number" step="0.01" value="${escapeHtml(String((form as any).acreage || ''))}" style="min-height: 44px; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(15, 23, 42, 0.2); font-size: 15px; box-sizing: border-box; width: 100%;" />
 				${errors?.acreage ? `<div style="color:#b42318;font-size:13px;">${escapeHtml(errors.acreage)}</div>` : ''}
 			</label>
 
-			<label style="display:grid;gap:6px;">
-				<span style="font-weight:600;">Reason for testing</span>
-				<select name="reason" id="reason-select" style="min-height:40px;padding:8px;border:1px solid rgba(15,23,42,0.12);border-radius:8px;">
+			<label style="display:grid; gap:5px;">
+				<span style="font-family: 'Anonymous Pro', monospace; font-weight: 600; font-size: 14px; line-height: 20px; color: #111827; letter-spacing: 0.06rem;">Reason for testing</span>
+				<select name="reason" id="reason-select" style="min-height: 44px; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(15, 23, 42, 0.2); font-size: 15px; box-sizing: border-box; width: 100%; background: #FFFFFF; appearance: none; -webkit-appearance: none; -moz-appearance: none; padding-right: 35px;
+				background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; font-family: 'Anonymous Pro', monospace; font-weight: 600; font-size: 14px; line-height: 20px; color: #111827; letter-spacing: 0.06rem; ">
 					<option value="">Select reason</option>
-					${reasonOptions.map(o=>`<option value="${escapeHtml(o)}" ${ (String((form as any).reason || '')===o ? 'selected' : '') }>${escapeHtml(o)}</option>`).join('')}
+					${reasonOptions.map(o => `<option value="${escapeHtml(o)}" ${(String((form as any).reason || '') === o ? 'selected' : '')}>${escapeHtml(o)}</option>`).join('')}
 				</select>
 			</label>
 
-			<div id="reason-other" style="display:${String((form as any).reason||'')==='other' ? 'block' : 'none'};">
-				<label style="display:grid;gap:6px;">
-					<span style="font-weight:600;">Other (please specify)</span>
+			<div id="reason-other" style="display:${String((form as any).reason || '') === 'other' ? 'block' : 'none'};">
+				<label style="display:grid; gap:5px;">
+					<span style="font-family: 'Anonymous Pro', monospace; font-weight: 600; font-size: 14px; line-height: 20px; color: #111827; letter-spacing: 0.06rem;">Other (please specify)</span>
 					<input name="reasonOther" value="${escapeHtml(String((form as any).reasonOther || ''))}" style="min-height:40px;padding:8px;border:1px solid rgba(15,23,42,0.12);border-radius:8px;" />
 				</label>
 			</div>
 
-			<div style="display:flex;gap:8px;align-items:center;margin-top:6px;">
-				<button type="submit" style="min-height:44px;padding:0 24px;border:none;border-radius:999px;background:#0f172a;color:#fff;font-size:15px;font-weight:600;cursor:pointer;">Complete registration</button>
-				<button type="button" id="back-to-step1" style="min-height:44px;padding:0 24px;border:1px solid rgba(15,23,42,0.12);border-radius:999px;background:#fff;color:#111827;font-size:15px;font-weight:600;cursor:pointer;">Back</button>
+			<div style="display:flex;gap:8px;align-items:center;flex-wrap: wrap;margin-top:6px;">
+				<button type="submit" style="min-height:44px;padding:0 24px;border:none;border-radius:999px;background:#111827;;color:#fff;font-size:15px;font-weight:600;cursor:pointer;text-transform: capitalize;">Complete registration</button>
+				<button type="button" id="back-to-step1" style="min-height:44px;padding:0 24px;border:1px solid rgba(15,23,42,0.12);border-radius:999px;background:#fff;color:#111827;font-size:15px;font-weight:600;cursor:pointer;text-transform: capitalize;">Back</button>
 			</div>
+
 		</form>
 	</div>
 	<script>
@@ -237,7 +245,7 @@ export async function verifyRecaptchaV2Token(params: {
 
 		return { ok: true };
 	} catch (error) {
-		
+
 		return {
 			ok: false,
 			message: "Could not verify security check right now. Please try again.",
@@ -331,7 +339,7 @@ export async function verifyRecaptchaToken(params: {
 
 		return { ok: true };
 	} catch (error) {
-		
+
 		return {
 			ok: false,
 			message: "Could not verify reCAPTCHA right now. Please try again.",
@@ -376,7 +384,7 @@ async function findCustomerIdByEmail(params: {
 		};
 
 		if (json.errors?.length) {
-		
+
 			return null;
 		}
 
@@ -511,14 +519,13 @@ function renderRegistrationPage(state: ActionData | LoaderData) {
 		<p style="margin:0;font-size:16px;line-height:1.7;opacity:0.8;">Enter your details below to register your kit.</p>
 	</div>
 
-	${
-		message
+	${message
 			? `<div style="margin-bottom:20px;padding:14px 18px;border-radius:10px;background:${ok ? "#ecfdf3" : "#fef2f2"};color:${ok ? "#027a48" : "#b42318"};border:1px solid ${ok ? "#a7f3d0" : "#fecaca"};font-size:14px;">${escapeHtml(message)}</div>`
 			: ""
-	}
+		}
 
 	${!showStep2 ? (
-		`<form id="undr-registration-form" method="post" style="display:grid;gap:16px;max-width:600px;padding:28px;border:1px solid rgba(15,23,42,0.12);border-radius:20px;background:#fffdf8;">
+			`<form id="undr-registration-form" method="post" style="display:grid;gap:16px;max-width:600px;padding:28px;border:1px solid rgba(15,23,42,0.12);border-radius:20px;background:#fffdf8;">
 			<input type="hidden" name="recaptchaToken" value="" />
 			${requireV2 ? `<input type="hidden" name="requireV2" value="1" />` : ""}
 			<label style="display:grid;gap:5px;">
@@ -565,7 +572,7 @@ function renderRegistrationPage(state: ActionData | LoaderData) {
 			${requireV2 && recaptchaV2SiteKey ? `<div class="g-recaptcha" data-sitekey="${recaptchaV2SiteKeyHtml}" style="margin-top:4px;"></div>` : ""}
 			<button type="button" id="go-step-2" style="min-height:44px;padding:0 24px;border:none;border-radius:999px;background:#111827;color:#fff;font-size:15px;font-weight:600;cursor:pointer;">Register Kit</button>
 		</form>`
-		+ recaptchaScript + maskScript + instructionsLinkHtml + redirectScript + `
+			+ recaptchaScript + maskScript + instructionsLinkHtml + redirectScript + `
 		<script>
 		(function(){
 			var btn = document.getElementById('go-step-2');
@@ -695,35 +702,35 @@ export async function action({ request }: ActionFunctionArgs) {
 	// 	return proxyPageResponse(request, liquid, data);
 	// }
 
-		// Validate step 1 fields
-		const validationErrors = validateRegistration(form);
-		if (validationErrors) {
-			const data: ActionData = {
-				ok: false,
-				message: "Please fill all required fields.",
-				errors: validationErrors,
-				form,
-			};
+	// Validate step 1 fields
+	const validationErrors = validateRegistration(form);
+	if (validationErrors) {
+		const data: ActionData = {
+			ok: false,
+			message: "Please fill all required fields.",
+			errors: validationErrors,
+			form,
+		};
+		return proxyPageResponse(request, liquid, data);
+	}
+
+	// If final submission from step 2, validate step 2 fields too
+	if (final === '1') {
+		const merged = Object.assign({}, form, page2Values) as RegistrationFormState;
+		const step2Errors = validateRegistrationStep2(merged);
+		if (step2Errors) {
+			const data: ActionData = { ok: false, message: 'Please fill required fields on this page.', errors: step2Errors, form: merged, showStep2: true };
 			return proxyPageResponse(request, liquid, data);
 		}
-
-		// If final submission from step 2, validate step 2 fields too
-		if (final === '1') {
-			const merged = Object.assign({}, form, page2Values) as RegistrationFormState;
-			const step2Errors = validateRegistrationStep2(merged);
-			if (step2Errors) {
-				const data: ActionData = { ok: false, message: 'Please fill required fields on this page.', errors: step2Errors, form: merged, showStep2: true };
-				return proxyPageResponse(request, liquid, data);
-			}
-			// merge page2 into form for saving
-			form.address = page2Values.address;
-			form.depth = page2Values.depth;
-			form.propertyType = page2Values.propertyType;
-			form.landUse = page2Values.landUse;
-			form.acreage = page2Values.acreage as any;
-			form.reason = page2Values.reason;
-			form.reasonOther = page2Values.reasonOther;
-		}
+		// merge page2 into form for saving
+		form.address = page2Values.address;
+		form.depth = page2Values.depth;
+		form.propertyType = page2Values.propertyType;
+		form.landUse = page2Values.landUse;
+		form.acreage = page2Values.acreage as any;
+		form.reason = page2Values.reason;
+		form.reasonOther = page2Values.reasonOther;
+	}
 
 	const existing = await getRegistrationByKitRegistrationNumber(form.kitRegistrationNumber);
 	const shop = session?.shop || url.searchParams.get("shop")?.trim() || "";
@@ -747,21 +754,21 @@ export async function action({ request }: ActionFunctionArgs) {
 				updateData.agreedToTerms = true;
 			}
 
-				// Persist SMS consent explicitly (true when checked, false when unchecked)
-				if (typeof form.smsConsent !== 'undefined') {
-					updateData.smsConsent = Boolean(form.smsConsent);
-				}
+			// Persist SMS consent explicitly (true when checked, false when unchecked)
+			if (typeof form.smsConsent !== 'undefined') {
+				updateData.smsConsent = Boolean(form.smsConsent);
+			}
 
-				// If final submission from step 2, include page 2 fields
-				if (String(formData.get('final') || '') === '1') {
-					updateData.address = String(formData.get('address') || '');
-					updateData.depth = String(formData.get('depth') || '');
-					updateData.propertyType = String(formData.get('propertyType') || '');
-					updateData.landUse = String(formData.get('landUse') || '');
-					if (formData.get('acreage')) updateData.acreage = Number(String(formData.get('acreage')));
-					updateData.reason = String(formData.get('reason') || '');
-					updateData.reasonOther = String(formData.get('reasonOther') || '');
-				}
+			// If final submission from step 2, include page 2 fields
+			if (String(formData.get('final') || '') === '1') {
+				updateData.address = String(formData.get('address') || '');
+				updateData.depth = String(formData.get('depth') || '');
+				updateData.propertyType = String(formData.get('propertyType') || '');
+				updateData.landUse = String(formData.get('landUse') || '');
+				if (formData.get('acreage')) updateData.acreage = Number(String(formData.get('acreage')));
+				updateData.reason = String(formData.get('reason') || '');
+				updateData.reasonOther = String(formData.get('reasonOther') || '');
+			}
 
 			await updateRegistrationFieldsById(existing.id, updateData);
 
