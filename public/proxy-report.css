@@ -515,6 +515,10 @@ p {
     background: #8b231a;
     border-radius: 0 10px 0 0;
     margin-bottom: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
 }
 
 .report_details_section .oil_indicator_block_compact {
@@ -1996,7 +2000,8 @@ p {
     display: flex;
     align-items: center;
     gap: 48px;
-    width: min(100%, 486px);
+    /* width: min(100%, 486px); */
+    width: fit-content;
     min-height: 150px;
     padding: 38px 34px;
     background-color: #737d6b;
@@ -2151,7 +2156,7 @@ p {
     }
 
     .oil_contaminants_section .crude_oil_result_card {
-        width: min(100%, 430px);
+        /* width: min(100%, 430px); */
         min-height: 124px;
         gap: 36px;
     }
