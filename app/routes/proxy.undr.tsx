@@ -286,7 +286,7 @@ async function renderDashboardPage(
 	const { liquid } = await authenticate.public.appProxy(request);
 	const embed = isEmbedMode(new URL(request.url));
 	const origin = new URL(request.url).origin;
-	const cssHref = `${origin}/proxy-report.css`;
+	const cssHref = `https://undr-customer-report-app-two.vercel.app/proxy-report.css?v=20260529-pdf-zero-size-v2"/proxy-report.css`;
 	return liquid(renderDashboardTemplate(state, cssHref), { layout: !embed });
 }
 

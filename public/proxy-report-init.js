@@ -996,11 +996,7 @@
         .style("font-weight", "700")
         .text(function (d) { return getCircleLabelParts(d).symbol; });
 
-      text.append("tspan")
-        .attr("dy", "0")
-        .style("font-size", function (d) { return getCircleLabelParts(d).restFont || (isMobile ? "14px" : "12px"); })
-        .style("font-weight", "600")
-        .text(function (d) { return getCircleLabelParts(d).rest || ""; });
+      // removed full-name tspan to only show shorthand, value, and unit
 
       text.append("tspan")
         .attr("x", 0)
