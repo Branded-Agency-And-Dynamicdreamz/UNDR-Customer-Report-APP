@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ActionFunctionArgs, HeadersFunction, LoaderFunctionArgs } from "react-router";
 import { useActionData, useFetcher, useLoaderData, useNavigation } from "react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -20,6 +21,7 @@ import {
   upsertCrudeOilRowByRegistrationId,
   updateReportRowValuesByRegistrationId,
 } from "../models/report.server";
+import { sendCustomerReportReadyEmail } from "../lib/report-email.server";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 
 // ── Loader ────────────────────────────────────────────────────────────────────
@@ -220,14 +222,64 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
   if (intent === "toggle_report_link") {
     const enabledRaw = String(formData.get("reportLinkEnabled") || "").trim().toLowerCase();
     const enabled = enabledRaw === "1" || enabledRaw === "true" || enabledRaw === "on";
+    const previousReportLinkEnabled = Boolean(registration.reportLinkEnabled);
+    const shouldSendCustomerEmail =
+      enabled &&
+      !previousReportLinkEnabled &&
+      !(registration as any).reportEmailSent &&
+      Boolean(registration.email?.trim());
+
+    const normalizedShopDomain = String(session.shop || "")
+      .replace(/^https?:\/\//, "")
+      .replace(/\/$/, "");
+    const reportPath = buildReportPath(registration.kitRegistrationNumber);
+    const reportBaseUrl = normalizedShopDomain
+      ? `https://${normalizedShopDomain}`
+      : ((process.env.SHOPIFY_APP_URL || "").replace(/\/$/, ""));
+    const reportUrl = `${reportBaseUrl}${reportPath}`;
+    const reportPreviewToken = generateReportPreviewToken(encodeReportProxyId(registration.kitRegistrationNumber));
+    const reportPreviewUrl = `${reportUrl}?preview=${encodeURIComponent(reportPreviewToken)}`;
+
+    let reportEmailSent = (registration as any).reportEmailSent ?? false;
 
     try {
-      await updateRegistrationFieldsById(registration.id, { reportLinkEnabled: enabled, shop: session.shop });
+      if (shouldSendCustomerEmail) {
+        const emailResult = await sendCustomerReportReadyEmail({
+          toEmail: registration.email,
+          customerName: registration.name,
+          reportUrl,
+          previewUrl: reportPreviewUrl,
+        });
+        reportEmailSent = emailResult.sent;
+
+        if (!emailResult.sent) {
+          console.warn("Customer report email was not sent.", {
+            registrationId: registration.id,
+            reason: emailResult.reason,
+            error: emailResult.error,
+          });
+        }
+      }
+
+      await updateRegistrationFieldsById(registration.id, {
+        reportLinkEnabled: enabled,
+        shop: session.shop,
+        reportEmailSent,
+      });
     } catch (err) {
+      console.error("Could not update report link state or send customer email.", err);
       return { error: "Could not update report link state.", intent: "toggle_report_link" as const };
     }
 
-    return { success: true, message: enabled ? "Report link enabled." : "Report link disabled.", intent: "toggle_report_link" as const };
+    return {
+      success: true,
+      message: enabled
+        ? shouldSendCustomerEmail
+          ? "Report link enabled and customer email sent."
+          : "Report link enabled."
+        : "Report link disabled.",
+      intent: "toggle_report_link" as const,
+    };
   }
 
   const file = formData.get("csv");
@@ -458,7 +510,7 @@ export default function RegistrationDetail() {
     setPetroleumPpmValues(buildPetroleumPpmValues(rows));
     const crudeOilRow = rows.find((r) => r.element === "Crude Oil");
     if (crudeOilRow) {
-      setCrudeOilPpmValue(String(crudeOilRow.ppmValue));
+      setCrudeOilPpmValue(getCrudeOilPpmValue(rows));
     }
   }, [rows]);
 
