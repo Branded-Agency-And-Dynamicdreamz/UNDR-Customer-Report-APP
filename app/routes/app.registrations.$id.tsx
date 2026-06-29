@@ -597,21 +597,8 @@ export default function RegistrationDetail() {
         <InfoRow label="Email" value={registration.email} />
         <InfoRow label="Phone" value={registration.phone} />
         <InfoRow label="Order number" value={registration.orderNumber} />
+        <InfoRow label="Product title" value={registration.productTitle || "—"} />
         <InfoRow label="Kit number" value={registration.kitRegistrationNumber} />
-        <InfoRow
-          label="Report package"
-          value={
-            currentReportPackage === "treasure_base"
-              ? "Treasure Base"
-              : currentReportPackage === "treasure_plus"
-                ? "Treasure Plus"
-                : currentReportPackage === "hs_base"
-                  ? "H&S Base"
-                  : currentReportPackage === "hs_plus"
-                    ? "H&S Plus"
-                    : "Premium"
-          }
-        />
         {registration.shopifyOrderId && (
           <InfoRow label="Shopify order ID" value={registration.shopifyOrderId} />
         )}

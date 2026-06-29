@@ -477,13 +477,15 @@ export async function upsertKitForLineItem(params: {
   orderId: string;
   orderNumber: string;
   lineItemId: string;
-  lineItemTitle: string;
+  lineItemTitle?: string;
+  productTitle?: string;
   registrationNumber: string;
   shopifyCustomerId?: string;
   customerName?: string;
   customerEmail?: string;
 }) {
-  const { shop, orderId, orderNumber, lineItemId, registrationNumber } = params;
+  const { shop, orderId, orderNumber, lineItemId, registrationNumber, productTitle, lineItemTitle } = params;
+  const normalizedProductTitle = String(productTitle || lineItemTitle || "").trim();
   // If caller provided a final 10-digit kit number, respect it. Otherwise
   // generate deterministically from the orderNumber and lineItemId so
   // client-side generation and server-side generation match.
@@ -510,6 +512,7 @@ export async function upsertKitForLineItem(params: {
       where: { id: existing.id },
       data: {
         kitRegistrationNumber,
+        ...(normalizedProductTitle ? { productTitle: normalizedProductTitle } : {}),
         ...(params.shopifyCustomerId ? { shopifyCustomerId: params.shopifyCustomerId } : {}),
         ...(params.customerName ? { name: params.customerName.trim() } : {}),
         ...(params.customerEmail ? { email: params.customerEmail.trim() } : {}),
@@ -552,6 +555,7 @@ export async function upsertKitForLineItem(params: {
         kitRegistrationNumber,
         lineItemId,
         shopifyOrderId: orderId || fallback.shopifyOrderId,
+        ...(normalizedProductTitle ? { productTitle: normalizedProductTitle } : {}),
         ...(params.shopifyCustomerId ? { shopifyCustomerId: params.shopifyCustomerId } : {}),
         ...(params.customerName ? { name: params.customerName.trim() } : {}),
         ...(params.customerEmail ? { email: params.customerEmail.trim() } : {}),
@@ -575,6 +579,7 @@ export async function upsertKitForLineItem(params: {
       shopifyOrderId: orderId || null,
       shopifyCustomerId: params.shopifyCustomerId ?? null,
       lineItemId,
+      productTitle: normalizedProductTitle || null,
       kitRegistrationNumber,
     },
   });
