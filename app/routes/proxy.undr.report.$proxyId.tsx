@@ -519,7 +519,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const reportJson = JSON.stringify(report).replaceAll("<", "\\u003c");
 
   const template = `
-<link rel="stylesheet" href="${appUrl}/proxy-report.css?v=20260529-pdf-zero-size-v2">
+<link rel="stylesheet" href="https://undr-customer-report-app-two.vercel.app/proxy-report.css?v=20260529-pdf-zero-size-v2">
 <div data-proxy-id="${proxyId.replaceAll("&", "&amp;").replaceAll('"', "&quot;")}">
   ${pageHtml}
 </div>
