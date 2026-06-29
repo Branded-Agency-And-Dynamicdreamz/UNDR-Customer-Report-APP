@@ -65,7 +65,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is this element generally monetizable?",
-        "body": "Usually not. Fluorine is common in most soils at modest levels. Very high concentrations (above about 500–1,000 ppm) have sometimes been associated with mineral-rich rock formations that naturally contain fluorine or phosphorus. In rare cases, those minerals are mined for industrial fluorine compounds, but typical soil levels don't signal anything commercially interesting. Further testing is an option when levels are far above the normal range. Click here for additional resources."
+        "body": "Usually not. Fluorine is common in most soils at modest levels. Very high concentrations (above about 500–1,000 ppm) have sometimes been associated with mineral-rich rock formations that naturally contain fluorine or phosphorus. In rare cases, those minerals are mined for industrial fluorine compounds, but typical soil levels don't signal anything commercially interesting. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Is it toxic?",
@@ -3333,6 +3333,41 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       {
         "title": "Discovery",
         "body": "Radium was discovered in 1898 by Marie and Pierre Curie while studying pitchblende, a uranium-rich mineral ore."
+      }
+    ]
+  },
+  "FR": {
+    "name": "Francium",
+    "symbol": "Fr",
+    "atomicNumber": 87,
+    "sections": [
+      {
+        "title": "Fun fact",
+        "body": "Francium is the rarest naturally occurring element in Earth's crust and is highly radioactive. It exists only in trace amounts as a decay product of actinium, so there is never enough to see with the naked eye."
+      },
+      {
+        "title": "Is this element generally monetizable?",
+        "body": "No. Francium is too scarce, unstable, and radioactive to be collected or sold. It decays in less than a minute and is only produced in tiny amounts in labs or during natural radioactive decay chains."
+      },
+      {
+        "title": "Is it toxic?",
+        "body": "Yes. Francium emits radiation and is dangerous if handled in any quantity. Natural levels in soil are effectively zero, and the only reason it appears in scientific data is because it forms briefly during uranium and thorium decay."
+      },
+      {
+        "title": "Impact on water quality",
+        "body": "Francium is not a normal soil contaminant and does not meaningfully impact groundwater at natural levels. Its radioactivity means any exposure is a scientific curiosity rather than an environmental issue."
+      },
+      {
+        "title": "Uses",
+        "body": "Francium has no commercial uses. It is studied only for fundamental scientific research, and any practical application is blocked by its rarity and rapid decay."
+      },
+      {
+        "title": "Prevalence",
+        "body": "Francium is basically absent from Earth's crust—only a few atoms of it exist at any time. It is produced momentarily through radioactive decay and disappears almost immediately."
+      },
+      {
+        "title": "Discovery",
+        "body": "Francium was discovered in 1939 by Marguerite Perey while studying actinium decay at the Curie Institute in Paris. The element was named after France."
       }
     ]
   },
