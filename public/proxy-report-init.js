@@ -209,8 +209,33 @@
 
   function initElementBreakdowns() {
     if (!reportData) return;
-    renderBarChart("#main-chart", ".elemental_breakdown_section .report_left_content", reportData.elementBreakdown.items || []);
-    renderBarChart("#trace-chart", ".other_trace_elements_section .report_left_content", reportData.otherTraceElements.items || []);
+
+    var allItems = [];
+    if (Array.isArray(reportData.elementBreakdown.items)) {
+      allItems = allItems.concat(reportData.elementBreakdown.items);
+    }
+    if (Array.isArray(reportData.otherTraceElements.items)) {
+      allItems = allItems.concat(reportData.otherTraceElements.items);
+    }
+
+    var mainItems = [];
+    var traceItems = [];
+    allItems.forEach(function (item) {
+      var ppmValue = 0;
+      if (item && item.ppm) {
+        ppmValue = Number(String(item.ppm).replace(/[^0-9.\-]/g, "")) || 0;
+      }
+
+      var isOtherTraceSummary = item && item.name === "Other Trace Elements";
+      if (isOtherTraceSummary || ppmValue > 300) {
+        mainItems.push(item);
+      } else {
+        traceItems.push(item);
+      }
+    });
+
+    renderBarChart("#main-chart", ".elemental_breakdown_section .report_left_content", mainItems);
+    renderBarChart("#trace-chart", ".other_trace_elements_section .report_left_content", traceItems);
   }
 
   function getElementBlurbs() {
@@ -992,7 +1017,7 @@
       text.append("tspan")
         .attr("x", 0)
         .attr("dy", "-0.6em")
-        .style("font-size", function (d) { return getCircleLabelParts(d).symbolFont; })
+        .style("font-size", "16px")
         .style("font-weight", "700")
         .text(function (d) { return getCircleLabelParts(d).symbol; });
 
@@ -1001,14 +1026,14 @@
       text.append("tspan")
         .attr("x", 0)
         .attr("dy", "1.1em")
-        .style("font-size", function (d) { return getCircleLabelParts(d).ppmFont; })
+        .style("font-size", "20px")
         .style("font-weight", "bold")
         .text(function (d) { return d.ppm; });
 
       text.append("tspan")
         .attr("x", 0)
         .attr("dy", "1.2em")
-        .style("font-size", isMobile ? "16px" : "14px")
+        .style("font-size", "13px")
         .text("ppm");
     });
   }
