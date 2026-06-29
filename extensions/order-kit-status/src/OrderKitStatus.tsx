@@ -80,14 +80,14 @@ async function fetchOrderData(orderId: string, api: any) {
   return promise;
 }
 
-function formatStatus(status?: string): string {
+function formatStatus(status?: string, reportLinkEnabled = true): string {
   if (!status) return 'Not registered';
   switch (status) {
     case 'registered': return 'Registered';
     case 'kit_generated': return 'Registration pending';
     case 'register_submitted': return 'Registration submitted';
     case 'in_progress': return 'In progress';
-    case 'report_generated': return 'Report ready';
+    case 'report_generated': return reportLinkEnabled ? 'Report ready' : 'Report in progress';
     default: return status.replace(/_/g, ' ');
   }
 }
@@ -176,6 +176,7 @@ export default extension(TARGET, async (root, api) => {
 
   const status = statusMap[foundKey]?.status;
   const reportUrl = statusMap[foundKey]?.reportUrl;
+  const reportLinkEnabled = statusMap[foundKey]?.reportLinkEnabled !== false;
 
   // Compute a full URL for the report. Prefer absolute URL from server; if server returned a relative path, build origin from api.shop or referrer/window.
   let fullReportUrl: string | undefined = undefined;
@@ -218,7 +219,7 @@ export default extension(TARGET, async (root, api) => {
   statusBlock.appendChild(statusLabel);
   const statusValueInline = root.createComponent(InlineStack, { spacing: 'tight', blockAlignment: 'center' });
   const statusValueText = root.createComponent(Text, { size: 'small', emphasis: 'bold' });
-  statusValueText.appendChild(root.createText(formatStatus(status)));
+  statusValueText.appendChild(root.createText(formatStatus(status, reportLinkEnabled)));
   statusValueInline.appendChild(statusValueText);
   statusBlock.appendChild(statusValueInline);
   row.appendChild(statusBlock);
@@ -265,15 +266,8 @@ export default extension(TARGET, async (root, api) => {
     row.appendChild(regBtn);
   }
 
-  if (status === 'report_generated' && reportUrl) {
-      const navigateTo = () => {
-      const reportEnabled = statusMap[foundKey]?.reportLinkEnabled !== false;
-      if (!reportEnabled) {
-        if (typeof window !== 'undefined' && typeof window.alert === 'function') {
-          window.alert('Report access is disabled by the store.');
-        }
-        return;
-      }
+  if (status === 'report_generated' && reportUrl && reportLinkEnabled) {
+    const navigateTo = () => {
       const nav = (api as any)?.navigation;
       const tryUrl = fullReportUrl || reportUrl;
 
@@ -297,14 +291,8 @@ export default extension(TARGET, async (root, api) => {
     };
 
     const btn = smallButton(root, 'View report', navigateTo);
-    // Place button and optional note inline so the button stays on the same line as Status.
     const inline = root.createComponent(InlineStack, { spacing: 'tight', blockAlignment: 'center' });
     inline.appendChild(btn);
-    if (statusMap[foundKey]?.reportLinkEnabled === false) {
-      const note = root.createComponent(Text, { size: 'small', appearance: 'subdued' });
-      note.appendChild(root.createText('Report access is disabled by the store.'));
-      inline.appendChild(note);
-    }
     row.appendChild(inline);
   }
 
