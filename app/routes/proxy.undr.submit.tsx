@@ -731,8 +731,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
 				if (!String(url.searchParams.get('email') || '').trim()) defaults.email = existing.email || defaults.email;
 				if (!String(url.searchParams.get('phone') || '').trim()) defaults.phone = existing.phone || defaults.phone;
 				
-				// Check if report is already generated (status is not null/undefined and not in initial states)
-				if (existing.report?.status && existing.report.status !== 'register_submitted') {
+				// Only treat a report as generated when its final generated/uploaded status is reached
+				if (existing.report?.status === 'report_generated' || existing.report?.status === 'uploaded') {
 					reportAlreadyGenerated = true;
 				}
 			}
@@ -787,8 +787,7 @@ export async function action({ request }: ActionFunctionArgs) {
 		const alreadyRegistered = Boolean(kitCheckReg && kitCheckReg.report?.status === 'register_submitted');
 		const reportAlreadyGenerated = Boolean(
 			kitCheckReg &&
-			kitCheckReg.report?.status &&
-			kitCheckReg.report.status !== 'register_submitted'
+			(kitCheckReg.report?.status === 'report_generated' || kitCheckReg.report?.status === 'uploaded')
 		);
 		return new Response(JSON.stringify({ exists, alreadyRegistered, reportAlreadyGenerated }), { headers: { 'Content-Type': 'application/json' } });
 	}
@@ -854,7 +853,7 @@ export async function action({ request }: ActionFunctionArgs) {
 	
 	// Check if report is already generated for this kit
 	let reportAlreadyGenerated = false;
-	if (existing?.report?.status && existing.report.status !== 'register_submitted') {
+	if (existing?.report?.status === 'report_generated' || existing?.report?.status === 'uploaded') {
 		reportAlreadyGenerated = true;
 	}
 	
