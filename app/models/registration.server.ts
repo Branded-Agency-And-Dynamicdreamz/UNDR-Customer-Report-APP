@@ -232,7 +232,7 @@ export async function getRegistrationByKitNumber(kitRegistrationNumber: string) 
   }
 }
 
-export async function updateRegistrationFieldsById(id: string, data: Partial<{ name: string; email: string; phone: string; orderNumber: string; shopifyCustomerId: string | null; shop?: string; agreedToTerms?: boolean; reportLinkEnabled?: boolean; smsConsent?: boolean }>) {
+export async function updateRegistrationFieldsById(id: string, data: Partial<{ name: string; email: string; phone: string; orderNumber: string; shopifyCustomerId: string | null; shop?: string; agreedToTerms?: boolean; reportLinkEnabled?: boolean; reportEmailSent?: boolean; smsConsent?: boolean }>) {
   const updateData: any = {};
   if (data.name !== undefined) updateData.name = data.name.trim();
   if (data.email !== undefined) updateData.email = data.email.trim();
@@ -241,6 +241,7 @@ export async function updateRegistrationFieldsById(id: string, data: Partial<{ n
   if (data.shopifyCustomerId !== undefined) updateData.shopifyCustomerId = data.shopifyCustomerId ?? null;
   if (data.shop !== undefined) updateData.shop = data.shop;
   if (data.reportLinkEnabled !== undefined) updateData.reportLinkEnabled = data.reportLinkEnabled;
+  if (data.reportEmailSent !== undefined) updateData.reportEmailSent = data.reportEmailSent;
   if (data.agreedToTerms !== undefined) updateData.agreedToTerms = data.agreedToTerms;
   if (data.smsConsent !== undefined) updateData.smsConsent = data.smsConsent;
 
