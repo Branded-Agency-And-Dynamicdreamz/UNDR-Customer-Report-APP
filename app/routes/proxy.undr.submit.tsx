@@ -2,7 +2,6 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 
 import {
-	getRegistrationByKitRegistrationNumber,
 	getRegistrationDefaults,
 	getRegistrationByKitNumberWithReport, 
 	saveRegistration,
@@ -18,6 +17,7 @@ import { authenticate } from "../shopify.server";
 type LoaderData = {
 	form: RegistrationFormState;
 	showStep2?: boolean;
+	reportAlreadyGenerated?: boolean;
 };
 
 type ActionData = {
@@ -27,6 +27,7 @@ type ActionData = {
 	form: RegistrationFormState;
 	requireV2?: boolean;
 	showStep2?: boolean;
+	reportAlreadyGenerated?: boolean;
 };
 
 const RECAPTCHA_ACTION = "submit_kit_registration";
@@ -424,6 +425,7 @@ function renderError(message?: string) {
 function renderRegistrationPage(state: ActionData | LoaderData) {
 	const form = state.form;
 	const showStep2 = Boolean((state as any).showStep2);
+	const reportAlreadyGenerated = Boolean((state as any).reportAlreadyGenerated);
 	const errors = "errors" in state ? state.errors : undefined;
 	const message = "message" in state ? state.message : undefined;
 	const ok = "ok" in state ? state.ok : false;
@@ -665,7 +667,9 @@ function renderRegistrationPage(state: ActionData | LoaderData) {
 						var resp = await fetch(window.location.pathname, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body, credentials: 'same-origin' });
 						if (resp.ok) {
 							var json = await resp.json();
-							if (json && json.alreadyRegistered) {
+							if (json && json.reportAlreadyGenerated) {
+								setInlineError('Your report has already been generated. Please contact support if you need assistance.');
+							} else if (json && json.alreadyRegistered) {
 								setInlineError('This kit has already been registered. Please contact support if you need assistance.');
 							} else if (json && json.exists) {
 								window.location.href = window.location.pathname + '?' + params.toString();
@@ -715,15 +719,22 @@ export async function loader({ request }: LoaderFunctionArgs) {
 	defaults.phone = String(url.searchParams.get('phone') || '');
 	defaults.shopDomain = session?.shop || String(url.searchParams.get('shop') || '');
 
+	let reportAlreadyGenerated = false;
+
 	// If a kit number is provided, try to load the existing registration and
 	// autofill the form fields (only when the query params didn't already set them).
 	if (defaults.kitRegistrationNumber) {
 		try {
-			const existing = await getRegistrationByKitRegistrationNumber(defaults.kitRegistrationNumber);
+			const existing = await getRegistrationByKitNumberWithReport(defaults.kitRegistrationNumber);
 			if (existing) {
 				if (!String(url.searchParams.get('name') || '').trim()) defaults.name = existing.name || defaults.name;
 				if (!String(url.searchParams.get('email') || '').trim()) defaults.email = existing.email || defaults.email;
 				if (!String(url.searchParams.get('phone') || '').trim()) defaults.phone = existing.phone || defaults.phone;
+				
+				// Check if report is already generated (status is not null/undefined and not in initial states)
+				if (existing.report?.status && existing.report.status !== 'register_submitted') {
+					reportAlreadyGenerated = true;
+				}
 			}
 		} catch (err) {
 			// Non-fatal: if DB lookup fails, just proceed with query param values.
@@ -731,7 +742,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 		}
 	}
 
-	const data: LoaderData = { form: defaults, showStep2: url.searchParams.get('step') === '2' };
+	const data: LoaderData = { form: defaults, showStep2: url.searchParams.get('step') === '2', reportAlreadyGenerated };
 
 	return proxyPageResponse(request, liquid, data);
 }
@@ -774,7 +785,12 @@ export async function action({ request }: ActionFunctionArgs) {
 		const kitCheckReg = await getRegistrationByKitNumberWithReport(lookupKitCheck);
 		const exists = Boolean(kitCheckReg);
 		const alreadyRegistered = Boolean(kitCheckReg && kitCheckReg.report?.status === 'register_submitted');
-		return new Response(JSON.stringify({ exists, alreadyRegistered }), { headers: { 'Content-Type': 'application/json' } });
+		const reportAlreadyGenerated = Boolean(
+			kitCheckReg &&
+			kitCheckReg.report?.status &&
+			kitCheckReg.report.status !== 'register_submitted'
+		);
+		return new Response(JSON.stringify({ exists, alreadyRegistered, reportAlreadyGenerated }), { headers: { 'Content-Type': 'application/json' } });
 	}
 
 	// If the user clicked Register Kit to advance to step 2, render step 2 without final validation/save
@@ -834,7 +850,14 @@ export async function action({ request }: ActionFunctionArgs) {
 	const rawKitInput = String(form.kitRegistrationNumber || "").trim();
 	const trailing10 = rawKitInput.match(/(\d{10})$/);
 	const lookupKit = trailing10 ? trailing10[1] : rawKitInput;
-	const existing = await getRegistrationByKitRegistrationNumber(lookupKit);
+	const existing = await getRegistrationByKitNumberWithReport(lookupKit);
+	
+	// Check if report is already generated for this kit
+	let reportAlreadyGenerated = false;
+	if (existing?.report?.status && existing.report.status !== 'register_submitted') {
+		reportAlreadyGenerated = true;
+	}
+	
 	const shop = session?.shop || url.searchParams.get("shop")?.trim() || "";
 	if (existing) {
 		// Update existing registration with latest submitter info and mark as submitted
@@ -884,6 +907,7 @@ export async function action({ request }: ActionFunctionArgs) {
 				ok: true,
 				message: `Thanks, ${String(form.name || '').split(' ')[0] || 'there'}! Your kit has been successfully registered. Let\u2019s get digging!`,
 				form: Object.assign(getRegistrationDefaults(), { shopDomain: shop }),
+				reportAlreadyGenerated,
 			};
 			return proxyPageResponse(request, liquid, data);
 		} catch (err) {
@@ -892,6 +916,7 @@ export async function action({ request }: ActionFunctionArgs) {
 				ok: false,
 				message: "Could not update the existing registration. Please try again.",
 				form,
+				reportAlreadyGenerated,
 			};
 			return proxyPageResponse(request, liquid, data);
 		}
@@ -957,6 +982,7 @@ export async function action({ request }: ActionFunctionArgs) {
 			ok: false,
 			message: "Could not save registration right now. Please try again.",
 			form,
+			reportAlreadyGenerated,
 		};
 		return proxyPageResponse(request, liquid, data);
 	}
@@ -965,6 +991,7 @@ export async function action({ request }: ActionFunctionArgs) {
 		ok: true,
 		message: `Thanks, ${String(form.name || '').split(' ')[0] || 'there'}! Your kit has been successfully registered. Let\u2019s get digging!`,
 		form: Object.assign(getRegistrationDefaults(), { shopDomain: session?.shop || url.searchParams.get('shop')?.trim() || '' }),
+		reportAlreadyGenerated,
 	};
 	return proxyPageResponse(request, liquid, data);
 }
