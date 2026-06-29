@@ -196,6 +196,7 @@
       name.innerText = item.name + pctStr;
 
       var value = document.createElement("span");
+      
       value.className = "element_bar_value";
       value.innerText = item.ppm != null && item.ppm !== "" ? item.ppm.replace('ppm',' ppm') : "";
 
