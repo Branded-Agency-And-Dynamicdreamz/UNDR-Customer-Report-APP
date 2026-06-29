@@ -128,11 +128,34 @@ export function validateRegistration(
   return Object.keys(errors).length ? errors : null;
 }
 
+function hasUsState(value: string) {
+  const normalized = value.trim().toLowerCase();
+  return (
+    /\b(?:al|ak|az|ar|ca|co|ct|de|fl|ga|hi|id|il|in|ia|ks|ky|la|me|md|ma|mi|mn|ms|mo|mt|ne|nv|nh|nj|nm|ny|nc|nd|oh|ok|or|pa|ri|sc|sd|tn|tx|ut|vt|va|wa|wv|wi|wy)\b/.test(normalized) ||
+    /\b(?:alabama|alaska|arizona|arkansas|california|colorado|connecticut|delaware|florida|georgia|hawaii|idaho|illinois|indiana|iowa|kansas|kentucky|louisiana|maine|maryland|massachusetts|michigan|minnesota|mississippi|missouri|montana|nebraska|nevada|new hampshire|new jersey|new mexico|new york|north carolina|north dakota|ohio|oklahoma|oregon|pennsylvania|rhode island|south carolina|south dakota|tennessee|texas|utah|vermont|virginia|washington|west virginia|wisconsin|wyoming)\b/.test(normalized)
+  );
+}
+
 export function validateRegistrationStep2(input: Partial<RegistrationFormState>) {
   const errors: RegistrationFormErrors = {};
+  const address = String(input.address || "").trim();
 
-  if (!input.address || !String(input.address).trim()) {
+  if (!address) {
     errors.address = "Address is required.";
+  } else {
+    const segments = address
+      .split(",")
+      .map((segment) => segment.trim())
+      .filter(Boolean);
+
+    const hasStreetNumber = /\d/.test(address);
+    const hasCitySegment = segments.length >= 3;
+    const hasState = hasUsState(address);
+    const hasZip = /\b\d{5}(?:-\d{4})?\b/.test(address);
+
+    if (!hasStreetNumber || !hasCitySegment || !hasState || !hasZip) {
+      errors.address = "Please enter a full U.S. address with street, city, state, and ZIP code.";
+    }
   }
 
   if (!input.depth || !String(input.depth).trim()) {
@@ -454,13 +477,15 @@ export async function upsertKitForLineItem(params: {
   orderId: string;
   orderNumber: string;
   lineItemId: string;
-  lineItemTitle: string;
+  lineItemTitle?: string;
+  productTitle?: string;
   registrationNumber: string;
   shopifyCustomerId?: string;
   customerName?: string;
   customerEmail?: string;
 }) {
-  const { shop, orderId, orderNumber, lineItemId, registrationNumber } = params;
+  const { shop, orderId, orderNumber, lineItemId, registrationNumber, productTitle, lineItemTitle } = params;
+  const normalizedProductTitle = String(productTitle || lineItemTitle || "").trim();
   // If caller provided a final 10-digit kit number, respect it. Otherwise
   // generate deterministically from the orderNumber and lineItemId so
   // client-side generation and server-side generation match.
@@ -487,6 +512,7 @@ export async function upsertKitForLineItem(params: {
       where: { id: existing.id },
       data: {
         kitRegistrationNumber,
+        ...(normalizedProductTitle ? { productTitle: normalizedProductTitle } : {}),
         ...(params.shopifyCustomerId ? { shopifyCustomerId: params.shopifyCustomerId } : {}),
         ...(params.customerName ? { name: params.customerName.trim() } : {}),
         ...(params.customerEmail ? { email: params.customerEmail.trim() } : {}),
@@ -529,6 +555,7 @@ export async function upsertKitForLineItem(params: {
         kitRegistrationNumber,
         lineItemId,
         shopifyOrderId: orderId || fallback.shopifyOrderId,
+        ...(normalizedProductTitle ? { productTitle: normalizedProductTitle } : {}),
         ...(params.shopifyCustomerId ? { shopifyCustomerId: params.shopifyCustomerId } : {}),
         ...(params.customerName ? { name: params.customerName.trim() } : {}),
         ...(params.customerEmail ? { email: params.customerEmail.trim() } : {}),
@@ -552,6 +579,7 @@ export async function upsertKitForLineItem(params: {
       shopifyOrderId: orderId || null,
       shopifyCustomerId: params.shopifyCustomerId ?? null,
       lineItemId,
+      productTitle: normalizedProductTitle || null,
       kitRegistrationNumber,
     },
   });

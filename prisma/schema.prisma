@@ -62,6 +62,7 @@ model Registration {
   report                Report?
   unlocks               ReportUnlock[]
   lineItemId            String?
+  productTitle          String?
 }
 
 model Report {

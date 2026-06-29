@@ -66,8 +66,8 @@ function renderStep2Section(form: RegistrationFormState, errors?: RegistrationFo
 			<input type="hidden" name="final" value="1" />
 
 			<label style="display:grid; gap:5px;">
-				<span style="font-family: 'Anonymous Pro', monospace; font-weight: 600; font-size: 14px; line-height: 20px; color: #111827; letter-spacing: 0.06rem;">Address <span style="color:#b42318;">*</span></span>
-				<input name="address" value="${escapeHtml(String((form as any).address || ''))}" 
+				<span style="font-family: 'Anonymous Pro', monospace; font-weight: 600; font-size: 14px; line-height: 20px; color: #111827; letter-spacing: 0.06rem;">Full address (street, city, state, ZIP) <span style="color:#b42318;">*</span></span>
+				<input name="address" value="${escapeHtml(String((form as any).address || ''))}" placeholder="Example: 123 Main St, Springfield, IL 62704"
 				style="min-height: 44px; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(15, 23, 42, 0.2); font-size: 15px; box-sizing: border-box; width: 100%;" />
 				${errors?.address ? `<div style="color:#b42318;font-size:13px;">${escapeHtml(errors.address)}</div>` : ''}
 			</label>
@@ -631,6 +631,9 @@ function renderRegistrationPage(state: ActionData | LoaderData) {
 					var phoneEl = mainForm ? mainForm.querySelector('[name="phone"]') : null;
 									if (!nameEl || !String(nameEl.value || '').trim()) { setInlineError('Name is required.'); return; }
 					if (!emailEl || !String(emailEl.value || '').trim()) { setInlineError('Email is required.'); return; }
+					var emailVal = String((emailEl && emailEl.value) || '').trim();
+					var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+					if (!emailPattern.test(emailVal)) { setInlineError('Please enter a valid email address.'); return; }
 					var phoneVal = String((phoneEl && phoneEl.value) || '').trim();
 					var phonePattern = /^\\+1\\s*\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$/;
 					if (!phoneEl || !phoneVal) { setInlineError('Phone number is required.'); return; }
