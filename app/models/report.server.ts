@@ -998,8 +998,25 @@ export function buildReportDataFromRows(
   const allElements = reportRows;
 
   // --- Found / Not Found
-  const found = allElements.filter((r) => r.ppmValue > 0);
-  const notFound = allElements.filter((r) => r.ppmValue === 0);
+  // An element is "Detected" only when its Result is at or above the detection
+  // limit ("Det. Limit" column in the master CSV). The detection limit is in the
+  // same raw units as Result, so convert to ppm the same way (× 10,000) before
+  // comparing. Results below the detection limit (e.g. germanium, selenium,
+  // bromine, cesium in some samples) are reported as Not Detected with no value.
+  const detectionLimitPpm = (r: (typeof allElements)[number]): number | null =>
+    r.detectionLimitPercent != null && Number.isFinite(r.detectionLimitPercent)
+      ? r.detectionLimitPercent * 10000
+      : null;
+
+  const isDetected = (r: (typeof allElements)[number]): boolean => {
+    if (!(r.ppmValue > 0)) return false;
+    const dl = detectionLimitPpm(r);
+    if (dl != null && r.ppmValue < dl) return false; // below detection limit
+    return true;
+  };
+
+  const found = allElements.filter(isDetected);
+  const notFound = allElements.filter((r) => !isDetected(r));
 
 base.foundElements = found
 .sort((a, b) => a.element.localeCompare(b.element)) // alphabetical sort
