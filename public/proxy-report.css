@@ -3887,6 +3887,7 @@ p {
 
 .found_elements_list_section .elements_table_wrapper {
     max-width: 800px;
+    max-width: 900px;
 }
 
 .found_elements_list_section .element_item_row {
@@ -3930,6 +3931,7 @@ p {
     display: flex;
     align-items: center;
     width: 55%;
+    width: 45%;
 }
 
 .found_elements_list_section .ppm_value {
@@ -3937,6 +3939,7 @@ p {
     font-size: 20px;
     font-weight: 500;
     color: #7d8e95;
+    width: 210px;
 }
 
 .found_elements_list_section .margin_value {
@@ -3946,12 +3949,12 @@ p {
 }
 
 .found_elements_list_section .element_col_arrow {
-    width: 10%;
+    width: 20%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
-    gap: 8px;
+    gap: 0;
 }
 
 .found_elements_list_section .element_blurb_button {
@@ -4158,6 +4161,18 @@ p {
     color: #8b2323;
 }
 
+@media (max-width: 991px) {
+    .found_elements_list_section .element_col_info {
+        width: 30%;
+    }
+    .found_elements_list_section .element_col_data {
+        width: 50%;
+    }
+    .found_elements_list_section .ppm_value {
+        width: 165px;
+    }
+}
+
 @media (max-width: 767px) {
     .element_blurb_modal {
         padding: 16px;
@@ -4180,7 +4195,6 @@ p {
     .found_elements_list_section .element_view_hint {
         align-items: flex-start;
         flex-direction: row;
-        margin: 0;
         gap: 5px;
     }
 
@@ -4361,7 +4375,7 @@ p {
     .found_elements_list_section .element_name_text,
     .found_elements_list_section .ppm_value,
     .found_elements_list_section .margin_value {
-        font-size: 18px;
+        font-size: 16px;
     }
 }
 
@@ -4413,16 +4427,7 @@ p {
     }
 
     .found_elements_list_section .element_col_data {
-        width: 90%;
-    }
-
-    .found_elements_list_section .ppm_value {
-        font-size: 16px;
-        width: 100px;
-    }
-
-    .found_elements_list_section .margin_value {
-        font-size: 16px;
+        width: 100%;
     }
 }
 
