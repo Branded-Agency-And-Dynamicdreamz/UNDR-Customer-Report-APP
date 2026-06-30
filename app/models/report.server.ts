@@ -1035,7 +1035,7 @@ base.foundElements = found
         standardDeviationPpm = getElementStandardDeviationPpm(r.element) as number | null;
       }
 
-      console.log(`Element: ${r.element}, PPM: ${r.ppmValue}, StdDev: ${standardDeviationPpm}`);
+      
 
       const mapped: FoundElementItem = {
       symbol: formatElementSymbol(ELEMENT_SYMBOL_FROM_NAME[key] || key.substring(0, 2)),

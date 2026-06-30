@@ -19,10 +19,10 @@ export default function PrintQrProxy() {
   const qrUrl = decodeParam(params.get('qrUrl'));
 
   useEffect(() => {
-    console.log('[print-qr-proxy] page loaded', { productTitle, variant, quantity, orderNumber, customerName, customerEmail, kitNumber, qrUrl });
+    
     const t = setTimeout(() => {
       try {
-        console.log('[print-qr-proxy] calling window.print()');
+    
         window.print();
         console.log('[print-qr-proxy] window.print() returned');
       } catch (e) {

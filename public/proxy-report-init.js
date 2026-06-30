@@ -211,15 +211,57 @@
   function initElementBreakdowns() {
     if (!reportData) return;
 
+    var MAIN_CHART_MIN_PPM = 300;
+
+    function itemPpm(it) {
+      if (!it || it.ppm == null) return 0;
+      var n = Number(String(it.ppm).replace(/[^0-9.\-]/g, ""));
+      return isFinite(n) ? n : 0;
+    }
+
+    // Bucket EVERY detected element by ppm: >= 300 ppm -> main chart, below ->
+    // trace chart. Use the complete `foundElements` list as the source (the
+    // server's elementBreakdown/otherTraceElements lists are capped to the top
+    // 15 + an aggregate bar, which would otherwise limit the main chart to 16).
+    var allItems = [];
+    if (Array.isArray(reportData.foundElements) && reportData.foundElements.length) {
+      allItems = reportData.foundElements.map(function (it) {
+        var ppmNum = itemPpm(it);
+        return {
+          symbol: it.symbol,
+          name: it.name,
+          ppm: it.ppm,
+          // sort by value (renderBarChart sorts on `percentage`)
+          percentage: ppmNum,
+          color: (it.valueStyle && it.valueStyle.backgroundColor) || it.color,
+        };
+      });
+    } else {
+      // Fallback: merge the server's pre-split lists if foundElements is absent.
+      if (Array.isArray(reportData.elementBreakdown.items)) {
+        allItems = allItems.concat(reportData.elementBreakdown.items);
+      }
+      if (Array.isArray(reportData.otherTraceElements.items)) {
+        allItems = allItems.concat(reportData.otherTraceElements.items);
+      }
+    }
+
     var mainItems = [];
     var traceItems = [];
+    allItems.forEach(function (it) {
+      if (it && it.fixedLast) {
+        traceItems.push(it);
+        return;
+      }
+      if (itemPpm(it) >= MAIN_CHART_MIN_PPM) {
+        mainItems.push(it);
+      } else {
+        traceItems.push(it);
+      }
+    });
 
-    if (Array.isArray(reportData.elementBreakdown.items)) {
-      mainItems = mainItems.concat(reportData.elementBreakdown.items);
-    }
-    if (Array.isArray(reportData.otherTraceElements.items)) {
-      traceItems = traceItems.concat(reportData.otherTraceElements.items);
-    }
+
+    console.log("Element breakdowns: mainItems", mainItems);
 
     renderBarChart("#main-chart", ".elemental_breakdown_section .report_left_content", mainItems);
     renderBarChart("#trace-chart", ".other_trace_elements_section .report_left_content", traceItems);

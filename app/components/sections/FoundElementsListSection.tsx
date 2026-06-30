@@ -20,7 +20,7 @@ const FoundElementsListSection = ({ elements, appUrl = '' }: FoundElementsListSe
   const elementBlurbsJson = JSON.stringify(ELEMENT_BLURBS_BY_SYMBOL).replaceAll("<", "\\u003c");
 
 
-  console.log('FoundElementsListSection elements:', elements);
+  
 
   return (
     <section id="full_list_of_elements_section" className="found_elements_list_section">
