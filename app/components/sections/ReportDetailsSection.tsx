@@ -548,11 +548,9 @@ const ReportDetailsSection = ({
               color: 'inherit',
             }}>
               {[
-                { bg: '#ffffff', border: '1px solid #ccc', label: 'Below −2 SD' },
-                { bg: '#e8e8e8', border: 'none', label: '−2 to −1 SD' },
-                { bg: '#c7c5c5', border: 'none', label: '−1 to +1 SD (Average)' },
-                { bg: '#8b8b8b', border: 'none', label: '+1 to +2 SD' },
-                { bg: '#5b5a5a', border: 'none', label: 'Above +2 SD' },
+                { bg: '#d3d3d3', border: '1px solid #ccc', label: 'Below Average' },
+                { bg: '#a6a8ab', border: 'none', label: 'Average' },
+                { bg: '#939598', border: 'none', label: 'Above Average' },
               ].map(({ bg, border, label }) => (
                 <span
                   key={label}
