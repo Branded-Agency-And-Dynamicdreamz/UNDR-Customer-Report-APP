@@ -71,9 +71,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
       const lineItemId = String(rawLineItemId);
       const lineItemTitle = li.title || li.name || "";
+      // Store "Product Name - Variant Name" as productTitle.
+      // Build from product title + variant_title; fall back to li.name (which
+      // Shopify already formats as "Product - Variant"), then bare title/name.
+      const productName = li.title || "";
+      const variantName = li.variant_title || "";
+      const variationName =
+        productName && variantName
+          ? `${productName} - ${variantName}`
+          : li.name || productName || variantName || "";
 
       console.log("[webhooks/orders/created] upserting kit for line item", {
-        shop, orderId, orderNumber, lineItemId, lineItemTitle,
+        shop, orderId, orderNumber, lineItemId, lineItemTitle, variationName,
       });
 
       try {
@@ -83,6 +92,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
           orderNumber,
           lineItemId,
           lineItemTitle,
+          productTitle: variationName,
           registrationNumber: "",
           shopifyCustomerId,
           customerName: customerName || undefined,
