@@ -41,6 +41,34 @@ function getLoggedInCustomerId(url: URL): string | null {
 	);
 }
 
+// Build a storefront login URL that returns the customer to the registration
+// page (preserving the kit/prefill query) after they sign in.
+function buildSubmitLoginRedirect(url: URL): string {
+	const preserve = ["kit", "kitRegistrationNumber", "name", "email", "phone", "step", "shop"];
+	const params = new URLSearchParams();
+	for (const key of preserve) {
+		const value = url.searchParams.get(key);
+		if (value && value.trim()) params.set(key, value);
+	}
+	const qs = params.toString();
+	const returnTo = `/apps/undr/submit${qs ? `?${qs}` : ""}`;
+	return `/customer_authentication/login?return_to=${encodeURIComponent(returnTo)}`;
+}
+
+function submitLoginRedirectResponse(url: URL): Response {
+	const loginUrl = buildSubmitLoginRedirect(url);
+	return new Response(
+		`<script>window.location.replace(${JSON.stringify(loginUrl)});</script>` +
+		`<noscript><meta http-equiv="refresh" content="0;url=${escapeHtml(loginUrl)}"></noscript>`,
+		{
+			headers: {
+				"Content-Type": "text/html; charset=utf-8",
+				"Cache-Control": "no-store",
+			},
+		},
+	);
+}
+
 function renderStep2Section(form: RegistrationFormState, errors?: RegistrationFormErrors) {
 	const escapeHtml = (value: string) => String(value || '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 
@@ -711,6 +739,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
 	const { liquid, session } = await authenticate.public.appProxy(request);
 
 	const url = new URL(request.url);
+
+	// Registration page is for logged-in customers only. If the storefront
+	// customer is not signed in, send them to the login page and return them
+	// back here afterwards.
+	if (!normalizeCustomerId(getLoggedInCustomerId(url))) {
+		return submitLoginRedirectResponse(url);
+	}
+
 	const defaults = getRegistrationDefaults();
 	// Prefill from query params if provided (kit, name, email, phone)
 	defaults.kitRegistrationNumber = String(url.searchParams.get('kit') || url.searchParams.get('kitRegistrationNumber') || '');
@@ -753,6 +789,18 @@ export async function action({ request }: ActionFunctionArgs) {
 
 	const formData = await request.formData();
 	const intent = String(formData.get("intent") || "");
+
+	// Logged-in customers only. Block any submit/check from a signed-out visitor.
+	if (!normalizeCustomerId(getLoggedInCustomerId(url))) {
+		if (intent === "check-kit") {
+			return new Response(JSON.stringify({ error: "login_required" }), {
+				status: 401,
+				headers: { "Content-Type": "application/json" },
+			});
+		}
+		return submitLoginRedirectResponse(url);
+	}
+
 	const form: RegistrationFormState = {
 		name: String(formData.get("name") || ""),
 		email: String(formData.get("email") || ""),
