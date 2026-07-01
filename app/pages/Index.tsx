@@ -14,10 +14,10 @@ import UniqueSoilSection from '../components/sections/UniqueSoilSection';
 import SoilFeatureSection from '../components/sections/SoilFeatureSection';
 import FoundElementsListSection from '../components/sections/FoundElementsListSection';
 import NotFoundElementsListSection from '../components/sections/NotFoundElementsListSection';
-import PreciousMetalsBreakdownHeading from '../components/sections/PreciousMetalsBreakdownHeading';
-import PreciousMetalsSection from '../components/sections/PreciousMetalsSection';
-import PreciousMetalsBreakdownHeadingAlt from '../components/sections/PreciousMetalsBreakdownHeadingAlt';
-import PreciousMetalsNotPresent from '../components/sections/PreciousMetalsNotPresent';
+// import PreciousMetalsBreakdownHeading from '../components/sections/PreciousMetalsBreakdownHeading';
+// import PreciousMetalsSection from '../components/sections/PreciousMetalsSection';
+// import PreciousMetalsBreakdownHeadingAlt from '../components/sections/PreciousMetalsBreakdownHeadingAlt';
+// import PreciousMetalsNotPresent from '../components/sections/PreciousMetalsNotPresent';
 import AdditionalResourcesSection from '../components/sections/AdditionalResourcesSection';
 import type { ProxyReportData } from '../lib/proxy-report-data';
 import { formatUnlockPrice, hasReportUnlock, type UnlockModule } from '../lib/report-packages';
@@ -126,7 +126,10 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
           appUrl={appUrl}
         />
       )}
-       {shouldShowOilBreakdown && (
+
+  {console.log("test",reportPackage,(shouldShowOilBreakdown && (reportPackage !=="treasure_base" && reportPackage !== 'hs_base')))}
+
+      {shouldShowOilBreakdown && (reportPackage !=="treasure_base" && reportPackage !== 'hs_base') && (
         <OilContaminantsSection
           status={report.oilContaminants.status}
           value={report.oilContaminants.value}
@@ -139,7 +142,7 @@ const Index = ({ report, appUrl = '' }: IndexProps) => {
         />
       )}
       
-      {shouldShowPetroleumBreakdown && (
+      {shouldShowPetroleumBreakdown && (reportPackage !=="treasure_base" && reportPackage !== 'hs_base') && (
         <>
           {/* 7. Petroleum Contaminants */}
           <PetroleumContaminantsSection appUrl={appUrl} />
