@@ -19,9 +19,6 @@ type FoundElementsListSectionProps = {
 const FoundElementsListSection = ({ elements, appUrl = '' }: FoundElementsListSectionProps) => {
   const elementBlurbsJson = JSON.stringify(ELEMENT_BLURBS_BY_SYMBOL).replaceAll("<", "\\u003c");
 
-
-  
-
   return (
     <section id="full_list_of_elements_section" className="found_elements_list_section">
       <div className="container">
@@ -30,7 +27,7 @@ const FoundElementsListSection = ({ elements, appUrl = '' }: FoundElementsListSe
         <h3 className="section_sub_title">Elements Found</h3>
 
         <div className="elements_table_wrapper">
-          {elements.map((el, i) => (
+          {elements.filter((el) => el.symbol?.toLowerCase() !== "cr").map((el, i) => (
             <div className="element_item_row" key={i}>
               <div className="element_col_info">
                 <span className={`element_symbol_box ${el.bgClass}`}  style={{ backgroundColor: el.valueStyle?.backgroundColor }}
