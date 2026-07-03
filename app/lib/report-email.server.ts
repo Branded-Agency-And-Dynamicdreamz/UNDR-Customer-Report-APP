@@ -101,9 +101,12 @@ export async function sendCustomerReportReadyEmail({
       <div class="header">
         <h1>The wait is over</h1>
       </div>
-      <div style="display:none; max-height:0; overflow:hidden; opacity:0;">${previewUrl}</div>
+    <!-- This hidden block now uses blank spaces to push out the ugly shopify link -->
+      <div style="display:none; max-height:0; overflow:hidden; opacity:0;">
+        &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+      </div>
       <div class="content">
-        <div class="preview">See what your sample may revealed.</div>
+        <div class="preview">See what your sample revealed.</div>
         <p class="body-text">It's time to see what turned up in your dirt.</p>
         <p class="body-text">Inside, you'll find a breakdown of everything we detected—what's there, how much, and how it compares to other soil—with context to help it all make sense.</p>
         <p class="body-text">This is your sample's story. We hope you enjoy reading it as much as we enjoyed putting it together.</p>
