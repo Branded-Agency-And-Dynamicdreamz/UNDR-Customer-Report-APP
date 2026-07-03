@@ -100,9 +100,9 @@ export async function sendCustomerReportReadyEmail({
     <div class="container">
       <div class="header">
         <h1>The wait is over</h1>
-      </div>
-    <!-- This hidden block now uses blank spaces to push out the ugly shopify link -->
-      <div style="display:none; max-height:0; overflow:hidden; opacity:0;">
+        </div>
+      <!-- Fixed: Force font and line size to 0px so it collapses visually -->
+      <div style="display:none; max-height:0px; overflow:hidden; opacity:0; font-size:0px; line-height:0px; mso-hide:all;">
         &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
       </div>
       <div class="content">
