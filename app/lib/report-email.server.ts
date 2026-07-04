@@ -96,17 +96,16 @@ export async function sendCustomerReportReadyEmail({
   </style>
 </head>
 <body>
-  <span style="display:none !important; max-height:0px; overflow:hidden; opacity:0; font-size:0px; line-height:0px; height:0px; width:0px;">
-    See what your sample may have revealed.
-    &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
-  </span>
   <div class="wrapper">
     <div class="container">
       <div class="header">
         <h1>The wait is over</h1>
       </div>
+      <div style="display:none; max-height:0; overflow:hidden; opacity:0;">
+        &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+      </div>
       <div class="content">
-        <div class="preview">See what your sample may have revealed.</div>
+        <div class="preview">See what your sample revealed.</div>
         <p class="body-text">It's time to see what turned up in your dirt.</p>
         <p class="body-text">Inside, you'll find a breakdown of everything we detected—what's there, how much, and how it compares to other soil—with context to help it all make sense.</p>
         <p class="body-text">This is your sample's story. We hope you enjoy reading it as much as we enjoyed putting it together.</p>
