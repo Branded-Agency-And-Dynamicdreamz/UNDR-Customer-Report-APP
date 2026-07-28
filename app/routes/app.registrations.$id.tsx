@@ -282,6 +282,49 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
     };
   }
 
+  if (intent === "test_email") {
+    if (!registration.email?.trim()) {
+      return { error: "This registration has no customer email address.", intent: "test_email" as const };
+    }
+
+    const normalizedShopDomain = String(session.shop || "")
+      .replace(/^https?:\/\//, "")
+      .replace(/\/$/, "");
+    const reportPath = buildReportPath(registration.kitRegistrationNumber);
+    const reportBaseUrl = normalizedShopDomain
+      ? `https://${normalizedShopDomain}`
+      : ((process.env.SHOPIFY_APP_URL || "").replace(/\/$/, ""));
+    const reportUrl = `${reportBaseUrl}${reportPath}`;
+    const reportPreviewToken = generateReportPreviewToken(encodeReportProxyId(registration.kitRegistrationNumber));
+    const reportPreviewUrl = `${reportUrl}?preview=${encodeURIComponent(reportPreviewToken)}`;
+
+    try {
+      const emailResult = await sendCustomerReportReadyEmail({
+        toEmail: registration.email,
+        customerName: registration.name,
+        reportUrl,
+        previewUrl: reportPreviewUrl,
+      });
+
+      if (!emailResult.sent) {
+        console.warn("Test email was not sent.", {
+          registrationId: registration.id,
+          reason: emailResult.reason,
+          error: emailResult.error,
+        });
+        return {
+          error: `Email could not be sent: ${emailResult.reason}${emailResult.error ? ` — ${emailResult.error}` : ""}`,
+          intent: "test_email" as const,
+        };
+      }
+
+      return { success: true, message: `Test email sent to ${registration.email}.`, intent: "test_email" as const };
+    } catch (err) {
+      console.error("Failed to send test email.", err);
+      return { error: "Failed to send test email.", intent: "test_email" as const };
+    }
+  }
+
   const file = formData.get("csv");
 
   if (!(file instanceof File) || file.size === 0) {
@@ -352,9 +395,9 @@ export const headers: HeadersFunction = (args) => boundary.headers(args);
 type LoaderData = Awaited<ReturnType<typeof loader>>;
 type ActionData =
   | { success: true; message: string; rowCount?: number; intent?: "upload_csv" | "manual_config" | "package_config" | "quick_view_config" | "report_row_config" | "crude_oil_config" }
-  | { error: string; intent?: "upload_csv" | "manual_config" | "package_config" | "quick_view_config" | "report_row_config" | "toggle_report_link" | "crude_oil_config" }
-  | { success: true; message: string; intent?: "toggle_report_link" | "crude_oil_config" }
-  | { error: string; intent?: "toggle_report_link" | "crude_oil_config" }
+  | { error: string; intent?: "upload_csv" | "manual_config" | "package_config" | "quick_view_config" | "report_row_config" | "toggle_report_link" | "crude_oil_config" | "test_email" }
+  | { success: true; message: string; intent?: "toggle_report_link" | "crude_oil_config" | "test_email" }
+  | { error: string; intent?: "toggle_report_link" | "crude_oil_config" | "test_email" }
   | undefined;
 
   const PETROLEUM_CONTAMINANTS = [
@@ -427,6 +470,7 @@ export default function RegistrationDetail() {
   const crudeOilFetcher = useFetcher<ActionData>();
   const reportRowFetcher = useFetcher<ActionData>();
   const reportLinkFetcher = useFetcher<ActionData>();
+  const testEmailFetcher = useFetcher<ActionData>();
   const packageConfigFetcher = useFetcher<ActionData>();
   const quickViewConfigFetcher = useFetcher<ActionData>();
   const uploadFetcher = useFetcher<ActionData>();
@@ -437,6 +481,7 @@ export default function RegistrationDetail() {
   const isSavingCrudeOil = crudeOilFetcher.state !== "idle";
   const isSavingReportRow = reportRowFetcher.state !== "idle";
   const isSavingReportLink = reportLinkFetcher.state !== "idle";
+  const isSendingTestEmail = testEmailFetcher.state !== "idle";
   const isSavingPackage = packageConfigFetcher.state !== "idle";
   const isSavingQuickViewPackage = quickViewConfigFetcher.state !== "idle";
   // referenced intentionally to satisfy TypeScript/ESLint when variable is unused
@@ -828,6 +873,64 @@ export default function RegistrationDetail() {
             <div style={{ marginTop: "4px", fontSize: "12px", color: "#9ca3af" }}>
               Opens the report even when the public link is disabled. Do not share this preview URL — it bypasses access checks.
             </div>
+          </div>
+
+          {/* ── Test email ── */}
+          <div style={{ marginTop: "16px", paddingTop: "16px", borderTop: "1px solid #f3f4f6" }}>
+            {testEmailFetcher.data && testEmailFetcher.data.intent === "test_email" && "success" in testEmailFetcher.data && (
+              <div
+                style={{
+                  marginBottom: "10px",
+                  padding: "10px 14px",
+                  borderRadius: "10px",
+                  background: "#ecfdf3",
+                  color: "#065f46",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                }}
+              >
+                ✓ {testEmailFetcher.data.message}
+              </div>
+            )}
+            {testEmailFetcher.data && testEmailFetcher.data.intent === "test_email" && "error" in testEmailFetcher.data && (
+              <div
+                style={{
+                  marginBottom: "10px",
+                  padding: "10px 14px",
+                  borderRadius: "10px",
+                  background: "#fef2f2",
+                  color: "#b91c1c",
+                  fontSize: "13px",
+                }}
+              >
+                {testEmailFetcher.data.error}
+              </div>
+            )}
+            <button
+              type="button"
+              disabled={isSendingTestEmail || !registration.email?.trim()}
+              onClick={() => {
+                const fd = new FormData();
+                fd.set("intent", "test_email");
+                testEmailFetcher.submit(fd, { method: "post" });
+              }}
+              style={{
+                minHeight: "36px",
+                padding: "0 16px",
+                border: 0,
+                borderRadius: "999px",
+                background: isSendingTestEmail ? "#9ca3af" : "#6b7280",
+                color: "#fff",
+                fontSize: "13px",
+                fontWeight: 600,
+                cursor: isSendingTestEmail || !registration.email?.trim() ? "default" : "pointer",
+              }}
+            >
+              {isSendingTestEmail ? "Sending…" : "Send test email"}
+            </button>
+            <span style={{ marginLeft: "10px", fontSize: "12px", color: "#9ca3af" }}>
+              Sends the report-ready notification to {registration.email || "—"}
+            </span>
           </div>
 
           {!reportLinkEnabled && (

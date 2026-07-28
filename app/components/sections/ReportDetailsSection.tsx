@@ -277,7 +277,6 @@ const ReportDetailsSection = ({
     nickel: 'Ni',
     cobalt: 'Co',
     aluminum: 'Al',
-    aluminum: 'Al',
     manganese: 'Mn',
     zinc: 'Zn',
     lead: 'Pb',
