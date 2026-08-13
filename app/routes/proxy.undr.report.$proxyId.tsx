@@ -585,9 +585,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
     // Soil features
     if (Array.isArray(report.soilFeatures)) {
-      report.soilFeatures = report.soilFeatures.filter(
-        (f: any) => !shouldStrip(extractSym(String(f.title || "")))
-      );
+      report.soilFeatures = report.soilFeatures.filter((f: any) => !shouldStrip(String(f.element || "").toLowerCase()));
     }
   }
 
@@ -657,7 +655,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       report.notFoundElements = report.notFoundElements.filter((it: any) => !shouldStrip(String(it.symbol || "").toLowerCase()));
     }
     if (Array.isArray(report.soilFeatures)) {
-      report.soilFeatures = report.soilFeatures.filter((f: any) => !shouldStrip(extractSym(String(f.title || ""))));
+      report.soilFeatures = report.soilFeatures.filter((f: any) => !shouldStrip(String(f.element || "").toLowerCase()));
     }
   }
 
@@ -722,7 +720,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       report.notFoundElements = report.notFoundElements.filter((it: any) => !shouldStrip(String(it.symbol || "").toLowerCase()));
     }
     if (Array.isArray(report.soilFeatures)) {
-      report.soilFeatures = report.soilFeatures.filter((f: any) => !shouldStrip(extractSym(String(f.title || ""))));
+      report.soilFeatures = report.soilFeatures.filter((f: any) => !shouldStrip(String(f.element || "").toLowerCase()));
     }
   }
 
@@ -787,7 +785,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       report.notFoundElements = report.notFoundElements.filter((it: any) => !shouldStrip(String(it.symbol || "").toLowerCase()));
     }
     if (Array.isArray(report.soilFeatures)) {
-      report.soilFeatures = report.soilFeatures.filter((f: any) => !shouldStrip(extractSym(String(f.title || ""))));
+      report.soilFeatures = report.soilFeatures.filter((f: any) => !shouldStrip(String(f.element || "").toLowerCase()));
     }
   }
 

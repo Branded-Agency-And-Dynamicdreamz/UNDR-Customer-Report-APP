@@ -76,6 +76,7 @@ export type NotFoundElementItem = {
 };
 
 export type SoilFeatureItem = {
+  element: string;
   title: string;
   description: string;
   cardClassName: string;

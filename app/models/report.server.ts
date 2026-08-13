@@ -436,13 +436,10 @@ function buildPreciousMetalGraphItems(
 function formatSoilFeatureDifference(resultPpm: number, averagePpm: number) {
   const ratio = averagePpm > 0 ? resultPpm / averagePpm : 0;
 
-  if (ratio >= 10) {
-    return `${Math.round(ratio).toLocaleString("en-US")} times higher`;
-  }
-
   if (ratio >= 1) {
-    const percentHigher = Math.round((ratio - 1) * 100);
-    return `${percentHigher}% higher`;
+    const times = ratio < 10 ? Math.round(ratio * 10) / 10 : Math.round(ratio);
+    const label = times % 1 === 0 ? times.toLocaleString("en-US") : times.toFixed(1);
+    return `${label} times higher`;
   }
 
   const percentLower = Math.round((1 - ratio) * 100);
@@ -1227,6 +1224,7 @@ base.foundElements = found
   base.soilFeatures = topSoilFeatureCalculations.map((item, index): SoilFeatureItem => {
     const elementName = formatElementName(item.element).replace(/\s*\([^)]+\)\s*$/, "");
     return {
+      element: getElementSymbolKey(item.element),
       title: `${elementName} is ${formatSoilFeatureDifference(item.resultPpm, item.averagePpm)}`,
       description: "than commonly found in soil samples",
       cardClassName: soilFeatureCardClasses[index % soilFeatureCardClasses.length],
