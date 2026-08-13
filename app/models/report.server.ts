@@ -723,7 +723,13 @@ function categoryIncludes(category: string, ...keywords: string[]) {
 
 function isPetroleumLikeRow(row: Pick<ParsedReportRow, "category" | "element">) {
   const category = String(row.category || "").trim().toLowerCase();
-  return categoryIncludes(category, "petroleum_contaminant");
+  const element = String(row.element || "").trim().toLowerCase();
+  return (
+    categoryIncludes(category, "oil", "petroleum", "hydrocarbon") ||
+    element.includes("oil") ||
+    element.includes("petroleum") ||
+    element.includes("hydrocarbon")
+  );
 }
 
 const HEAVY_METAL_ELEMENTS = new Set([
@@ -1029,6 +1035,7 @@ export function buildReportDataFromRows(
   base.reportDetails.oilIndicator.petroleumClassName = hasPetroleumContaminantDetected ? "btn_red_curved" : "btn_gray";
 
 base.foundElements = found
+.filter((r) => !isPetroleumLikeRow(r)) // crude oil / petroleum rows are reported in the oil section, not as elements
 .sort((a, b) => a.element.localeCompare(b.element)) // alphabetical sort
 .map(
   (r): FoundElementItem => {
@@ -1077,6 +1084,7 @@ base.foundElements = found
   // );
 
   base.notFoundElements = notFound
+  .filter((r) => !isPetroleumLikeRow(r)) // keep crude oil / petroleum rows out of the element lists
   .sort((a, b) => a.element.localeCompare(b.element)) // alphabetical sort
   .map(
   (r): NotFoundElementItem => {
