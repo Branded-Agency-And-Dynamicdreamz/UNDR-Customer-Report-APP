@@ -72,10 +72,10 @@ function submitLoginRedirectResponse(url: URL): Response {
 function renderStep2Section(form: RegistrationFormState, errors?: RegistrationFormErrors) {
 	const escapeHtml = (value: string) => String(value || '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 
-	const depthOptions = ['surface', '3 inches', '6 inches', '9 inches', '1 foot', '2+feet'];
-	const propertyOptions = ['residential', 'undeveloped', 'urban', 'industrial'];
-	const landUseOptions = ['garden', 'farm', 'lawn', 'forest', 'pasture', 'idle', 'unknown'];
-	const reasonOptions = ['curiosity', 'potential financial gain', 'health and safety concerns', 'environmental concerns', 'just for fun', 'other'];
+	const depthOptions = ['Surface', '3 inches', '6 inches', '9 inches', '1 foot', '2+ feet'];
+	const propertyOptions = ['Residential', 'Undeveloped', 'Urban', 'Industrial'];
+	const landUseOptions = ['Garden', 'Farm', 'Lawn', 'Forest', 'Pasture', 'Idle', 'Unknown'];
+	const reasonOptions = ['Curiosity', 'Potential financial gain', 'Health or safety concerns', 'Environmental concerns', 'Just for fun', 'Other'];
 
 	return `
 	<div style="display: grid; gap: 16px; max-width: 600px; padding: 28px; border: 1px solid rgba(15, 23, 42, 0.12);
