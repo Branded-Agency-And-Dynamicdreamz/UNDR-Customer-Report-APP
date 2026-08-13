@@ -27,7 +27,7 @@ const EarthElementsBreakdownSection = ({
       <div className="earth_element_header_band">
         <div className="container">
           <div className="earth_element_header_inner">
-            <h2 className="main_title">Rare Earth<br />Elements Breakdown</h2>
+            <h2 className="main_title">Rare Earth Elements<br />Breakdown</h2>
           </div>
         </div>
 
