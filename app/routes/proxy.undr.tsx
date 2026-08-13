@@ -73,6 +73,28 @@ function resolveLoggedInCustomerId(url: URL) {
 	);
 }
 
+// The server receives /proxy/undr/... but the customer's browser URL is
+// /apps/undr/... (see [app_proxy] in shopify.app.toml). Translate so the
+// post-login return_to points at the page they actually came from.
+function buildDashboardLoginRedirect(url: URL): string {
+	const storefrontPath = url.pathname.replace(/^\/proxy\/undr/, "/apps/undr") || "/apps/undr";
+	return `/customer_authentication/login?return_to=${encodeURIComponent(storefrontPath)}`;
+}
+
+function dashboardLoginRedirectResponse(url: URL): Response {
+	const loginUrl = buildDashboardLoginRedirect(url);
+	return new Response(
+		`<script>window.location.replace(${JSON.stringify(loginUrl)});</script>` +
+		`<noscript><meta http-equiv="refresh" content="0;url=${escapeHtml(loginUrl)}"></noscript>`,
+		{
+			headers: {
+				"Content-Type": "text/html; charset=utf-8",
+				"Cache-Control": "no-store",
+			},
+		},
+	);
+}
+
 function validateGuestLookup(form: GuestLookupFormState): GuestLookupErrors | null {
 	const errors: GuestLookupErrors = {};
 
@@ -291,6 +313,10 @@ async function renderDashboardPage(
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
+	const url = new URL(request.url);
+	if (!resolveLoggedInCustomerId(url)) {
+		return dashboardLoginRedirectResponse(url);
+	}
 	return renderDashboardPage(request);
 }
 
