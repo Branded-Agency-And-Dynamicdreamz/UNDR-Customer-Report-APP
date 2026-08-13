@@ -27,7 +27,7 @@ const FoundElementsListSection = ({ elements, appUrl = '' }: FoundElementsListSe
         <h3 className="section_sub_title">Elements Found</h3>
 
         <div className="elements_table_wrapper">
-          {elements.filter((el) => el.symbol?.toLowerCase() !== "cr").map((el, i) => (
+          {elements.map((el, i) => (
             <div className="element_item_row" key={i}>
               <div className="element_col_info">
                 <span className={`element_symbol_box ${el.bgClass}`}  style={{ backgroundColor: el.valueStyle?.backgroundColor }}
