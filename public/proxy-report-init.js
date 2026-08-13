@@ -1105,6 +1105,9 @@
             clonedDocument.querySelectorAll(".pdf_download_footer").forEach(function (element) {
               element.remove();
             });
+            clonedDocument.querySelectorAll(".element_view_hint, .element_blurb_button, .element_click_hint").forEach(function (element) {
+              element.remove();
+            });
             clonedDocument.querySelectorAll(".oil_label, .oil_found_text, .oil_ppm_value, .crude_oil_title, .crude_oil_result_status, .crude_oil_result_value").forEach(function (element) {
               element.style.color = "#ffffff";
               element.style.opacity = "1";
