@@ -393,6 +393,18 @@ function formatElementSymbol(input: string) {
     : input;
 }
 
+function getElementSymbolKey(input: string): string {
+  const lookupKeys = getElementLookupKeys(input);
+  const key =
+    lookupKeys.find((item) => ELEMENT_NAME_MAP[item] || ELEMENT_SYMBOL_FROM_NAME[item]) ||
+    lookupKeys[0] ||
+    input.trim().toLowerCase();
+  const symbol =
+    ELEMENT_SYMBOL_FROM_NAME[key] ||
+    (ELEMENT_NAME_MAP[key] ? key : key.substring(0, 2));
+  return symbol.toLowerCase();
+}
+
 function buildPreciousMetalGraphItems(
   preciousRows: ParsedReportRow[],
 ): PreciousMetalGraphItem[] {
@@ -1083,29 +1095,50 @@ base.foundElements = found
   //   }),
   // );
 
-  base.notFoundElements = notFound
-  .filter((r) => !isPetroleumLikeRow(r)) // keep crude oil / petroleum rows out of the element lists
-  .sort((a, b) => a.element.localeCompare(b.element)) // alphabetical sort
-  .map(
-  (r): NotFoundElementItem => {
-    const key = r.element.toLowerCase();
-    const colors = ELEMENT_COLOR_MAP[key] ?? ELEMENT_COLOR_MAP.default;
-    
+  const foundSymbolKeys = new Set(
+    found.filter((r) => !isPetroleumLikeRow(r)).map((r) => getElementSymbolKey(r.element)),
+  );
 
-    return {
-      symbol: formatElementSymbol(ELEMENT_SYMBOL_FROM_NAME[key] || key.substring(0, 2)),
-      name: formatElementName(r.element).replace(/\s*\([^)]+\)\s*$/, ""),
-      valueStyle: {
-        backgroundColor: colors.bg,
-        color: colors.text,
-      },
+  // Elements Not Found: every element the lab tests (master list) that was not
+  // detected, plus any below-detection-limit rows not covered by the master list.
+  const notFoundEntries = new Map<string, { symbol: string; name: string }>();
 
-      bgClass: "bg-gray-50",
-      textClass: "text-gray-400",
-    };
-    
+  for (const symbolKey of Object.keys(ELEMENT_NAME_MAP)) {
+    if (isIgnoredReportElement(symbolKey)) continue; // CO2 is handled in the breakdown chart, not the element lists
+    if (foundSymbolKeys.has(symbolKey)) continue;
+    notFoundEntries.set(symbolKey, {
+      symbol: formatElementSymbol(symbolKey),
+      name: ELEMENT_NAME_MAP[symbolKey],
+    });
   }
-);
+
+  for (const row of notFound.filter((r) => !isPetroleumLikeRow(r))) {
+    const symbolKey = getElementSymbolKey(row.element);
+    if (foundSymbolKeys.has(symbolKey) || notFoundEntries.has(symbolKey)) continue;
+    notFoundEntries.set(symbolKey, {
+      symbol: formatElementSymbol(row.element),
+      name: formatElementName(row.element).replace(/\s*\([^)]+\)\s*$/, ""),
+    });
+  }
+
+  base.notFoundElements = [...notFoundEntries.values()]
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((entry): NotFoundElementItem => {
+      const key = entry.symbol.toLowerCase();
+      const colors = ELEMENT_COLOR_MAP[key] ?? ELEMENT_COLOR_MAP.default;
+
+      return {
+        symbol: entry.symbol,
+        name: entry.name,
+        valueStyle: {
+          backgroundColor: colors.bg,
+          color: colors.text,
+        },
+
+        bgClass: "bg-gray-50",
+        textClass: "text-gray-400",
+      };
+    });
 
   // --- Element Breakdown (top elements plus one aggregate trace bucket)
   const sorted = [...found].sort((a, b) => b.ppmValue - a.ppmValue);
@@ -1473,6 +1506,7 @@ const ELEMENT_NAME_MAP: Record<string, string> = {
   in: "Indium",
   la: "Lanthanum",
   pa: "Protactinium",
+  pm: "Promethium",
   ra: "Radium",
   ac: "Actinium",
   ag: "Silver",
