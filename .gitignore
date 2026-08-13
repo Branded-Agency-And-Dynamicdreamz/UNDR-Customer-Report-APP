@@ -15,7 +15,7 @@ database.sqlite
 /.history
 .env
 .env.*
-
+.claude
 
 
 
@@ -32,3 +32,119 @@ temp_auto_push.bat
 temp_interactive_push.bat
 .gitignore
 branch_structure.json
+
+
+
+# =========================================================================
+# 1. SECURITY & SENSITIVE DATA (CRITICAL)
+# =========================================================================
+# Environment variables (contain API keys, passwords, database URLs)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*
+.envrc
+
+# Personal credentials and tokens
+.npmrc
+.yarnrc
+.dockercfg
+docker-config.json
+
+# Keep the template file tracked so your team knows what variables to configure
+!.env.example
+!.env.template
+
+# =========================================================================
+# 2. CRYPTOGRAPHY & SECURE KEYS
+# =========================================================================
+# Private keys, certificates, and credentials
+*.pem
+*.key
+*.pub
+*.pkcs12
+*.pfx
+*.p12
+*.crt
+*.der
+*.csr
+
+# Password managers or local secure stores
+.identity/
+.git-credentials
+*credential*
+
+# =========================================================================
+# 3. DATABASE & TEMPORARY DATA
+# =========================================================================
+# Local databases containing user or application data
+*.db
+*.sqlite
+*.sqlite3
+*.sql
+*.dump
+*.mdb
+
+# Backup files that might snapshot sensitive code/data
+*.bak
+*.swp
+*~
+.DS_Store
+
+# =========================================================================
+# 4. PERSONAL CLOUD & BACKUP ARTIFACTS
+# =========================================================================
+# Prevents syncing sync-conflict files containing sensitive edits
+*.sync
+*.tmp
+
+# =========================================================================
+# CODE EDITORS & IDEs (Prevents local environment & secret leaks)
+# =========================================================================
+# VS Code
+.vscode/
+
+# IntelliJ, PyCharm, WebStorm, Android Studio, CLion (JetBrains)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim & Emacs (Prevents temporary recovery swap leaks)
+.*.swp
+.*.swo
+*~
+\#*\#
+.#*
+
+# Xcode (Apple development)
+build/
+DerivedData/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+xcuserdata/
+
+# =========================================================================
+# OPERATING SYSTEM ARTIFACTS (Prevents file structure leaks)
+# =========================================================================
+# macOS (Contains folder view settings and metadata)
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows (Contains thumbnail caches and desktop layouts)
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+desktop.ini
+$RECYCLE.BIN/

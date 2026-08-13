@@ -31,6 +31,7 @@ export const ELEMENT_NAME_MAP: Record<string, string> = {
   in: "Indium",
   la: "Lanthanum",
   pa: "Protactinium",
+  pm: "Promethium",
   ra: "Radium",
   ac: "Actinium",
   ag: "Silver",
