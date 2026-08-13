@@ -978,31 +978,15 @@ export function buildReportDataFromRows(
     result,
   }));
 
-  // Separate rows by known categories
-  const heavyMetalRows = reportRows.filter((r) => {
-    const elementKeys = getElementLookupKeys(String(r.element || ""));
-    return (
-      categoryIncludes(r.category, "heavy", "metal", "toxic") &&
-      elementKeys.some((key) => HEAVY_METAL_ELEMENTS.has(key))
-    );
-  });
-  const preciousRows = reportRows.filter((r) =>
-    categoryIncludes(r.category, "precious", "gold", "silver", "platinum"),
-  );
-  const earthRows = reportRows.filter(
-    (r) => String(r.category || "").trim().toLowerCase() === "rare_earth",
-  );
-  const oilRows = reportRows.filter((r) =>
-    categoryIncludes(r.category, "oil", "petroleum", "hydrocarbon"),
-  );
+  // Use a stable reference for all rows and detection helpers. Build a
+  // `detectedReportRows` list and use it for any section that should only show
+  // detected values (above the detection limit).
   const allElements = reportRows;
 
-  // --- Found / Not Found
   // An element is "Detected" only when its Result is at or above the detection
   // limit ("Det. Limit" column in the master CSV). The detection limit is in the
   // same raw units as Result, so convert to ppm the same way (× 10,000) before
-  // comparing. Results below the detection limit (e.g. germanium, selenium,
-  // bromine, cesium in some samples) are reported as Not Detected with no value.
+  // comparing. Results below the detection limit are considered Not Detected.
   const detectionLimitPpm = (r: (typeof allElements)[number]): number | null =>
     r.detectionLimitPercent != null && Number.isFinite(r.detectionLimitPercent)
       ? r.detectionLimitPercent * 10000
@@ -1015,8 +999,34 @@ export function buildReportDataFromRows(
     return true;
   };
 
-  const found = allElements.filter(isDetected);
+  const detectedReportRows = allElements.filter(isDetected);
+  const found = detectedReportRows;
   const notFound = allElements.filter((r) => !isDetected(r));
+
+  // Separate rows by known categories — operate on detected rows so sections
+  // (precious, rare earth, oil, heavy metals, etc.) only show actual detections.
+  const heavyMetalRows = detectedReportRows.filter((r) => {
+    const elementKeys = getElementLookupKeys(String(r.element || ""));
+    return (
+      categoryIncludes(r.category, "heavy", "metal", "toxic") &&
+      elementKeys.some((key) => HEAVY_METAL_ELEMENTS.has(key))
+    );
+  });
+  const preciousRows = detectedReportRows.filter((r) =>
+    categoryIncludes(r.category, "precious", "gold", "silver", "platinum"),
+  );
+  const earthRows = detectedReportRows.filter(
+    (r) => String(r.category || "").trim().toLowerCase() === "rare_earth",
+  );
+  const oilRows = detectedReportRows.filter((r) =>
+    categoryIncludes(r.category, "oil", "petroleum", "hydrocarbon"),
+  );
+  // Ensure oil indicator reflects detections above the detection limit
+  const hasPetroleumContaminantDetected = oilRows.length > 0;
+  base.reportDetails.oilIndicator.petroleum = hasPetroleumContaminantDetected
+    ? "Petroleum Contaminants: Detected"
+    : "Petroleum Contaminants: None Detected";
+  base.reportDetails.oilIndicator.petroleumClassName = hasPetroleumContaminantDetected ? "btn_red_curved" : "btn_gray";
 
 base.foundElements = found
 .sort((a, b) => a.element.localeCompare(b.element)) // alphabetical sort
@@ -1130,7 +1140,7 @@ base.foundElements = found
 
   const soilFeatureCardClasses = ["iron_card", "potas_card", "sodium_card"];
   // Compute soil feature differences from the actual report rows (dynamic)
-  const soilFeatureCalculations = allElements
+  const soilFeatureCalculations = detectedReportRows
     .map((r) => {
       const elementKey = String(r.element || "").trim().toLowerCase();
       const resultPpm = Number(r.ppmValue);
@@ -1182,7 +1192,7 @@ base.foundElements = found
     };
   });
 
-  const reportChartRows = [...allElements]
+  const reportChartRows = [...detectedReportRows]
     .filter((r) => {
       const category = String(r.category || "").trim().toLowerCase();
       const elementKey = String(r.element || "").trim().toLowerCase();
