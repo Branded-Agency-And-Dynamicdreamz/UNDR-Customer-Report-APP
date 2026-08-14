@@ -81,7 +81,7 @@ export function getRegistrationDefaults(): RegistrationFormState {
     orderNumber: "",
     kitRegistrationNumber: "",
     agreedToTerms: false,
-    smsConsent: true,
+    smsConsent: false,
     shopDomain: "",
     address: "",
     depth: "",
