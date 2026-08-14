@@ -676,7 +676,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "It depends on the form. Chromium comes in two main varieties: Cr(III), which is common in soils and actually an essential nutrient in small amounts, and Cr(VI)—hexavalent chromium—which is the form linked to serious health concerns including cancer and organ damage. Naturally, less than 1% of soil chromium exists as Cr(VI), and it's most commonly associated with industrial activity rather than natural deposits. At concentrations above 200–300 ppm, particularly near areas with industrial history, Cr(VI) is worth being aware of has more resources if you want to dig deeper.Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
+        "body": "It depends on the form. Chromium comes in two main varieties: Cr(III), which is common in soils and actually an essential nutrient in small amounts, and Cr(VI)—hexavalent chromium—which is the form linked to serious health concerns including cancer and organ damage. Naturally, less than 1% of soil chromium exists as Cr(VI), and it's most commonly associated with industrial activity rather than natural deposits. At concentrations above 200–300 ppm, particularly near areas with industrial history, Cr(VI) is worth being aware of. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here if you want to dig deeper.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -1095,7 +1095,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes—arsenic is one of the most well-known heavy metal concerns in soil. Natural background levels are typically below 15 ppm. Notably, the U.S. Environmental Protection Agency (EPA) sets its screening level at 0.14 ppm—below what's found in many natural soils. That doesn't mean most soil is dangerous; it means arsenic is an element regulators take seriously even at low levels has more on what that means. Long-term exposure through dust or groundwater to arsenic has been linked to health concerns. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
+        "body": "Yes—arsenic is one of the most well-known heavy metal concerns in soil. Natural background levels are typically below 15 ppm. Notably, the U.S. Environmental Protection Agency (EPA) sets its screening level at 0.14 ppm—below what's found in many natural soils. That doesn't mean most soil is dangerous; it means arsenic is an element regulators take seriously even at low levels. Long-term exposure through dust or groundwater to arsenic has been linked to health concerns. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -1713,7 +1713,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes, and worth taking seriously. Most soils naturally contain less than 1 ppm cadmium—above about 3 ppm, it's considered contaminated. Long-term exposure through dust or food grown in contaminated soil has been linked to kidney damage, bone weakening, and cancer. Cadmium is one of the heavy metals regulators pay close attention to has more resources if you want to dig deeper. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
+        "body": "Yes, and worth taking seriously. Most soils naturally contain less than 1 ppm cadmium—above about 3 ppm, it's considered contaminated. Long-term exposure through dust or food grown in contaminated soil has been linked to kidney damage, bone weakening, and cancer. Cadmium is one of the heavy metals regulators pay close attention to. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here to dig deeper.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -1842,7 +1842,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes, at elevated levels. Most soils naturally contain less than 1 ppm antimony—above about 20 ppm, chronic exposure through ingestion or dust can affect the liver, lungs, and heart. Antimony is one of the elements environmental agencies keep an eye on has more resources if you want to dig deeper.Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
+        "body": "Yes, at elevated levels. Most soils naturally contain less than 1 ppm antimony—above about 20 ppm, chronic exposure through ingestion or dust can affect the liver, lungs, and heart. Antimony is one of the elements environmental agencies keep an eye on. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here to dig deeper.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -1885,7 +1885,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Worth noting at elevated levels. Tellurium isn't highly toxic at natural soil levels (generally below 1 ppm), but prolonged exposure above about 10 ppm has been linked to fatigue, nausea, and the garlic-like breath odor the element is known for has more resources if you want to dig deeper. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
+        "body": "Worth noting at elevated levels. Tellurium isn't highly toxic at natural soil levels (generally below 1 ppm), but prolonged exposure above about 10 ppm has been linked to fatigue, nausea, and the garlic-like breath odor the element is known for. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here to dig deeper.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -3050,7 +3050,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes, and one of the most well-known toxicity concerns in soil science. Most soils naturally contain less than 0.05 ppm mercury. Above about 0.3 ppm, soil is generally considered contaminated, and long-term exposure has been linked to neurological damage, memory loss, and developmental issues—especially from methylmercury, a form that builds up in the food chain. The U.S. Environmental Protection Agency (EPA) sets its residential soil screening level at 23 ppm. Mercury is an element regulators take seriously at almost any elevation has more resources if you want to dig deeper.Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
+        "body": "Yes, and one of the most well-known toxicity concerns in soil science. Most soils naturally contain less than 0.05 ppm mercury. Above about 0.3 ppm, soil is generally considered contaminated, and long-term exposure has been linked to neurological damage, memory loss, and developmental issues—especially from methylmercury, a form that builds up in the food chain. The U.S. Environmental Protection Agency (EPA) sets its residential soil screening level at 23 ppm. Mercury is an element regulators take seriously at almost any elevation. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here to dig deeper.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -3093,7 +3093,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes, and one of the more toxic metals in soil. Most soils naturally contain less than 0.1 ppm thallium—above about 1 ppm, it's considered contaminated. Chronic exposure has been linked to hair loss, nerve damage, and cardiovascular problems, with health risks increasing sharply above 5 ppm. Thallium is an element regulators take seriously has more resources if you want to dig deeper.Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
+        "body": "Yes, and one of the more toxic metals in soil. Most soils naturally contain less than 0.1 ppm thallium—above about 1 ppm, it's considered contaminated. Chronic exposure has been linked to hair loss, nerve damage, and cardiovascular problems, with health risks increasing sharply above 5 ppm. Thallium is an element regulators take seriously. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here to dig deeper.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -3136,7 +3136,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes—lead is one of the most well-known heavy metal concerns for human health, particularly for children and pregnant women, where developing brains are especially sensitive to its effects. It can also affect the nervous system and kidneys. Natural background levels are usually under 20 ppm. The U.S. Environmental Protection Agency (EPA) flags soils above 80–100 ppm as unsafe for play areas or gardens, and soils above 400 ppm require mitigation before human exposure has more on what that means. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
+        "body": "Yes—lead is one of the most well-known heavy metal concerns for human health, particularly for children and pregnant women, where developing brains are especially sensitive to its effects. It can also affect the nervous system and kidneys. Natural background levels are usually under 20 ppm. The U.S. Environmental Protection Agency (EPA) flags soils above 80–100 ppm as unsafe for play areas or gardens, and soils above 400 ppm require mitigation before human exposure. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -3429,7 +3429,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes, though less acutely than many radioactive elements. Thorium is a suspected carcinogen, and long-term exposure through inhalation or ingestion can increase cancer risk. Most soils naturally contain 5–10 ppm, and background levels below 10 ppm generally pose no known health concern. Above that range, thorium is an element worth paying attention to has more resources if you want to dig deeper. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
+        "body": "Yes, though less acutely than many radioactive elements. Thorium is a suspected carcinogen, and long-term exposure through inhalation or ingestion can increase cancer risk. Most soils naturally contain 5–10 ppm, and background levels below 10 ppm generally pose no known health concern. Above that range, thorium is an element worth paying attention to. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here to dig deeper.</a>"
       },
       {
         "title": "Impact on water quality",
@@ -3515,7 +3515,7 @@ export const ELEMENT_BLURBS_BY_SYMBOL: Record<string, ElementBlurb> = {
       },
       {
         "title": "Is it toxic?",
-        "body": "Yes, both chemically and radiologically. Most soils naturally contain 1–3 ppm uranium. Above about 30 ppm, levels are considered elevated, and long-term exposure through dust inhalation or ingestion has been linked to kidney damage and increased cancer risk. Above 100 ppm, uranium is the kind of reading that gets serious regulatory attention. Uranium is an element worth understanding thoroughly  has more resources if you want to dig deeper.Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here for additional resources.</a>"
+        "body": "Yes, both chemically and radiologically. Most soils naturally contain 1–3 ppm uranium. Above about 30 ppm, levels are considered elevated, and long-term exposure through dust inhalation or ingestion has been linked to kidney damage and increased cancer risk. Above 100 ppm, uranium is the kind of reading that gets serious regulatory attention. Uranium is an element worth understanding thoroughly. Further testing is an option when levels are far above the normal range. <a href='#add_resources_section'>Click here to dig deeper.</a>"
       },
       {
         "title": "Impact on water quality",
