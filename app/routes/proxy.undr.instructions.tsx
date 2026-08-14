@@ -54,13 +54,6 @@ function renderInstructionsPage(opts: { name?: string; showPopup?: boolean }) {
         <a href="/apps/undr/submit" style="display:inline-block;padding:10px 16px;border-radius:10px;background:#111827;color:#fff;text-decoration:none;font-weight:600;">Back to registration</a>
       </div>
 
-      <div>
-        <!-- Placeholder video -->
-        <div style="width:100%;height:0;padding-bottom:56%;position:relative;background:#000;border-radius:10px;overflow:hidden;">
-          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Sampling instructions" style="position:absolute;left:0;top:0;width:100%;height:100%;border:0;" allowfullscreen></iframe>
-        </div>
-        <div style="margin-top:10px;color:#6b7280;font-size:13px;">Short sampling instructions (approx 1 minute)</div>
-      </div>
     </div>
 
     ${popupHtml}
