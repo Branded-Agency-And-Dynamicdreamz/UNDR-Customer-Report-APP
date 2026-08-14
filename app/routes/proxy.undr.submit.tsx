@@ -587,7 +587,7 @@ function renderRegistrationPage(state: ActionData | LoaderData) {
 
 			<label style="display:flex;align-items:center;gap:10px;">
 				<input type="checkbox" name="smsConsent" style="min-width: 18px; min-height: 18px; accent-color: #000;"  value="1" ${form.smsConsent ? 'checked' : ''} />
-				<span style="font-size:13px;line-height:1.2;">I agree to receive SMS messages (Shopify messaging standard).</span>
+				<span style="font-size:13px;line-height:1.2;">Text me updates about my kit and results.<br><span style="font-size:11px;color:#6b7280;">Msg &amp; data rates may apply · Not required to purchase · <a href="${escapeHtml(storeBase)}/pages/privacy-policy" style="color:#6b7280;text-decoration:underline;">Privacy</a> · <a href="${escapeHtml(storeBase)}/pages/terms-of-service" style="color:#6b7280;text-decoration:underline;">Terms</a></span>
 			</label>
 
 
