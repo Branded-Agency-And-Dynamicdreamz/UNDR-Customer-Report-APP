@@ -196,7 +196,7 @@ export async function saveRegistration(input: RegistrationInput) {
       orderNumber: input.orderNumber.trim(),
       kitRegistrationNumber: input.kitRegistrationNumber.trim(),
       agreedToTerms: input.agreedToTerms ?? false,
-      smsConsent: input.smsConsent ?? true,
+      smsConsent: input.smsConsent ?? false,
       shopifyOrderId: input.shopifyOrderId ?? null,
       shopifyCustomerId: input.shopifyCustomerId ?? null,
       // Page 2 fields
