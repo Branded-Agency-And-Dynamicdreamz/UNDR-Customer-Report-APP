@@ -12,6 +12,21 @@ export function isReportPackage(value: string): value is ReportPackage {
   return REPORT_PACKAGES.includes(value as ReportPackage);
 }
 
+/**
+ * Derive a ReportPackage from a Shopify product title / variant name.
+ * Returns null when the title doesn't match any known product.
+ * Only auto-sets on first creation — manual override in the admin UI is preserved.
+ */
+export function reportPackageFromProductTitle(productTitle: string): ReportPackage | null {
+  const lower = productTitle.toLowerCase();
+  if (/health\s*&\s*safety.*plus/.test(lower)) return "hs_plus";
+  if (/health\s*&\s*safety/.test(lower)) return "hs_base";
+  if (/treasure.*plus/.test(lower)) return "treasure_plus";
+  if (/treasure/.test(lower)) return "treasure_base";
+  if (/premium/.test(lower)) return "premium";
+  return null;
+}
+
 export const UNLOCK_MODULES = [
   "precious_metals",
   "rare_earth",

@@ -1346,6 +1346,7 @@ base.foundElements = found
 
       return {
         label: formatElementName(r.element).replace(/\s*\([^)]+\)\s*$/, ""),
+        symbol: r.element,
         userVal: Math.min(r.ppmValue, maxVal),
         safeVal,
         marginalVal,
@@ -1365,6 +1366,7 @@ base.foundElements = found
 
       return {
         label: formatElementName(r.element).replace(/\s*\([^)]+\)\s*$/, ""),
+        symbol: r.element,
         userVal: Math.min(r.ppmValue, maxVal),
         safeVal,
         marginalVal,

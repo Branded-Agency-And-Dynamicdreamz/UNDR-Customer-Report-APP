@@ -1,6 +1,7 @@
 (function () {
   var reportData = getReportData();
   var reportChart;
+  var openElementBlurbModal = null;
 
   // Local ELEMENT_COLOR_MAP (mirrors server mapping) used to determine fingerprint bar colors.
   // Keep minimal and only define if not already provided on the window.
@@ -200,6 +201,13 @@
       value.className = "element_bar_value";
       value.innerText = item.ppm != null && item.ppm !== "" ? item.ppm.replace('ppm',' ppm') : "";
 
+      bar.style.cursor = "pointer";
+      bar.addEventListener("click", function () {
+        if (typeof openElementBlurbModal === "function") {
+          openElementBlurbModal(item.symbol, item.color);
+        }
+      });
+
       bar.appendChild(name);
       bar.appendChild(value);
       chartBox.appendChild(bar);
@@ -388,6 +396,8 @@
       document.body.classList.add("element_blurb_modal_open");
     }
 
+    openElementBlurbModal = openModal;
+
     document.querySelectorAll("[data-element-blurb-trigger]").forEach(function (button) {
       button.addEventListener("click", function () {
         openModal(
@@ -489,6 +499,7 @@
       body.className = isZeroValue ? "bar_body zero_value" : "bar_body";
       body.style.height = heightPercent + "%";
       body.style.backgroundColor = item.color;
+      body.style.cursor = "pointer";
 
       var ppmValue = document.createElement("span");
       ppmValue.className = "ppm_value";
@@ -497,6 +508,7 @@
 
       var labelContainer = document.createElement("div");
       labelContainer.className = "label_container";
+      labelContainer.style.cursor = "pointer";
 
       var fullName = document.createElement("span");
       fullName.className = "metal_full_name";
@@ -511,6 +523,15 @@
       barWrapper.appendChild(body);
       barWrapper.appendChild(labelContainer);
       wrapper.appendChild(barWrapper);
+
+      function openPreciousBlurb() {
+        if (typeof openElementBlurbModal === "function") {
+          openElementBlurbModal(item.symbol, item.color);
+        }
+      }
+
+      body.addEventListener("click", openPreciousBlurb);
+      labelContainer.addEventListener("click", openPreciousBlurb);
     });
   }
 
@@ -1032,7 +1053,18 @@
 
     node.append("circle")
       .attr("r", function (item) { return getNodeRadius(item); })
-      .attr("fill", function (item) { return item.color; });
+      .attr("fill", function (item) { return item.color; })
+      .style("cursor", function (item) { return item.isPlaceholder ? "default" : "pointer"; });
+
+    node.on("click", function (event, item) {
+      if (item.isPlaceholder) return;
+      var rawName = String(item.name || "").trim();
+      var match = rawName.match(/\(([A-Za-z0-9]{1,3})\)/);
+      var symbol = match ? match[1] : item.name;
+      if (typeof openElementBlurbModal === "function") {
+        openElementBlurbModal(symbol, item.color);
+      }
+    });
 
     node.each(function (item) {
       if (item.isPlaceholder) return;
@@ -1241,6 +1273,18 @@
     initReportDetails();
     initEarthElements();
     initElementBlurbModal();
+
+    // Heavy metals chart: event delegation for click-to-blurb
+    document.addEventListener("click", function (evt) {
+      var row = evt.target.closest ? evt.target.closest(".multi_level_chart_section .chart_row") : null;
+      if (!row) return;
+      var symbol = row.getAttribute("data-element-symbol");
+      if (!symbol) return;
+      var color = row.getAttribute("data-element-color") || "";
+      if (typeof openElementBlurbModal === "function") {
+        openElementBlurbModal(symbol, color);
+      }
+    });
   }
 
   if (document.readyState === "loading") {

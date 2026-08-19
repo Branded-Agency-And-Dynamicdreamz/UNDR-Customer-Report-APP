@@ -7,6 +7,7 @@ interface ChartRowData {
   safeVal: number;
   marginalVal: number;
   displayVal: string;
+  symbol?: string;
 }
 
 interface ChartGroupProps {
@@ -59,7 +60,7 @@ const ChartRow = ({ row, maxVal }: { row: ChartRowData; maxVal: number }) => {
   };
 
   return (
-    <div className="chart_row">
+    <div className="chart_row" data-element-symbol={row.symbol || ''} data-element-color="">
       <div className="label_col">{row.label}</div>
       <div className="bar_col">
         <div className="bar_wrapper">
