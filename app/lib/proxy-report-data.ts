@@ -46,6 +46,7 @@ export type RangeChartRow = {
   safeVal: number;
   marginalVal: number;
   displayVal: string;
+  symbol?: string;
 };
 
 export type FoundElementItem = {

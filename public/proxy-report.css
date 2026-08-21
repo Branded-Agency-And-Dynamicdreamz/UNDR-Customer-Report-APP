@@ -2636,6 +2636,74 @@ p {
     padding: 0 !important;
 }
 
+/* Clickable chart elements — hover states */
+.precious_metal_present_section .bar_body,
+.precious_metal_present_section .label_container {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.precious_metal_present_section .bar_body:hover,
+.precious_metal_present_section .label_container:hover {
+    opacity: 0.8;
+}
+
+.precious_metal_present_section .graph_bar_wrapper:hover .bar_body {
+    filter: brightness(0.92);
+}
+
+.precious_metal_present_section .graph_bar_wrapper:hover .metal_full_name,
+.precious_metal_present_section .graph_bar_wrapper:hover .metal_short_symbol {
+    color: #8b2323;
+}
+
+.multi_level_chart_section .chart_row {
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    border-radius: 6px;
+}
+
+.multi_level_chart_section .chart_row:hover {
+    background-color: rgba(139, 35, 35, 0.06);
+}
+
+.multi_level_chart_section .chart_row:hover .label_col {
+    color: #8b2323;
+}
+
+.multi_level_chart_section .chart_row:hover .value_col {
+    color: #8b2323;
+}
+
+.multi_level_chart_section .chart_row .label_col {
+    transition: color 0.15s ease;
+}
+
+.multi_level_chart_section .chart_row .value_col {
+    transition: color 0.15s ease;
+}
+
+.elemental_breakdown_section .element_bar,
+.other_trace_elements_section .element_bar {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.elemental_breakdown_section .element_bar:hover,
+.other_trace_elements_section .element_bar:hover {
+    opacity: 0.85;
+    filter: brightness(0.92);
+}
+
+#chart_wrapper svg .node circle {
+    cursor: pointer;
+    transition: filter 0.15s ease;
+}
+
+#chart_wrapper svg .node:hover circle {
+    filter: brightness(0.88) drop-shadow(0 2px 6px rgba(0,0,0,0.25));
+}
+
 .precious_metal_present_section .precious_metal_locked_chart {
     position: relative;
     width: 100%;

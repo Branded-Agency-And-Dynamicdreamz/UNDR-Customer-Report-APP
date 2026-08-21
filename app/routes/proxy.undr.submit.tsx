@@ -69,13 +69,20 @@ function submitLoginRedirectResponse(url: URL): Response {
 	);
 }
 
-function renderStep2Section(form: RegistrationFormState, errors?: RegistrationFormErrors) {
+	function renderStep2Section(form: RegistrationFormState, errors?: RegistrationFormErrors) {
 	const escapeHtml = (value: string) => String(value || '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 
 	const depthOptions = ['Surface', '3 inches', '6 inches', '9 inches', '1 foot', '2+ feet'];
 	const propertyOptions = ['Residential', 'Undeveloped', 'Urban', 'Industrial'];
 	const landUseOptions = ['Garden', 'Farm', 'Lawn', 'Forest', 'Pasture', 'Idle', 'Unknown'];
 	const reasonOptions = ['Curiosity', 'Potential financial gain', 'Health or safety concerns', 'Environmental concerns', 'Just for fun', 'Other'];
+	const stateOptions = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'];
+	const stateNames: Record<string, string> = {
+		AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',CT:'Connecticut',DE:'Delaware',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming'
+	};
+	const inputStyle = "min-height: 44px; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(15, 23, 42, 0.2); font-size: 15px; box-sizing: border-box; width: 100%;";
+	const selectStyle = inputStyle + " background: #FFFFFF; appearance: none; -webkit-appearance: none; -moz-appearance: none; padding-right: 35px; background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M6%209l6%206%206-6%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; font-family: 'Anonymous Pro', monospace; font-weight: 600; font-size: 14px; line-height: 20px; color: #111827; letter-spacing: 0.06rem;";
+	const labelStyle = "font-family: 'Anonymous Pro', monospace; font-weight: 600; font-size: 14px; line-height: 20px; color: #111827; letter-spacing: 0.06rem;";
 
 	return `
 	<div style="display: grid; gap: 16px; max-width: 600px; padding: 28px; border: 1px solid rgba(15, 23, 42, 0.12);
@@ -95,10 +102,35 @@ function renderStep2Section(form: RegistrationFormState, errors?: RegistrationFo
 			<input type="hidden" name="final" value="1" />
 
 			<label style="display:grid; gap:5px;">
-				<span style="font-family: 'Anonymous Pro', monospace; font-weight: 600; font-size: 14px; line-height: 20px; color: #111827; letter-spacing: 0.06rem;">Full address (street, city, state, ZIP) <span style="color:#b42318;">*</span></span>
-				<input name="address" value="${escapeHtml(String((form as any).address || ''))}" placeholder="Example: 123 Main St, Springfield, IL 62704"
-				style="min-height: 44px; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(15, 23, 42, 0.2); font-size: 15px; box-sizing: border-box; width: 100%;" />
+				<span style="${labelStyle}">Street address <span style="color:#b42318;">*</span></span>
+				<input name="address" value="${escapeHtml(String((form as any).address || ''))}" placeholder="123 Main St"
+				style="${inputStyle}" />
 				${errors?.address ? `<div style="color:#b42318;font-size:13px;">${escapeHtml(errors.address)}</div>` : ''}
+			</label>
+
+			<div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+				<label style="display:grid; gap:5px;">
+					<span style="${labelStyle}">City <span style="color:#b42318;">*</span></span>
+					<input name="city" value="${escapeHtml(String((form as any).city || ''))}" placeholder="Springfield"
+					style="${inputStyle}" />
+					${errors?.city ? `<div style="color:#b42318;font-size:13px;">${escapeHtml(errors.city)}</div>` : ''}
+				</label>
+
+				<label style="display:grid; gap:5px;">
+					<span style="${labelStyle}">State <span style="color:#b42318;">*</span></span>
+					<select name="state" style="${selectStyle}">
+						<option value="">Select state</option>
+						${stateOptions.map(abbr => `<option value="${escapeHtml(abbr)}" ${String((form as any).state || '').toUpperCase() === abbr ? 'selected' : ''}>${escapeHtml(stateNames[abbr])}</option>`).join('')}
+					</select>
+					${errors?.state ? `<div style="color:#b42318;font-size:13px;">${escapeHtml(errors.state)}</div>` : ''}
+				</label>
+			</div>
+
+			<label style="display:grid; gap:5px; max-width: 200px;">
+				<span style="${labelStyle}">ZIP code <span style="color:#b42318;">*</span></span>
+				<input name="zipCode" value="${escapeHtml(String((form as any).zipCode || ''))}" placeholder="62704" maxlength="10"
+				style="${inputStyle}" />
+				${errors?.zipCode ? `<div style="color:#b42318;font-size:13px;">${escapeHtml(errors.zipCode)}</div>` : ''}
 			</label>
 
 			<label style="display:grid; gap:5px;">
@@ -816,6 +848,9 @@ export async function action({ request }: ActionFunctionArgs) {
 
 	const page2Values = {
 		address: String(formData.get('address') || ''),
+		city: String(formData.get('city') || ''),
+		state: String(formData.get('state') || ''),
+		zipCode: String(formData.get('zipCode') || ''),
 		depth: String(formData.get('depth') || ''),
 		propertyType: String(formData.get('propertyType') || ''),
 		landUse: String(formData.get('landUse') || ''),
@@ -885,6 +920,9 @@ export async function action({ request }: ActionFunctionArgs) {
 		}
 		// merge page2 into form for saving
 		form.address = page2Values.address;
+		form.city = page2Values.city;
+		form.state = page2Values.state;
+		form.zipCode = page2Values.zipCode;
 		form.depth = page2Values.depth;
 		form.propertyType = page2Values.propertyType;
 		form.landUse = page2Values.landUse;
@@ -934,6 +972,9 @@ export async function action({ request }: ActionFunctionArgs) {
 			// If final submission from step 2, include page 2 fields
 			if (String(formData.get('final') || '') === '1') {
 				updateData.address = String(formData.get('address') || '');
+				updateData.city = String(formData.get('city') || '');
+				updateData.state = String(formData.get('state') || '');
+				updateData.zipCode = String(formData.get('zipCode') || '');
 				updateData.depth = String(formData.get('depth') || '');
 				updateData.propertyType = String(formData.get('propertyType') || '');
 				updateData.landUse = String(formData.get('landUse') || '');
@@ -1009,6 +1050,9 @@ export async function action({ request }: ActionFunctionArgs) {
 			shopifyCustomerId,
 			// Page 2 fields (if provided)
 			address: form.address || undefined,
+			city: form.city || undefined,
+			state: form.state || undefined,
+			zipCode: form.zipCode || undefined,
 			depth: form.depth || undefined,
 			propertyType: form.propertyType || undefined,
 			landUse: form.landUse || undefined,

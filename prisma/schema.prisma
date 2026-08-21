@@ -52,6 +52,9 @@ model Registration {
   kitRegistrationNumber String
   // Page 2 fields
   address               String?
+  city                  String?
+  state                 String?
+  zipCode               String?
   depth                 String?
   propertyType          String?
   landUse               String?

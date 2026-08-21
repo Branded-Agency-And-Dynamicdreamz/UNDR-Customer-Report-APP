@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import prisma from "../db.server";
 import { setReportStatusByRegistrationId } from "./report.server";
-import { isReportPackage } from "../lib/report-packages";
+import { isReportPackage, reportPackageFromProductTitle } from "../lib/report-packages";
 import { generateKitNumber } from "../utils/generateKitNumber";
 
 function isMissingUnlockTableError(error: unknown) {
@@ -36,6 +36,9 @@ export type RegistrationInput = {
   smsConsent?: boolean;
   // Page 2 fields
   address?: string | null;
+  city?: string | null;
+  state?: string | null;
+  zipCode?: string | null;
   depth?: string | null;
   propertyType?: string | null;
   landUse?: string | null;
@@ -55,6 +58,9 @@ export type RegistrationFormState = {
   shopDomain?: string;
   // Page 2 fields
   address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
   depth?: string;
   propertyType?: string;
   landUse?: string;
@@ -84,6 +90,9 @@ export function getRegistrationDefaults(): RegistrationFormState {
     smsConsent: false,
     shopDomain: "",
     address: "",
+    city: "",
+    state: "",
+    zipCode: "",
     depth: "",
     propertyType: "",
     landUse: "",
@@ -139,23 +148,28 @@ function hasUsState(value: string) {
 export function validateRegistrationStep2(input: Partial<RegistrationFormState>) {
   const errors: RegistrationFormErrors = {};
   const address = String(input.address || "").trim();
+  const city = String(input.city || "").trim();
+  const state = String(input.state || "").trim();
+  const zipCode = String(input.zipCode || "").trim();
 
   if (!address) {
-    errors.address = "Address is required.";
-  } else {
-    const segments = address
-      .split(",")
-      .map((segment) => segment.trim())
-      .filter(Boolean);
+    errors.address = "Street address is required.";
+  }
 
-    const hasStreetNumber = /\d/.test(address);
-    const hasCitySegment = segments.length >= 3;
-    const hasState = hasUsState(address);
-    const hasZip = /\b\d{5}(?:-\d{4})?\b/.test(address);
+  if (!city) {
+    errors.city = "City is required.";
+  }
 
-    if (!hasStreetNumber || !hasCitySegment || !hasState || !hasZip) {
-      errors.address = "Please enter a full U.S. address with street, city, state, and ZIP code.";
-    }
+  if (!state) {
+    errors.state = "State is required.";
+  } else if (!hasUsState(state)) {
+    errors.state = "Please select a valid U.S. state.";
+  }
+
+  if (!zipCode) {
+    errors.zipCode = "ZIP code is required.";
+  } else if (!/^\d{5}(-\d{4})?$/.test(zipCode)) {
+    errors.zipCode = "Please enter a valid 5-digit ZIP code.";
   }
 
   if (!input.depth || !String(input.depth).trim()) {
@@ -201,6 +215,9 @@ export async function saveRegistration(input: RegistrationInput) {
       shopifyCustomerId: input.shopifyCustomerId ?? null,
       // Page 2 fields
       address: input.address ?? null,
+      city: input.city ?? null,
+      state: input.state ?? null,
+      zipCode: input.zipCode ?? null,
       depth: input.depth ?? null,
       propertyType: input.propertyType ?? null,
       landUse: input.landUse ?? null,
@@ -248,6 +265,9 @@ export async function updateRegistrationFieldsById(id: string, data: Partial<{ n
   // Page 2 fields
   const anyData = data as any;
   if (anyData.address !== undefined) updateData.address = anyData.address;
+  if (anyData.city !== undefined) updateData.city = anyData.city;
+  if (anyData.state !== undefined) updateData.state = anyData.state;
+  if (anyData.zipCode !== undefined) updateData.zipCode = anyData.zipCode;
   if (anyData.depth !== undefined) updateData.depth = anyData.depth;
   if (anyData.propertyType !== undefined) updateData.propertyType = anyData.propertyType;
   if (anyData.landUse !== undefined) updateData.landUse = anyData.landUse;
@@ -487,6 +507,13 @@ export async function upsertKitForLineItem(params: {
 }) {
   const { shop, orderId, orderNumber, lineItemId, registrationNumber, productTitle, lineItemTitle } = params;
   const normalizedProductTitle = String(productTitle || lineItemTitle || "").trim();
+
+  // Auto-detect reportPackage from the Shopify product title so the admin
+  // doesn't have to set it manually every time.  Only applied when the
+  // existing value is still the default ("premium") or when creating new.
+  const derivedPackage = normalizedProductTitle
+    ? reportPackageFromProductTitle(normalizedProductTitle)
+    : null;
   // If caller provided a final 10-digit kit number, respect it. Otherwise
   // generate deterministically from the orderNumber and lineItemId so
   // client-side generation and server-side generation match.
@@ -509,11 +536,14 @@ export async function upsertKitForLineItem(params: {
   });
 
   if (existing) {
+    const shouldSetPackage =
+      derivedPackage && (existing.reportPackage === "premium" || !existing.reportPackage);
     const updated = await prisma.registration.update({
       where: { id: existing.id },
       data: {
         kitRegistrationNumber,
         ...(normalizedProductTitle ? { productTitle: normalizedProductTitle } : {}),
+        ...(shouldSetPackage ? { reportPackage: derivedPackage, quickViewPackage: derivedPackage } : {}),
         ...(params.shopifyCustomerId ? { shopifyCustomerId: params.shopifyCustomerId } : {}),
         ...(params.customerName ? { name: params.customerName.trim() } : {}),
         ...(params.customerEmail ? { email: params.customerEmail.trim() } : {}),
@@ -550,6 +580,8 @@ export async function upsertKitForLineItem(params: {
   });
 
   if (fallback) {
+    const shouldSetPackage =
+      derivedPackage && (fallback.reportPackage === "premium" || !fallback.reportPackage);
     const updated = await prisma.registration.update({
       where: { id: fallback.id },
       data: {
@@ -557,6 +589,7 @@ export async function upsertKitForLineItem(params: {
         lineItemId,
         shopifyOrderId: orderId || fallback.shopifyOrderId,
         ...(normalizedProductTitle ? { productTitle: normalizedProductTitle } : {}),
+        ...(shouldSetPackage ? { reportPackage: derivedPackage, quickViewPackage: derivedPackage } : {}),
         ...(params.shopifyCustomerId ? { shopifyCustomerId: params.shopifyCustomerId } : {}),
         ...(params.customerName ? { name: params.customerName.trim() } : {}),
         ...(params.customerEmail ? { email: params.customerEmail.trim() } : {}),
@@ -582,6 +615,8 @@ export async function upsertKitForLineItem(params: {
       lineItemId,
       productTitle: normalizedProductTitle || null,
       kitRegistrationNumber,
+      reportPackage: derivedPackage || "premium",
+      quickViewPackage: derivedPackage || "premium",
     },
   });
   try {
